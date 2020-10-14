@@ -1,0 +1,18 @@
+C:\Users\Abdul\source\repos\Webscrape Steam\DataAccess\bin\Debug\netstandard2.0\DataAccessLibrary.deps.json
+C:\Users\Abdul\source\repos\Webscrape Steam\DataAccess\bin\Debug\netstandard2.0\DataAccessLibrary.dll
+C:\Users\Abdul\source\repos\Webscrape Steam\DataAccess\obj\Debug\netstandard2.0\DataAccessLibrary.AssemblyInfoInputs.cache
+C:\Users\Abdul\source\repos\Webscrape Steam\DataAccess\obj\Debug\netstandard2.0\DataAccessLibrary.AssemblyInfo.cs
+C:\Users\Abdul\source\repos\Webscrape Steam\DataAccess\obj\Debug\netstandard2.0\DataAccessLibrary.csprojAssemblyReference.cache
+C:\Users\Abdul\source\repos\Webscrape Steam\DataAccess\bin\Debug\netstandard2.0\DataAccessLibrary.pdb
+C:\Users\Abdul\source\repos\Webscrape Steam\DataAccess\obj\Debug\netstandard2.0\DataAccessLibrary.dll
+C:\Users\Abdul\source\repos\Webscrape Steam\DataAccess\obj\Debug\netstandard2.0\DataAccessLibrary.pdb
+C:\Users\Abdul\source\repos\Webscrape Steam\DataAccess\obj\Debug\netstandard2.0\DataAccessLibrary.csproj.CoreCompileInputs.cache
+C:\Users\Abdul\source\repos\Webscraper\DataAccess\bin\Debug\netstandard2.0\DataAccessLibrary.deps.json
+C:\Users\Abdul\source\repos\Webscraper\DataAccess\bin\Debug\netstandard2.0\DataAccessLibrary.dll
+C:\Users\Abdul\source\repos\Webscraper\DataAccess\bin\Debug\netstandard2.0\DataAccessLibrary.pdb
+C:\Users\Abdul\source\repos\Webscraper\DataAccess\obj\Debug\netstandard2.0\DataAccessLibrary.csprojAssemblyReference.cache
+C:\Users\Abdul\source\repos\Webscraper\DataAccess\obj\Debug\netstandard2.0\DataAccessLibrary.AssemblyInfoInputs.cache
+C:\Users\Abdul\source\repos\Webscraper\DataAccess\obj\Debug\netstandard2.0\DataAccessLibrary.AssemblyInfo.cs
+C:\Users\Abdul\source\repos\Webscraper\DataAccess\obj\Debug\netstandard2.0\DataAccessLibrary.csproj.CoreCompileInputs.cache
+C:\Users\Abdul\source\repos\Webscraper\DataAccess\obj\Debug\netstandard2.0\DataAccessLibrary.dll
+C:\Users\Abdul\source\repos\Webscraper\DataAccess\obj\Debug\netstandard2.0\DataAccessLibrary.pdb
