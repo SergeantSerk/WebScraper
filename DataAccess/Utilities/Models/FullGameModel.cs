@@ -14,7 +14,9 @@ namespace DataAccessLibrary.Models
 
         public List<SystemRequirement> SystemRequirements { get; set; }
 
-        public List<GameTagDetails>? GameTagDetails { get; set; }
+        public List<DealModel> Deals { get; set; }
+       
+        public List<GameTagDetailsModel>? GameTagDetails { get; set; }
 
     }
 }

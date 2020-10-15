@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DataAccessLibrary.Utilities.Models
 {
-    public class GameTagDetails:IGameTagDetails
+    public class GameTagDetailsModel:IGameTagDetails
     {
 
         public Tag Tag { get; set; }

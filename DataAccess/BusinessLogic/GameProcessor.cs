@@ -34,6 +34,10 @@ namespace DataAccessLibrary.BusinessLogic
                          Select * FROM Steamdetails ;
                          SELECT * FROM SystemRequirement;
                          SELECT * FROM Platform;
+                         SELECT * FROM GameTagDetails;
+                         SELECT * FROM Tag;
+                         SELECT * FROM Store;
+                         SELECT * FROM Deal;
 
            ";
 

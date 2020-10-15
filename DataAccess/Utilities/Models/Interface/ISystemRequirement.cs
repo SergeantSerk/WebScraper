@@ -12,5 +12,11 @@ namespace DataAccessLibrary.Interface
         public int GameID { get; set; }
 
         public int PlatformID { get; set; }
+
+        public string Os { get; set; }
+
+        public string Memory { get; set; }
+
+        public string Storage { get; set; }
     }
 }

@@ -140,35 +140,37 @@ namespace DataAccessLibrary.DataAccess
 
                     var platforms = lists.Read<Platform>().ToLookup(p => p.ID);
 
+                    var gameTagDetails = lists.Read<GameTagDetailsModel>().ToList();
+
+                    var tag = lists.Read<Tag>().ToLookup(t => t.ID);
+
+                    var stores = lists.Read<StoreModel>().ToLookup(s => s.ID);
+
+                    var deals = lists.Read<DealModel>().ToList();
+
+                    deals.ForEach(d => d.Store = stores[d.StoreID].FirstOrDefault());
+                    gameTagDetails.ForEach(gtd => gtd.Tag = tag[gtd.TagID].FirstOrDefault());
+
+
                     // set up the platform
                     systemRequirements.ForEach(sr => sr.Platform = platforms[sr.PlatformID].FirstOrDefault());
 
+                    var gtdLookup = gameTagDetails.ToLookup(gtd => gtd.GameID);
                     var srLookUp = systemRequirements.ToLookup(sr => sr.GameID);
+                    var dealLookup = deals.ToLookup(d => d.GameID);
 
                     foreach(var game in fullGameModels)
                     {
                         game.SystemRequirements = srLookUp[game.ID].ToList();
                         game.SteamDetail = steamDetails[game.SteamDetailsID].FirstOrDefault();
+                        game.GameTagDetails = gtdLookup[game.ID].ToList();
+                        game.Deals = dealLookup[game.ID].ToList();
                     }
 
 
                     return fullGameModels;
                 }
 
-         
-
-                //foreach (var game in fullGameModels)
-                //{
-                //    if(steamDetails.Count > 0)
-                //    steamDetails.Where(s => s.ID == game.SteamDetailsID).First();
-
-                //    game.SystemRequirements = systemRequirements.Where(sr => sr.GameID == game.ID).ToList();
-                   
-
-                //}
-
-
-               
             }
         }
 
