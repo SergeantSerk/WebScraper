@@ -10,7 +10,7 @@ namespace DataAccessLibrary.Interface
         int ID { get; set; }
         string Publisher { get; set; }
         DateTime ReleaseDate { get; set; }
-        int? SteamDetailsID { get; set; }
+        int SteamDetailsID { get; set; }
         string Thumbnail { get; set; }
         string Title { get; set; }
 

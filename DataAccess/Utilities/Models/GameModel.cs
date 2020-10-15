@@ -14,6 +14,6 @@ namespace DataAccessLibrary.Models
         public string Title { get; set; }
         public string Developer { get; set; }
         public string Publisher { get; set; }
-        public int? SteamDetailsID { get; set; }
+        public int SteamDetailsID { get; set; }
     }
 }

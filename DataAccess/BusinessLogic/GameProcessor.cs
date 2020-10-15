@@ -11,16 +11,30 @@ namespace DataAccessLibrary.BusinessLogic
     {
        
 
-        public  static List<FullGameModel> GetAllGames()
-        {
-            string sqlQuery = $@"SELECT * 
-            FROM Game g 
-            LEFT JOIN Steamdetails sd ON g.SteamDetailsID = sd.ID 
-            LEFT JOIN SystemRequirement sr ON sr.GameID = g.ID
-                 LEFT JOIN Platform p ON sr.PlatformID = p.ID
-            LEFT JOIN GameTagDetails gt ON gt.GameID = g.ID
-                 LEFT JOIN Tag t ON gt.TagID = t.ID
+        //public  static List<FullGameModel> GetAllGames()
+        //{
+        //    string sqlQuery = $@"SELECT * 
+        //    FROM Game g 
+        //    LEFT JOIN Steamdetails sd ON g.SteamDetailsID = sd.ID 
+        //    LEFT JOIN SystemRequirement sr ON sr.GameID = g.ID
+        //         LEFT JOIN Platform p ON sr.PlatformID = p.ID
+        //    LEFT JOIN GameTagDetails gt ON gt.GameID = g.ID
+        //         LEFT JOIN Tag t ON gt.TagID = t.ID
         
+        //   ";
+
+        //    return SqlDataAccess.GetFullData(sqlQuery);
+
+        //}
+
+
+        public static List<FullGameModel> GetAllGames()
+        {
+            string sqlQuery = $@"SELECT * FROM Game;
+                         Select * FROM Steamdetails ;
+                         SELECT * FROM SystemRequirement;
+                         SELECT * FROM Platform;
+
            ";
 
             return SqlDataAccess.GetFullData(sqlQuery);
