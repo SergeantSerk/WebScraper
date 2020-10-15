@@ -122,14 +122,14 @@ namespace DataAccessLibrary.DataAccess
         //    }
         //}
 
-        public static List<FullGameModel> GetFullData(string query)
+        public static List<FullGameModel> GetFullData(string query, object param = null)
         {
           
 
             using (IDbConnection connection = new SqlConnection(GetConnectionString()))
             {
                 
-                using (var lists = connection.QueryMultiple(query))
+                using (var lists = connection.QueryMultiple(query, param))
                 {
                     var fullGameModels = lists.Read<FullGameModel>().ToList();
                     // convert to  Lookup<TKey,TElement> set key for looking up
@@ -176,6 +176,7 @@ namespace DataAccessLibrary.DataAccess
 
             }
         }
+
 
         public static  int SaveData<T>(string query, T data)
         {

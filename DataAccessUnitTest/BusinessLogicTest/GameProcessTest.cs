@@ -26,11 +26,11 @@ namespace DataAccessLibraryTest.BusinessLogicTest
             };
 
 
-            // add games and return last row
-            var gameAdded = GameProcessor.AddGame(game);
+            //// add games and return last row
+            //var gameAdded = GameProcessor.AddGame(game);
 
 
-            var foundGame = GameProcessor.GetGameById(gameAdded);
+            //var foundGame = GameProcessor.GetGameById(gameAdded);
 
 
 
@@ -39,10 +39,22 @@ namespace DataAccessLibraryTest.BusinessLogicTest
         }
 
         [Fact]
-        public void GetFullGame()
+        public void GetAllFullGame()
         {
 
-            var allGames = GameProcessor.GetAllGames();
+            var allGames = GameProcessor.GetAllFullGames();
+            Assert.True(allGames.Count > 0);
+        }
+
+
+        [Fact]
+        public void GetFullGameById()
+        {
+
+            var allGames = GameProcessor.GetFullGameById(1);
+
+
+            Assert.NotNull(allGames);
 
         }
     }
