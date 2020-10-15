@@ -148,6 +148,8 @@ namespace DataAccessLibrary.DataAccess
 
                     var deals = lists.Read<DealModel>().ToList();
 
+                    var media = lists.Read<MediaModel>().ToLookup(m => m.GameId);
+
                     deals.ForEach(d => d.Store = stores[d.StoreID].FirstOrDefault());
                     gameTagDetails.ForEach(gtd => gtd.Tag = tag[gtd.TagID].FirstOrDefault());
 
@@ -165,6 +167,7 @@ namespace DataAccessLibrary.DataAccess
                         game.SteamDetail = steamDetails[game.SteamDetailsID].FirstOrDefault();
                         game.GameTagDetails = gtdLookup[game.ID].ToList();
                         game.Deals = dealLookup[game.ID].ToList();
+                        game.Medias = media[game.ID].ToList();
                     }
 
 

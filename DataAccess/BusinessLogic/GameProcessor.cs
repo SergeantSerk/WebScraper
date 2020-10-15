@@ -38,6 +38,7 @@ namespace DataAccessLibrary.BusinessLogic
                          SELECT * FROM Tag;
                          SELECT * FROM Store;
                          SELECT * FROM Deal;
+                         SELECT * FROM Media;
 
            ";
 
