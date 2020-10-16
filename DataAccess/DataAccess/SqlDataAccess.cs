@@ -9,7 +9,7 @@ using System.Data;
 
 using System.Data.SqlClient;
 using System.Linq;
-
+using System.Threading.Tasks;
 
 namespace DataAccessLibrary.DataAccess
 {
@@ -33,6 +33,8 @@ namespace DataAccessLibrary.DataAccess
             }
         }
 
+  
+
         public static List<T> GetData<T>(string query, T data)
         {
 
@@ -40,6 +42,28 @@ namespace DataAccessLibrary.DataAccess
             {
 
                 return connection.Query<T>(query, data).ToList();
+            }
+        }
+
+        public static async Task<List<T>> GetDataAsync<T>(string query)
+        {
+
+            using (IDbConnection connection = new SqlConnection(GetConnectionString()))
+            {
+                var data = await connection.QueryAsync<T>(query);
+
+                return data.ToList();
+            }
+        }
+
+        public static async Task<List<T>> GetDataAsync<T>(string query, T param)
+        {
+
+            using (IDbConnection connection = new SqlConnection(GetConnectionString()))
+            {
+                var data = await connection.QueryAsync<T>(query, param);
+
+                return data.ToList();
             }
         }
 
@@ -174,16 +198,42 @@ namespace DataAccessLibrary.DataAccess
                     return fullGameModels;
                 }
 
+
             }
         }
 
 
-        public static  int SaveData<T>(string query, T data)
+
+        //public static int SaveData<T>(string query, T data)
+        //{
+
+
+        //    using (IDbConnection connection = new SqlConnection(GetConnectionString()))
+        //    {
+        //        var execution = connection.Execute(query, data);
+
+
+
+        //            return execution;
+
+        //    }
+        //}
+
+        public static async Task<int> SaveDataAsync<T>(string query, T data)
         {
+
+
             using (IDbConnection connection = new SqlConnection(GetConnectionString()))
             {
+                
 
-                return connection.ExecuteScalar<int>(query, data);
+
+                
+
+                    return await connection.ExecuteScalarAsync<int>(query, data);
+
+
+           
             }
         }
 

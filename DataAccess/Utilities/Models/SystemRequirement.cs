@@ -15,5 +15,7 @@ namespace DataAccessLibrary.Utilities.Models
         public string Os { get ; set; }
         public string Memory { get; set; }
         public string Storage { get ; set ; }
+        public string Requirement { get ; set ; }
+        public string Processor { get ; set; }
     }
 }

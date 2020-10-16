@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DataAccessLibrary.Interface
 {
-    interface IPlatform
+    public interface IPlatform
     {
         public int ID { get; set; }
 

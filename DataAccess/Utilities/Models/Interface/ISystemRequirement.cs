@@ -13,6 +13,8 @@ namespace DataAccessLibrary.Interface
 
         public int PlatformID { get; set; }
 
+        public string Requirement { get; set; }
+        public string Processor { get; set; }
         public string Os { get; set; }
 
         public string Memory { get; set; }
