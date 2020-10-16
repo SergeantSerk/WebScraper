@@ -99,6 +99,28 @@ namespace DataAccessLibrary.BusinessLogic
         }
 
 
+        public static async Task<Platform> GetPlatformByTitleAsync(string platformTitle)
+        {
+            string query = $@"Select * FROM Platform WHERE title = @Title;";
+
+            var data = await SqlDataAccess.GetDataAsync(query, new Platform { Title = platformTitle });
+
+            return data.FirstOrDefault();
+
+        }
+
+
+        public static async Task<StoreModel> GetStoreByNameAsync(string storeName)
+        {
+            string query = $@"Select * FROM Store WHERE Name = @Name;";
+
+            var data = await SqlDataAccess.GetDataAsync(query, new StoreModel { Name = storeName });
+
+            return data.FirstOrDefault();
+
+        }
+
+
         public static async Task<int> AddSteamDetailsAsync(ISteamDetailsModel steamDetailsModel)
         {
             string query = $@"INSERT INTO Steamdetails (SteamID, SteamReview, SteamReviewCount) 
@@ -165,6 +187,32 @@ namespace DataAccessLibrary.BusinessLogic
                 SELECT SCOPE_IDENTITY();";
 
             var data = await SqlDataAccess.SaveDataAsync(query, deal);
+
+            return data;
+
+        }
+
+
+        public static async Task<int> AddSystemRequirementAsync(ISystemRequirement systemRequirement)
+        {
+            string query = $@"INSERT INTO SystemRequirement 
+                (GameID,PlatformId, Requirement, Processor, Os, Memory, Storage)  
+                VALUES (@GameID,@PlatformId, @Requirement, @Processor, @Os, @Memory, @Storage) 
+                SELECT SCOPE_IDENTITY();";
+
+            var data = await SqlDataAccess.SaveDataAsync(query, systemRequirement);
+
+            return data;
+
+        }
+        public static async Task<int> AddGameAsync(IGameModel game)
+        {
+            string query = $@"INSERT INTO Game 
+                (About, Developer, Publisher, ReleaseDate, SteamDetailsID, Thumbnail, Title)  
+                VALUES (@About, @Developer, @Publisher, @ReleaseDate, @SteamDetailsID, @Thumbnail, @Title) 
+                SELECT SCOPE_IDENTITY();";
+
+            var data = await SqlDataAccess.SaveDataAsync(query, game);
 
             return data;
 

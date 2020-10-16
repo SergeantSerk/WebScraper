@@ -226,10 +226,6 @@ namespace DataAccessLibrary.DataAccess
             using (IDbConnection connection = new SqlConnection(GetConnectionString()))
             {
                 
-
-
-                
-
                     return await connection.ExecuteScalarAsync<int>(query, data);
 
 
