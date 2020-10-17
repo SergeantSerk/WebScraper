@@ -7,7 +7,9 @@ namespace DataAccessLibrary.Utilities.Models.Interface
    public interface IStoreModel
     {
         public int ID { get; set; }
+
         public string Name { get; set; }
+
         public string Logo { get; set; }
     }
 }

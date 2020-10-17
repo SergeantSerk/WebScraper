@@ -204,20 +204,44 @@ namespace DataAccessLibrary.DataAccess
 
 
 
-        //public static int SaveData<T>(string query, T data)
-        //{
+        public static async Task<int> SaveDataTransaction<T>(string query, T data)
+        {
 
 
-        //    using (IDbConnection connection = new SqlConnection(GetConnectionString()))
-        //    {
-        //        var execution = connection.Execute(query, data);
+            using (IDbConnection connection = new SqlConnection(GetConnectionString()))
+            {
+                connection.Open();
+
+                using (var trans = connection.BeginTransaction())
+                {
+
+                    var ID = 0;
+                    // execute the script 
+                    try
+                    {
+                        ID = connection.ExecuteScalar<int>(query, data, trans);
+
+                        trans.Commit();
+                    }
+
+                    catch(Exception e)
+                    {
+
+                        Console.WriteLine($"{e}");
+
+                        trans.Rollback();
 
 
+                    
+                    }
 
-        //            return execution;
+                    return ID;
+                }
 
-        //    }
-        //}
+               
+
+            }
+        }
 
         public static async Task<int> SaveDataAsync<T>(string query, T data)
         {

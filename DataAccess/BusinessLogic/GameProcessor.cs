@@ -167,12 +167,18 @@ namespace DataAccessLibrary.BusinessLogic
 
         }
 
-        public static async Task<int> AddStoreAsync(IStoreModel  store)
-        {
-            string query = $@"INSERT INTO Store (Name,Logo)  
-                                    VALUES (@Name, @Logo) SELECT SCOPE_IDENTITY();";
 
-            var data = await SqlDataAccess.SaveDataAsync(query, store);
+
+        public static async Task<int> AddStoreAsync(IStoreModel store)
+        {
+            string query = $@"IF NOT EXISTS ( SELECT ID FROM Store WHERE Name = @Name)
+                    BEGIN INSERT INTO Store (Name,Logo) VALUES (@Name, @Logo) SELECT SCOPE_IDENTITY() END
+                    ELSE BEGIN UPDATE Store SET Logo = @Logo OUTPUT INSERTED.ID
+                    WHERE Name=@Name END;
+                    ";
+
+   
+            var data = await SqlDataAccess.SaveDataTransaction(query, store);
 
             return data;
 
