@@ -132,29 +132,9 @@ namespace DataAccessLibrary.BusinessLogic
 
         }
 
-        public static async Task<int> AddTagAsync(ITag tag)
-        {
-            string query = $@"INSERT INTO Tag  
-                                    VALUES (@Title) SELECT SCOPE_IDENTITY();";
+    
 
-            var data = await SqlDataAccess.SaveDataAsync(query, tag);
-
-            return data;
-
-        }
-
-
-
-        public static async Task<int> AddPlatformAsync(IPlatform platform)
-        {
-            string query = $@"INSERT INTO Platform  
-                                    VALUES (@Title) SELECT SCOPE_IDENTITY();";
-
-            var data = await SqlDataAccess.SaveDataAsync(query, platform);
-
-            return data;
-
-        }
+   
 
         public static async Task<int> AddMediaAsync(IMediaModel media)
         {
@@ -183,6 +163,35 @@ namespace DataAccessLibrary.BusinessLogic
             return data;
 
         }
+
+
+        public static async Task<int> AddPlatformAsync(IPlatform platform)
+        {
+            string query = $@"
+            IF NOT EXISTS ( SELECT ID FROM Platform WHERE Title = @Title)
+             BEGIN INSERT INTO Platform (Title)  VALUES (@Title) SELECT SCOPE_IDENTITY() END
+            ELSE SELECT ID FROM Platform WHERE Title = @Title";
+
+            var data = await SqlDataAccess.SaveDataAsync(query, platform);
+
+            return data;
+
+        }
+
+
+        public static async Task<int> AddTagAsync(ITag tag)
+        {
+            string query = $@"IF NOT EXISTS ( SELECT ID FROM Tag WHERE Title = @Title)
+                            BEGIN INSERT INTO Tag  VALUES (@Title) SELECT SCOPE_IDENTITY() END
+                            ELSE SELECT ID FROM Tag WHERE Title=@Title";
+
+            var data = await SqlDataAccess.SaveDataAsync(query, tag);
+
+            return data;
+
+        }
+
+
 
         public static async Task<int> AddDealAsync(IDealModel deal)
         {

@@ -127,6 +127,39 @@ namespace DataAccessLibraryTest.BusinessLogicTest
         }
 
         [Fact]
+        public async Task AddPlatform()
+        {
+            var platformFound = "Steam";
+
+            
+           var p = new Platform { Title = platformFound };
+            p.ID = await GameProcessor.AddPlatformAsync(p);
+                
+        
+            // even if a store has been added even if it exist then update the info
+            Assert.True(p.ID != 0);
+
+        }
+
+        [Fact]
+        public async Task AddTag()
+        {
+            var platformFound = "Steam";
+
+
+            var p = new Tag { Title = platformFound };
+            p.ID = await GameProcessor.AddTagAsync(p);
+
+
+            // even if a store has been added even if it exist then update the info
+            Assert.True(p.ID != 0);
+
+        }
+
+
+
+
+        [Fact]
         public void GetAllFullGame()
         {
 
