@@ -142,6 +142,13 @@ namespace DataAccessLibrary.DataAccess
             return await SaveDataAsync<Platform>(query, platform);
         }
 
+         public static async Task<int> AddTagAsync(Tag tag)
+        {
+            string query = $@"INSERT INTO Tag (Title)  VALUES (@Title) SELECT SCOPE_IDENTITY()";
+
+            return await SaveDataAsync<Tag>(query, tag);
+        }
+
         public static async Task<int> AddGameTagDetailsAsync(GameTagDetailsModel gameTag)
         {
             string query = $@"INSERT INTO GameTagDetails (GameID, TagID) 

@@ -218,33 +218,25 @@ namespace DataAccessLibrary.BusinessLogic
             return id == 0 ? false : true;
         }
 
-        //public static async Task<int> AddGameTagDetailsAsync(List<GameTagDetailsModel> gameTag)
-        //{
-        //    string query = $@"IF NOT EXISTS ( SELECT ID FROM GameTagDetails 
-        //                    WHERE GameID = @GameID AND TagID = @TagID)
-        //                    BEGIN INSERT INTO GameTagDetails (GameID, TagID) 
-        //                        VALUES (@GameID, @TagID) SELECT SCOPE_IDENTITY() END
-        //                    ELSE SELECT ID FROM GameTagDetails 
-        //                    WHERE GameID = @GameID AND TagID = @TagID";
 
-        //    var data = await SqlDataAccess.SaveDataAsync(query, gameTag);
+        public static async Task<int> AddTagAsync(Tag tag)
+        {
+            if (!String.IsNullOrEmpty(tag.Title))
+            {
+                var tagDB = await SqlDataAccess.GetTagByTitleAsync(tag.Title);
 
-        //    return data;
+                if (tagDB == null)
+                {
+                
+                    return await SqlDataAccess.AddTagAsync(tag);
+                }
 
-        //}
+                return tagDB.ID;
+            }
 
+            return 0;
 
-        //public static async Task<int> AddTagAsync(ITag tag)
-        //{
-        //    string query = $@"IF NOT EXISTS ( SELECT ID FROM Tag WHERE Title = @Title)
-        //                    BEGIN INSERT INTO Tag  VALUES (@Title) SELECT SCOPE_IDENTITY() END
-        //                    ELSE SELECT ID FROM Tag WHERE Title=@Title";
-
-        //    var data = await SqlDataAccess.SaveDataAsync(query, tag);
-
-        //    return data;
-
-        //}
+        }
 
 
 
