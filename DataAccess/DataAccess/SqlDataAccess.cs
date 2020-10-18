@@ -23,143 +23,21 @@ namespace DataAccessLibrary.DataAccess
             return configuration.GetConnectionString(connectionName);
         }
 
-        public  static List<T> GetData<T>(string query)
-        {
-           
-            using (IDbConnection connection = new SqlConnection(GetConnectionString()))
-            {
+       
 
-                return connection.Query<T>(query).ToList();
-            }
-        }
-
-  
-
-        public static List<T> GetData<T>(string query, T data)
+        private static async Task<List<FullGameModel>> GetFullGameData(string query, Object param = null)
         {
 
             using (IDbConnection connection = new SqlConnection(GetConnectionString()))
             {
 
-                return connection.Query<T>(query, data).ToList();
-            }
-        }
-
-        public static async Task<List<T>> GetDataAsync<T>(string query)
-        {
-
-            using (IDbConnection connection = new SqlConnection(GetConnectionString()))
-            {
-                var data = await connection.QueryAsync<T>(query);
-
-                return data.ToList();
-            }
-        }
-
-        public static async Task<List<T>> GetDataAsync<T>(string query, T param)
-        {
-
-            using (IDbConnection connection = new SqlConnection(GetConnectionString()))
-            {
-                var data = await connection.QueryAsync<T>(query, param);
-
-                return data.ToList();
-            }
-        }
-
-        //// return all games including their inner table
-        //public static List<FullGameModel> GetFullData(string query)
-        //{
-
-        //    using (IDbConnection connection = new SqlConnection(GetConnectionString()))
-        //    {
-        //        // used to filter out dup
-        //        var fullGameDictionary = new Dictionary<int, FullGameModel>();
-        //        var SystemRequirementDic = new Dictionary<int, SystemRequirement>();
-        //        var gameTagDetailsDic = new Dictionary<int, GameTagDetails>();
-
-
-        //         connection.Query<
-        //            FullGameModel, SteamDetailsModel, SystemRequirement,
-        //            Platform, GameTagDetails, Tag,FullGameModel>
-        //            (query,
-        //            (game, steamdetail, systemRequirement, platform, gameTagDetails, tag) =>
-        //            {
-
-
-        //                FullGameModel gameEntry;
-
-        //                // check if an full game model already exist in the dictonary
-        //                if (!fullGameDictionary.TryGetValue(game.ID, out gameEntry))
-        //                {
-        //                    gameEntry = game;
-
-        //                    //game.GameTagDetails = new List<GameTagDetails>();
-        //                    gameEntry.SystemRequirements = new List<SystemRequirement>();
-        //                    gameEntry.GameTagDetails = new List<GameTagDetails>();
-
-        //                    // add to dictonary
-        //                    fullGameDictionary.Add(gameEntry.ID, gameEntry);
-        //                }
-
-        //                gameEntry.SteamDetail = steamdetail;
-        //                // prevent duplicates
-        //                SystemRequirement systemRequirementEntry;
-
-        //                if (!SystemRequirementDic.TryGetValue(systemRequirement.ID, out systemRequirementEntry))
-        //                {
-
-        //                    systemRequirementEntry = systemRequirement;
-
-        //                    systemRequirementEntry.Platform = platform;
-
-
-        //                    // add to dictonary
-        //                    SystemRequirementDic.Add(systemRequirementEntry.ID, systemRequirementEntry);
-
-        //                    gameEntry.SystemRequirements.Add(systemRequirementEntry);
-        //                }
-
-
-        //                GameTagDetails gameTagDetailsEntry;
-
-        //                if (!gameTagDetailsDic.TryGetValue(gameTagDetails.ID, out gameTagDetailsEntry))
-        //                {
-
-        //                    gameTagDetailsEntry = gameTagDetails;
-
-        //                    gameTagDetailsEntry.Tag = tag;
-
-
-        //                    // add to dictonary
-        //                    gameTagDetailsDic.Add(gameTagDetailsEntry.ID, gameTagDetailsEntry);
-
-        //                    gameEntry.GameTagDetails.Add(gameTagDetailsEntry);
-        //                }
-
-
-
-        //                return gameEntry;
-
-        //            }).AsQueryable();
-        //        return fullGameDictionary.Values.ToList();
-        //    }
-        //}
-
-        public static List<FullGameModel> GetFullData(string query, object param = null)
-        {
-          
-
-            using (IDbConnection connection = new SqlConnection(GetConnectionString()))
-            {
-                
                 using (var lists = connection.QueryMultiple(query, param))
                 {
                     var fullGameModels = lists.Read<FullGameModel>().ToList();
                     // convert to  Lookup<TKey,TElement> set key for looking up
                     var steamDetails = lists.Read<SteamDetailsModel>().ToLookup(sd => sd.ID);
-                   
-                   
+
+
                     var systemRequirements = lists.Read<SystemRequirement>().ToList();
 
                     var platforms = lists.Read<Platform>().ToLookup(p => p.ID);
@@ -185,7 +63,7 @@ namespace DataAccessLibrary.DataAccess
                     var srLookUp = systemRequirements.ToLookup(sr => sr.GameID);
                     var dealLookup = deals.ToLookup(d => d.GameID);
 
-                    foreach(var game in fullGameModels)
+                    foreach (var game in fullGameModels)
                     {
                         game.SystemRequirements = srLookUp[game.ID].ToList();
                         game.SteamDetail = steamDetails[game.SteamDetailsID].FirstOrDefault();
@@ -198,62 +76,42 @@ namespace DataAccessLibrary.DataAccess
                     return fullGameModels;
                 }
 
-
             }
         }
 
 
-
-        public static async Task<int> SaveDataTransaction<T>(string query, T data)
-        {
-
-
-            using (IDbConnection connection = new SqlConnection(GetConnectionString()))
-            {
-                connection.Open();
-
-                using (var trans = connection.BeginTransaction())
-                {
-
-                    var ID = 0;
-                    // execute the script 
-                    try
-                    {
-                        ID = connection.ExecuteScalar<int>(query, data, trans);
-
-                        trans.Commit();
-                    }
-
-                    catch(Exception e)
-                    {
-
-                        Console.WriteLine($"{e}");
-
-                        trans.Rollback();
-
-
-                    
-                    }
-
-                    return ID;
-                }
-
-               
-
-            }
-        }
-
+    
         public static async Task<int> SaveDataAsync<T>(string query, T data)
         {
 
 
             using (IDbConnection connection = new SqlConnection(GetConnectionString()))
             {
-                
-                    return await connection.ExecuteScalarAsync<int>(query, data);
+                connection.Open();
+                using (var trans = connection.BeginTransaction())
+                {
+                    int index;
+
+                    try
+                    {
+                        index = await connection.ExecuteScalarAsync<int>(query, data, trans);
+
+                        
+                        trans.Commit();
+                    }
+                    catch(Exception e)
+                    {
+                        Console.WriteLine($"{e}");
+                        trans.Rollback();
+                        index = 0;
+                    }
 
 
-           
+
+                    return index;
+                }
+
+
             }
         }
 
@@ -266,5 +124,112 @@ namespace DataAccessLibrary.DataAccess
                 return connection.Execute(query, data);
             }
         }
+
+
+
+        private static async Task<GameModel> GetGameModel(string query, object param)
+        {
+            using (IDbConnection connection = new SqlConnection(GetConnectionString()))
+            {
+                var game = await connection.QueryAsync<GameModel, SteamDetailsModel, GameModel>
+                    (query, (g, sd) => { g.SteamDetails = sd; return g; }, param);
+
+                return game.FirstOrDefault();
+            }
+
+        }
+
+
+
+        public static async Task<GameModel> GetGameByIdAsync(int id)
+        {
+            //  join game with steam detail
+            string query = $@"SELECT * FROM Game g WHERE ID =@ID
+                                 LEFT JOIN SteamDetails sd ON  g.SteamDetailsID = sd.ID";
+
+           
+            return await GetGameModel(query, new { ID =id });
+
+        }
+
+        public static async Task<GameModel> GetGameByTitleAsync(string title)
+        {
+            //  join game with steam detail
+            string query = $@"SELECT * FROM Game WHERE Title =@Title;";
+            
+
+            return await GetGameModel(query, new { Title = title });
+
+        }
+
+
+
+
+        /// <summary>
+        /// /
+        /// </summary>
+        /// <returns></returns>
+        public static async Task<List<FullGameModel>> GetAllFullGames()
+        {
+            string query = $@"SELECT * FROM Game;
+                         Select * FROM Steamdetails ;
+                         SELECT * FROM SystemRequirement;
+                         SELECT * FROM Platform;
+                         SELECT * FROM GameTagDetails;
+                         SELECT * FROM Tag;
+                         SELECT * FROM Store;
+                         SELECT * FROM Deal;
+                         SELECT * FROM Media;
+
+           ";
+
+
+            return await GetFullGameData(query);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public static async Task<FullGameModel> GetFullGameByID(int id)
+        {
+            string query = $@"SELECT * FROM Game WHERE ID =@ID;
+                         Select * FROM Steamdetails  ;
+                         SELECT * FROM SystemRequirement WHERE GameID = @ID;
+                         SELECT * FROM Platform;
+                         SELECT * FROM GameTagDetails WHERE GameID = @ID;
+                         SELECT * FROM Tag;
+                         SELECT * FROM Store;
+                         SELECT * FROM Deal WHERE GameID = @ID;
+                         SELECT * FROM Media WHERE GameID = @ID";
+
+            var g = await GetFullGameData(query, new { ID = id });
+
+            return g.FirstOrDefault();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="title"></param>
+        /// <returns></returns>
+        public static async Task<FullGameModel> GetFullGameByTitle(string title)
+        {
+            string query = $@"SELECT * FROM Game WHERE Title =@Title;
+                         Select * FROM Steamdetails ;
+                         SELECT * FROM SystemRequirement ;
+                         SELECT * FROM Platform;
+                         SELECT * FROM GameTagDetails ;
+                         SELECT * FROM Tag;
+                         SELECT * FROM Store;
+                         SELECT * FROM Deal;
+                         SELECT * FROM Media ;";
+
+
+            var g = await GetFullGameData(query, new { Title = title });
+
+            return g.FirstOrDefault();
+        }
+
     }
 }

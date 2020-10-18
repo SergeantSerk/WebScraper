@@ -8,6 +8,7 @@ using DataAccessLibrary.Utilities.Models.Interface;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -18,65 +19,63 @@ namespace DataAccessLibrary.BusinessLogic
        
 
 
-        public static List<FullGameModel> GetAllFullGames()
+
+
+        public static async Task<List<FullGameModel>> GetAllFullGames()
         {
-            string sqlQuery = $@"SELECT * FROM Game;
-                         Select * FROM Steamdetails ;
-                         SELECT * FROM SystemRequirement;
-                         SELECT * FROM Platform;
-                         SELECT * FROM GameTagDetails;
-                         SELECT * FROM Tag;
-                         SELECT * FROM Store;
-                         SELECT * FROM Deal;
-                         SELECT * FROM Media;
+          
 
-           ";
+            return await SqlDataAccess.GetAllFullGames();
 
-            return SqlDataAccess.GetFullData(sqlQuery);
+        }
+
+        public static async Task<FullGameModel> GetFullGameById(int id)
+        {
+
+            var game = await SqlDataAccess.GetFullGameByID(id);
+
+            return game;
 
         }
 
 
-        public static FullGameModel GetFullGameById(int id)
+        public static async Task<FullGameModel> GetFullGameByTitle(string title)
+        {
+           
+            var g = await SqlDataAccess.GetFullGameByTitle(title);
+
+            return g;
+
+        }
+
+        public static async Task<GameModel> GetGameByIdAsync(int id)
+        {
+           
+
+            return await GetGameByIdAsync(id);
+
+        }
+
+        public static async Task<GameModel> GetGameByTitleAsync(string title)
+        {
+           
+
+            return await GetGameByTitleAsync(title); ;
+
+        }
+
+        public static async Task<Tag> GetTagByTitleAsync(string title)
         {
             //  join game with steam detail
-            string sqlQuery = $@"SELECT * FROM Game WHERE ID =@ID;
-                         Select * FROM Steamdetails ;
-                         SELECT * FROM SystemRequirement WHERE GameID = @ID;
-                         SELECT * FROM Platform;
-                         SELECT * FROM GameTagDetails WHERE GameID = @ID;
-                         SELECT * FROM Tag;
-                         SELECT * FROM Store;
-                         SELECT * FROM Deal WHERE GameID = @ID;
-                         SELECT * FROM Media WHERE GameID = @ID;
+            string sqlQuery = $@"SELECT * FROM Tag WHERE Title =@Title;";
+            var t = await SqlDataAccess.GetDataAsync(sqlQuery, new Tag { Title = title });
 
-           ";
-            var t = SqlDataAccess.GetFullData(sqlQuery, new GameModel { ID = id });
-
-            return t.SingleOrDefault();
+            return t.FirstOrDefault();
 
         }
 
 
-        public static FullGameModel GetFullGameByTitle(string title)
-        {
-            //  join game with steam detail
-            string sqlQuery = $@"SELECT * FROM Game WHERE Title =@Title;
-                         Select * FROM Steamdetails ;
-                         SELECT * FROM SystemRequirement ;
-                         SELECT * FROM Platform;
-                         SELECT * FROM GameTagDetails ;
-                         SELECT * FROM Tag;
-                         SELECT * FROM Store;
-                         SELECT * FROM Deal;
-                         SELECT * FROM Media ;
-
-           ";
-            var t = SqlDataAccess.GetFullData(sqlQuery, new GameModel { Title = title });
-
-            return t.SingleOrDefault();
-
-        }
+     
 
         public static async Task<SteamDetailsModel> GetSteamDetailsByIdAsync(int id)
         {
@@ -119,22 +118,6 @@ namespace DataAccessLibrary.BusinessLogic
             return data.FirstOrDefault();
 
         }
-
-
-        public static async Task<int> AddSteamDetailsAsync(ISteamDetailsModel steamDetailsModel)
-        {
-            string query = $@"INSERT INTO Steamdetails (SteamID, SteamReview, SteamReviewCount) 
-                                    VALUES (@SteamID, @SteamReview, @SteamReviewCount) SELECT SCOPE_IDENTITY();";
-
-            var data = await SqlDataAccess.SaveDataAsync(query, steamDetailsModel);
-
-            return data;
-
-        }
-
-    
-
-   
 
         public static async Task<int> AddMediaAsync(IMediaModel media)
         {
@@ -179,6 +162,36 @@ namespace DataAccessLibrary.BusinessLogic
         }
 
 
+        public static async Task<int> AddGameTagDetailsAsync(IGameTagDetails gameTag)
+        {
+            string query = $@"IF NOT EXISTS ( SELECT ID FROM GameTagDetails 
+                            WHERE GameID = @GameID AND TagID = @TagID)
+                            BEGIN INSERT INTO GameTagDetails (GameID, TagID) 
+                                VALUES (@GameID, @TagID) SELECT SCOPE_IDENTITY() END
+                            ELSE SELECT ID FROM GameTagDetails 
+                            WHERE GameID = @GameID AND TagID = @TagID";
+
+            var data = await SqlDataAccess.SaveDataAsync(query, gameTag);
+
+            return data;
+
+        }
+        public static async Task<int> AddGameTagDetailsAsync(List<GameTagDetailsModel> gameTag)
+        {
+            string query = $@"IF NOT EXISTS ( SELECT ID FROM GameTagDetails 
+                            WHERE GameID = @GameID AND TagID = @TagID)
+                            BEGIN INSERT INTO GameTagDetails (GameID, TagID) 
+                                VALUES (@GameID, @TagID) SELECT SCOPE_IDENTITY() END
+                            ELSE SELECT ID FROM GameTagDetails 
+                            WHERE GameID = @GameID AND TagID = @TagID";
+
+            var data = await SqlDataAccess.SaveDataAsync(query, gameTag);
+
+            return data;
+
+        }
+
+
         public static async Task<int> AddTagAsync(ITag tag)
         {
             string query = $@"IF NOT EXISTS ( SELECT ID FROM Tag WHERE Title = @Title)
@@ -210,6 +223,8 @@ namespace DataAccessLibrary.BusinessLogic
 
         public static async Task<int> AddSystemRequirementAsync(ISystemRequirement systemRequirement)
         {
+            
+
             string query = $@"INSERT INTO SystemRequirement 
                 (GameID,PlatformId, Requirement, Processor, Os, Memory, Storage)  
                 VALUES (@GameID,@PlatformId, @Requirement, @Processor, @Os, @Memory, @Storage) 
@@ -220,12 +235,13 @@ namespace DataAccessLibrary.BusinessLogic
             return data;
 
         }
-        public static async Task<int> AddGameAsync(IGameModel game)
+        public static async Task<int> AddGameAsync(GameModel game)
         {
-            string query = $@"INSERT INTO Game 
-                (About, Developer, Publisher, ReleaseDate, SteamDetailsID, Thumbnail, Title)  
-                VALUES (@About, @Developer, @Publisher, @ReleaseDate, @SteamDetailsID, @Thumbnail, @Title) 
-                SELECT SCOPE_IDENTITY();";
+
+            string query = $@" IF NOT EXISTS ( SELECT Title FROM Game WHERE Title = @Title)
+                BEGIN INSERT INTO Game (About, Developer, Publisher, ReleaseDate,  Thumbnail, Title)  
+                VALUES (@About, @Developer, @Publisher, @ReleaseDate, @Thumbnail, @Title) 
+                SELECT SCOPE_IDENTITY() END ELSE BEGIN SELECT ID FROM Game WHERE Title=@Title END";
 
             var data = await SqlDataAccess.SaveDataAsync(query, game);
 
@@ -233,43 +249,93 @@ namespace DataAccessLibrary.BusinessLogic
 
         }
 
+        public static async Task<int> AddSteamGameAsync(GameModel game)
+        {
+            
+            if(game.SteamDetailsID == 0)
+            {
+                throw new InvalidDataException("SteamDetails ID cannot be 0");
+            }
+          
 
-        //public static int AddGame(IGameModel game)
-        //{
-        //    //    // ignore duplicate if it exists
-        ////    string sqlQuery = @"INSERT IGNORE INTO Game 
-        ////SELECT  @ReleaseDate, @About, @Thumbnail, @Title, @Developer, @Publisher, @SteamDetailsId
-        ////WHERE NOT EXISTS (SELECT Title From Game WHERE Title = @Title); SELECT SCOPE_IDENTITY() ";
+            string query = $@" IF NOT EXISTS ( SELECT Title FROM Game WHERE Title = @Title)
+                BEGIN INSERT INTO Game (About, Developer, Publisher, ReleaseDate,  Thumbnail, Title, SteamDetailsID)  
+                VALUES (@About, @Developer, @Publisher, @ReleaseDate, @Thumbnail, @Title,@SteamDetailsID) 
+                SELECT SCOPE_IDENTITY() END ELSE SELECT ID FROM Game Where Title=@Title";
 
-        //    // ignore duplicate if it exists
-        //    string sqlQuery = @"
-        //                   DECLARE @SDID int;
-        //                   DECLARE @GID INT;
-        //                   DECLARE @PID INT;
-        //                   INSERT INTO SteamDetails VALUES (@SteamID, @SteamReview, @SteamReviewCount)
-        //                   SELECT @SDID = scope_identity();
-        //                   INSERT INTO Game OUTPUT inserted.ID VALUES ( @ReleaseDate, @About, @Thumbnail, 
-        //                   @Title, @Developer, @Publisher, @SDID)
-        //                   SELECT @GID = SCOPE_IDENTITY();
-        //                   INSERT INTO Platform VALUES(@Title)
-        //                   SELECT @PID = SCOPE_IDENTITY();
-        //                   INSERT INTO SystemRequirement VALUES ( @GID, @PID, @Os,@Processor,@Memory,@Storage)
+            var data = await SqlDataAccess.SaveDataAsync(query, game);
 
-        //                ";
+            return data;
 
-        //    var p = new DynamicParameters();
+        }
 
-        //    p.Add("SDID", 0, DbType.Int32, ParameterDirection.Output);
-        //    p.Add("GID", 0, DbType.Int32, ParameterDirection.Output);
-        //    p.Add("PID", 0, DbType.Int32, ParameterDirection.Output);
-        //    p.Add("@SteamID", game.SteamDetailsID);
+        public static async Task<int> AddSteamDetailsAsync(ISteamDetailsModel steamDetailsModel)
+        {
+            string query = $@"  IF NOT EXISTS ( SELECT ID FROM SteamDetails WHERE SteamID = @SteamID)   
+                               BEGIN INSERT INTO Steamdetails (SteamID, SteamReview, SteamReviewCount) 
+                               VALUES (@SteamID, @SteamReview, @SteamReviewCount) SELECT SCOPE_IDENTITY() END
+                                ELSE  BEGIN UPDATE SteamDetails SET SteamReview = @SteamReview, SteamReviewCount =@SteamReviewCount
+                                    OUTPUT INSERTED.ID WHERE SteamID = @SteamID END";
+
+            var data = await SqlDataAccess.SaveDataAsync(query, steamDetailsModel);
+
+            return data;
+
+        }
+
+        public static async Task<int> AddDealAsync(DealModel deal)
+        {
+            string query = $@"  
+                    IF NOT EXISTS ( SELECT ID FROM Deal WHERE GameID = @GameID AND StoreID = @StoreID AND Url =@URL)
+                            BEGIN INSERT INTO Deal (GameID, StoreID, Price, PreviousPrice, 
+                              Expired, ExpiringDate,DatePosted, LimitedTimeDeal, Url, IsFree ) 
+                             VALUES (@GameID, @StoreID, @Price, @PreviousPrice, 
+                             @Expired,@ExpiringDate,@DatePosted, @LimitedTimeDeal, 
+                              @Url, @IsFree) SELECT SCOPE_IDENTITY() END
+                          ELSE BEGIN SELECT ID FROM Deal WHERE GameID = @GameID AND StoreID = @StoreID AND Url =@URL END";
+
+            var data = await SqlDataAccess.SaveDataAsync(query, deal);
+
+            return data;
+        }
 
 
-        //    return SqlDataAccess.SaveData(sqlQuery, p);
+            //public static int AddGame(IGameModel game)
+            //{
+            //    //    // ignore duplicate if it exists
+            ////    string sqlQuery = @"INSERT IGNORE INTO Game 
+            ////SELECT  @ReleaseDate, @About, @Thumbnail, @Title, @Developer, @Publisher, @SteamDetailsId
+            ////WHERE NOT EXISTS (SELECT Title From Game WHERE Title = @Title); SELECT SCOPE_IDENTITY() ";
 
-        //}
+            //    // ignore duplicate if it exists
+            //    string sqlQuery = @"
+            //                   DECLARE @SDID int;
+            //                   DECLARE @GID INT;
+            //                   DECLARE @PID INT;
+            //                   INSERT INTO SteamDetails VALUES (@SteamID, @SteamReview, @SteamReviewCount)
+            //                   SELECT @SDID = scope_identity();
+            //                   INSERT INTO Game OUTPUT inserted.ID VALUES ( @ReleaseDate, @About, @Thumbnail, 
+            //                   @Title, @Developer, @Publisher, @SDID)
+            //                   SELECT @GID = SCOPE_IDENTITY();
+            //                   INSERT INTO Platform VALUES(@Title)
+            //                   SELECT @PID = SCOPE_IDENTITY();
+            //                   INSERT INTO SystemRequirement VALUES ( @GID, @PID, @Os,@Processor,@Memory,@Storage)
+
+            //                ";
+
+            //    var p = new DynamicParameters();
+
+            //    p.Add("SDID", 0, DbType.Int32, ParameterDirection.Output);
+            //    p.Add("GID", 0, DbType.Int32, ParameterDirection.Output);
+            //    p.Add("PID", 0, DbType.Int32, ParameterDirection.Output);
+            //    p.Add("@SteamID", game.SteamDetailsID);
+
+
+            //    return SqlDataAccess.SaveData(sqlQuery, p);
+
+            //}
 
 
 
+        }
     }
-}
