@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "lPrXtzpjzFLoo/f5JFJ8Vgk/KYu1i1NJbN03K+ppLmOjMlhQVPsAot/ssXCe9uNpEOANfXyUg1YMsqAVCm6pXg==",
+  "dgSpecHash": "hKN1/OumZ7C0gln42FccouaZclsx4UqJsBb7hiVglDzVMy1nbwc8oTM+ILIIBBZeUbTwkV+kiu7fJ/kAY/uV2A==",
   "success": true,
   "projectFilePath": "C:\\Users\\Abdul\\source\\repos\\Webscraper\\DataAccess\\DataAccessLibrary.csproj",
   "expectedPackageFiles": [
@@ -22,6 +22,7 @@
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\runtime.win-x64.runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.win-x64.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\runtime.win-x86.runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.win-x86.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
     "C:\\Users\\Abdul\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
+    "C:\\Users\\Abdul\\.nuget\\packages\\system.componentmodel.annotations\\4.7.0\\system.componentmodel.annotations.4.7.0.nupkg.sha512",
     "C:\\Users\\Abdul\\.nuget\\packages\\system.configuration.configurationmanager\\4.7.0\\system.configuration.configurationmanager.4.7.0.nupkg.sha512",
     "C:\\Users\\Abdul\\.nuget\\packages\\system.data.sqlclient\\4.8.2\\system.data.sqlclient.4.8.2.nupkg.sha512",
     "C:\\Users\\Abdul\\.nuget\\packages\\system.diagnostics.diagnosticsource\\4.7.0\\system.diagnostics.diagnosticsource.4.7.0.nupkg.sha512",
