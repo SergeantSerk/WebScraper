@@ -79,13 +79,30 @@ namespace DataAccessLibrary.DataAccess
 
             return sd.FirstOrDefault();
         }
+        public static async Task<Platform> GetPlatformByIDAsync(int id)
+        {
+            string query = $@"Select * FROM Platform WHERE ID = @ID;";
 
+            var sd = await GetData<Platform>(query, new Platform { ID = id });
+
+            return sd.FirstOrDefault();
+        }
 
         public static async Task<StoreModel> GetStoreByNameAsync(string name)
         {
             string query = $@"Select * FROM Store WHERE Name = @Name;";
 
             var sd = await GetData<StoreModel>(query, new StoreModel { Name= name });
+
+            return sd.FirstOrDefault();
+        }
+
+
+        public static async Task<StoreModel> GetStoreByIDAsync(int id)
+        {
+            string query = $@"Select * FROM Store WHERE ID = @ID;";
+
+            var sd = await GetData<StoreModel>(query, new StoreModel { ID= id});
 
             return sd.FirstOrDefault();
         }
@@ -106,6 +123,30 @@ namespace DataAccessLibrary.DataAccess
             return await GetData<MediaModel>(query, new MediaModel { GameId = gameID }); ;
         }
 
+
+        public static async Task<List<DealModel>> GetDealByGameIdAsync(int gameID)
+        {
+            string query = $@"Select * FROM Deal WHERE GameID = @GameID AND Expired !=1";
+
+            return await GetData<DealModel>(query, new DealModel { GameID = gameID }); ;
+        }
+
+        /// <summary>
+        /// Return Deal that is not expired for a matchin game id and store id and URl
+        /// </summary>
+        /// <param name="gameID"></param>
+        /// <param name="storeID"></param>
+        /// <returns></returns>
+        public static async Task<DealModel> GetDealByGameIdAndStoreIDAsync(int gameID, int storeID,  string url)
+        {
+            string query = $@"Select * FROM Deal WHERE GameID = @GameID AND 
+                            StoreID =@StoreID AND URL=@Url AND Expired != 1;";
+
+            var d = await GetData<DealModel>(query, new DealModel { GameID = gameID, StoreID = storeID, URL = url });
+
+            return d.FirstOrDefault();
+        }
+
         public static async Task<MediaModel> GetMediasByGameIdAndUrlAsync(int gameID, string url)
         {
             string query = $@"Select * FROM Media WHERE GameID = @GameID AND Url=@Url;";
@@ -114,6 +155,27 @@ namespace DataAccessLibrary.DataAccess
             return media.FirstOrDefault() ;
         }
 
+
+        public static async Task<List<SystemRequirement>> GetSystemRequirementByGameIdAsync(int gameID)
+        {
+            string query = $@"Select * FROM SystemRequirement WHERE GameID = @GameID";
+
+            var sr = await GetData<SystemRequirement>(query, new SystemRequirement { GameID = gameID });
+            return sr;
+        }
+
+
+        public static async Task<SystemRequirement> GetSystemRequirementByGameIdAsync(int gameID, bool minimumRequirement, int platformID)
+        {
+            string query = $@"Select * FROM SystemRequirement WHERE GameID = 
+                @GameID AND MinimumSystemRequirement=@MinimumSystemRequirement AND PlatformID= @PlatformID";
+
+            var sr = await GetData<SystemRequirement>(query, new SystemRequirement 
+            { GameID = gameID, MinimumSystemRequirement = minimumRequirement, PlatformID=platformID });
+
+
+            return sr.FirstOrDefault();
+        }
 
 
 
@@ -157,6 +219,38 @@ namespace DataAccessLibrary.DataAccess
             return await SaveDataAsync<GameTagDetailsModel>(query, gameTag);
         }
 
+        public static async Task<int> AddSystemRequirementAsync(SystemRequirement sr)
+        {
+            string query = $@"
+                INSERT INTO SystemRequirement 
+               (GameID,PlatformId, Requirement, Processor, Os, Memory, Storage, MinimumSystemRequirement)  
+                VALUES (@GameID,@PlatformId, @Requirement, @Processor, @Os, @Memory, @Storage,@MinimumSystemRequirement) 
+                SELECT SCOPE_IDENTITY()";
+
+            return await SaveDataAsync<SystemRequirement>(query, sr);
+        }
+        public static async Task<int> AddSteamDetailsAsync(SteamDetailsModel steamDetailsModel)
+        {
+            string query = $@" INSERT INTO Steamdetails (SteamID, SteamReview, SteamReviewCount) 
+                               VALUES (@SteamID, @SteamReview, @SteamReviewCount) SELECT SCOPE_IDENTITY()";
+
+            return await SaveDataAsync<SteamDetailsModel>(query, steamDetailsModel);
+
+        }
+
+
+        public static async Task<int> AddDealAsync(DealModel deal)
+        {
+            string query = $@"  
+                       INSERT INTO Deal (GameID, StoreID, Price, PreviousPrice, 
+                                  Expired, ExpiringDate, DatePosted, LimitedTimeDeal, Url, IsFree ) 
+                                 VALUES (@GameID, @StoreID, @Price, @PreviousPrice, 
+                                 @Expired,@ExpiringDate,@DatePosted, @LimitedTimeDeal, 
+                                  @Url, @IsFree) SELECT SCOPE_IDENTITY()";
+
+            return await SaveDataAsync<DealModel>(query, deal);
+
+        }
 
 
         /// <summary>

@@ -20,5 +20,7 @@ namespace DataAccessLibrary.Interface
         public string Memory { get; set; }
 
         public string Storage { get; set; }
+
+        public bool MinimumSystemRequirement { get; set; }
     }
 }

@@ -17,5 +17,6 @@ namespace DataAccessLibrary.Utilities.Models
         public string Storage { get ; set ; }
         public string Requirement { get ; set ; }
         public string Processor { get ; set; }
+        public bool MinimumSystemRequirement { get; set; }
     }
 }

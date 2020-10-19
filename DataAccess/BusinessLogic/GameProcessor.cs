@@ -213,6 +213,8 @@ namespace DataAccessLibrary.BusinessLogic
         }
 
 
+
+
         private static bool IsNumberIDValid(int id)
         {
             return id == 0 ? false : true;
@@ -255,18 +257,81 @@ namespace DataAccessLibrary.BusinessLogic
         //}
 
 
-        //public static async Task<int> AddSystemRequirementAsync(ISystemRequirement systemRequirement)
-        //{
+        public static async Task<int> AddSystemRequirementAsync(SystemRequirement sr)
+        {
+            
+            if(IsNumberIDValid(sr.GameID) && IsNumberIDValid(sr.PlatformID))
+            {
+                var game = await SqlDataAccess.GetGameByIdAsync(sr.GameID);
+                var platform = await SqlDataAccess.GetPlatformByIDAsync(sr.PlatformID);
+
+                if (game != null && platform != null)
+                {
+
+                    var srDB = await SqlDataAccess.GetSystemRequirementByGameIdAsync
+                        (sr.GameID, sr.MinimumSystemRequirement, sr.PlatformID);
+
+                    if (srDB == null)
+                    {
+
+                        return await SqlDataAccess.AddSystemRequirementAsync(sr);
+                    }
+
+                    return srDB.ID;
+                }
+            }
 
 
-        //    string query = $@"INSERT INTO SystemRequirement 
-        //        (GameID,PlatformId, Requirement, Processor, Os, Memory, Storage)  
-        //        VALUES (@GameID,@PlatformId, @Requirement, @Processor, @Os, @Memory, @Storage) 
-        //        SELECT SCOPE_IDENTITY();";
+            return 0;
+        }
 
-        //    var data = await SqlDataAccess.SaveDataAsync(query, systemRequirement);
+        public static async Task<int> AddSteamDetailsAsync(SteamDetailsModel steamDetails)
+        {
+            if(!String.IsNullOrEmpty(steamDetails.SteamID))
+            {
+                var sdDB = await SqlDataAccess.GetSteamdetailsBySteamIDAsync(steamDetails.SteamID);
 
-        //    return data;
+                if(sdDB == null)
+                {
+                    return await SqlDataAccess.AddSteamDetailsAsync(steamDetails);
+
+                }
+                return sdDB.ID;
+            }
+
+            return 0;
+
+        }
+        public static async Task<int> AddDealAsync(DealModel deal)
+        {
+            
+            if(IsNumberIDValid(deal.GameID) && IsNumberIDValid(deal.StoreID) 
+                && !string.IsNullOrEmpty(deal.URL))
+            {
+
+                var game = await SqlDataAccess.GetGameByIdAsync(deal.GameID);
+                var store = await SqlDataAccess.GetStoreByIDAsync(deal.StoreID);
+
+                if (game != null && store != null)
+                {
+                    var dealDB = await SqlDataAccess.
+
+                    GetDealByGameIdAndStoreIDAsync(deal.GameID, deal.StoreID, deal.URL);
+
+                    if (dealDB == null)
+                    {
+                        return await SqlDataAccess.AddDealAsync(deal);
+                    }
+
+                    return dealDB.ID;
+                }
+            }
+            return 0;
+
+        }
+
+
+        
 
         //}
         //public static async Task<int> AddGameAsync(GameModel game)
@@ -317,21 +382,7 @@ namespace DataAccessLibrary.BusinessLogic
 
         //}
 
-        //public static async Task<int> AddDealAsync(DealModel deal)
-        //{
-        //    string query = $@"  
-        //            IF NOT EXISTS ( SELECT ID FROM Deal WHERE GameID = @GameID AND StoreID = @StoreID AND Url =@URL)
-        //                    BEGIN INSERT INTO Deal (GameID, StoreID, Price, PreviousPrice, 
-        //                      Expired, ExpiringDate,DatePosted, LimitedTimeDeal, Url, IsFree ) 
-        //                     VALUES (@GameID, @StoreID, @Price, @PreviousPrice, 
-        //                     @Expired,@ExpiringDate,@DatePosted, @LimitedTimeDeal, 
-        //                      @Url, @IsFree) SELECT SCOPE_IDENTITY() END
-        //                  ELSE BEGIN SELECT ID FROM Deal WHERE GameID = @GameID AND StoreID = @StoreID AND Url =@URL END";
 
-        //    var data = await SqlDataAccess.SaveDataAsync(query, deal);
-
-        //    return data;
-        //}
 
 
         //public static int AddGame(IGameModel game)
@@ -372,4 +423,4 @@ namespace DataAccessLibrary.BusinessLogic
 
 
     }
-    }
+}

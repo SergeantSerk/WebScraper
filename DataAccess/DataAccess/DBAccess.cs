@@ -16,14 +16,13 @@ namespace DataAccessLibrary.DataAccess
     public class DBAccess
     {
 
-        private  static string GetConnectionString(string connectionName = "Default")
+        private static string GetConnectionString(string connectionName = "Default")
         {
             var configuration = Factory.getConfiguration();
 
             return configuration.GetConnectionString(connectionName);
         }
 
-       
 
         protected static async Task<List<FullGameModel>> GetFullGameData(string query, Object param = null)
         {
@@ -106,8 +105,6 @@ namespace DataAccessLibrary.DataAccess
                         index = 0;
                     }
 
-
-
                     return index;
                 }
 
@@ -153,8 +150,11 @@ namespace DataAccessLibrary.DataAccess
 
         protected static async Task<GameTagDetailsModel> GetGameTagDetialsData(string query, object param)
         {
+            
             using (IDbConnection connection = new SqlConnection(GetConnectionString()))
             {
+                connection.Open();
+
                 var gameTag = await connection.QueryAsync<GameTagDetailsModel, Tag, GameTagDetailsModel>
                     (query, (g, t) => { g.Tag = t; return g; }, param);
 

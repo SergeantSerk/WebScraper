@@ -71,28 +71,49 @@ namespace DataAccessLibraryTest.BusinessLogicTest
         }
 
 
+        [Fact]
+        public async Task AddDeal_ShouldAddDealsIfExistingisNotValidORExpired()
+        {
+
+            var deal = new DealModel
+            {
+                GameID = 10,
+                StoreID = 4,
+                Expired = false,
+                ExpiringDate = DateTime.Now,
+                DatePosted = DateTime.Now,
+                IsFree = true,
+                Price = 32.4m,
+                PreviousPrice = 43.2m,
+                LimitedTimeDeal = true,
+                URL = @"https://www.youtube.com/watch?v=O901ZEBQ230&t=4s&ab_channel=ApnaJ"
+            };
+
+
+            var adDB = await GameProcessor.AddDealAsync(deal);
+
+            // even if a store has been added even if it exist then update the info
+            Assert.True(adDB != 0);
+
+        }
 
 
 
 
+        [Fact]
+        public async Task AddTag()
+        {
+            var platformFound = "Steam";
 
 
+            var p = new Tag { Title = platformFound };
+            p.ID = await GameProcessor.AddTagAsync(p);
 
 
-        //[Fact]
-        //public async Task AddTag()
-        //{
-        //    var platformFound = "Steam";
+            // even if a store has been added even if it exist then update the info
+            Assert.True(p.ID != 0);
 
-
-        //    var p = new Tag { Title = platformFound };
-        //    p.ID = await GameProcessor.AddTagAsync(p);
-
-
-        //    // even if a store has been added even if it exist then update the info
-        //    Assert.True(p.ID != 0);
-
-        //}
+        }
 
 
         [Fact]
@@ -107,20 +128,18 @@ namespace DataAccessLibraryTest.BusinessLogicTest
 
         }
 
-        //[Fact]
-        //public async Task AddSteamDetails()
-        //{
 
-        //    var steamDetails = new SteamDetailsModel
-        //    { SteamID = "testID", SteamReview = "mostly positive", SteamReviewCount = 500 };
+        [Fact]
+        public async Task AddSteamDetails_ShouldReturnIDOfExistingItem()
+        {
 
+            var sd = new SteamDetailsModel { SteamID = "A2", SteamReview= "Mostly Positive" };
 
-        //    var sd = await GameProcessor.AddSteamDetailsAsync(steamDetails);
+            var addSteamDetailsModel = await GameProcessor.AddSteamDetailsAsync(sd);
 
-        //    Assert.True(sd != 0);
+            Assert.True(addSteamDetailsModel != 0);
 
-        //}
-
+        }
 
         //[Fact]
         //public async Task AddDealShouldReturnIDOFAlreadyAddedDeal()
@@ -156,36 +175,43 @@ namespace DataAccessLibraryTest.BusinessLogicTest
 
         //}
 
-        //[Fact]
-        //public async Task AddGameTagDetailsShouldReturnCorrectRowUpdated()
-        //{
-        //    var steamTag = "Steam";
+        [Fact]
+        public async Task AddSystemRequirement_ShouldReturn0IfGameAndPlatformIDDontExistONDB()
+        {
 
-        //    var game = await GameProcessor.GetGameByTitleAsync(_testGameTitle2);
+            var sr = new SystemRequirement
+            {
+                GameID = 1,
+                PlatformID = 1,
+                Memory = "5gb",
+                MinimumSystemRequirement = true,
+                Storage = "43gb",
+                Os = "windows",
+                Processor = "I7",
+                
+            };
 
-        //    var tag = await GameProcessor.GetTagByTitleAsync(steamTag);
+            var t = await GameProcessor.AddSystemRequirementAsync(sr);
 
-        //    var gameTagDetails = new GameTagDetailsModel { GameID = game.ID, TagID=tag.ID};
+            Assert.True(t != 0);
 
+            var sr2 = new SystemRequirement
+            {
+                GameID = 3,
+                PlatformID = 4,
+                Memory = "5gb",
+                MinimumSystemRequirement = true,
+                Storage = "43gb",
+                Os = "windows",
+                Processor = "I7",
 
-        //    var sd = await GameProcessor.AddGameTagDetailsAsync(gameTagDetails);
+            };
 
+            var sr2AddDB = await GameProcessor.AddSystemRequirementAsync(sr2);
 
-        //    var g = new List<GameTagDetailsModel>();
+            Assert.Equal(0, sr2AddDB);
 
-        //    g.Add(gameTagDetails);
-
-        //    var gtd2= new GameTagDetailsModel { GameID = game.ID, TagID = 1 };
-
-        //    g.Add(gtd2);
-
-        //    var agt = await GameProcessor.AddGameTagDetailsAsync(g);
-
-        //    var expectedValue = 0;
-
-        //    Assert.True(expectedValue == agt);
-
-        //}
+        }
 
 
         [Fact]
