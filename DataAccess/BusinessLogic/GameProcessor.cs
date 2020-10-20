@@ -363,57 +363,7 @@ namespace DataAccessLibrary.BusinessLogic
 
         //}
 
-        //public static async Task<int> AddSteamDetailsAsync(ISteamDetailsModel steamDetailsModel)
-        //{
-        //    string query = $@"  IF NOT EXISTS ( SELECT ID FROM SteamDetails WHERE SteamID = @SteamID)   
-        //                       BEGIN INSERT INTO Steamdetails (SteamID, SteamReview, SteamReviewCount) 
-        //                       VALUES (@SteamID, @SteamReview, @SteamReviewCount) SELECT SCOPE_IDENTITY() END
-        //                        ELSE  BEGIN UPDATE SteamDetails SET SteamReview = @SteamReview, SteamReviewCount =@SteamReviewCount
-        //                            OUTPUT INSERTED.ID WHERE SteamID = @SteamID END";
-
-        //    var data = await SqlDataAccess.SaveDataAsync(query, steamDetailsModel);
-
-        //    return data;
-
-        //}
-
-
-
-
-        //public static int AddGame(IGameModel game)
-        //{
-        //    //    // ignore duplicate if it exists
-        ////    string sqlQuery = @"INSERT IGNORE INTO Game 
-        ////SELECT  @ReleaseDate, @About, @Thumbnail, @Title, @Developer, @Publisher, @SteamDetailsId
-        ////WHERE NOT EXISTS (SELECT Title From Game WHERE Title = @Title); SELECT SCOPE_IDENTITY() ";
-
-        //    // ignore duplicate if it exists
-        //    string sqlQuery = @"
-        //                   DECLARE @SDID int;
-        //                   DECLARE @GID INT;
-        //                   DECLARE @PID INT;
-        //                   INSERT INTO SteamDetails VALUES (@SteamID, @SteamReview, @SteamReviewCount)
-        //                   SELECT @SDID = scope_identity();
-        //                   INSERT INTO Game OUTPUT inserted.ID VALUES ( @ReleaseDate, @About, @Thumbnail, 
-        //                   @Title, @Developer, @Publisher, @SDID)
-        //                   SELECT @GID = SCOPE_IDENTITY();
-        //                   INSERT INTO Platform VALUES(@Title)
-        //                   SELECT @PID = SCOPE_IDENTITY();
-        //                   INSERT INTO SystemRequirement VALUES ( @GID, @PID, @Os,@Processor,@Memory,@Storage)
-
-        //                ";
-
-        //    var p = new DynamicParameters();
-
-        //    p.Add("SDID", 0, DbType.Int32, ParameterDirection.Output);
-        //    p.Add("GID", 0, DbType.Int32, ParameterDirection.Output);
-        //    p.Add("PID", 0, DbType.Int32, ParameterDirection.Output);
-        //    p.Add("@SteamID", game.SteamDetailsID);
-
-
-        //    return SqlDataAccess.SaveData(sqlQuery, p);
-
-        //}
+      
 
 
 

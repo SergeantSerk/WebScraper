@@ -20,7 +20,7 @@ namespace DataAccessLibraryTest.BusinessLogicTest
 
 
         [Fact]
-        public async Task AddStore()
+        public async Task AddStore_ShouldReturnTheIDWhenGameTagAlreadyExists()
         {
             var storeFound = "Steam";
             // retrieve store 
@@ -112,7 +112,7 @@ namespace DataAccessLibraryTest.BusinessLogicTest
 
 
         [Fact]
-        public async Task AddTag()
+        public async Task AddTag_ShouldReturnTheIDWhenGameTagAlreadyExists()
         {
             var platformFound = "Steam";
 
@@ -128,7 +128,7 @@ namespace DataAccessLibraryTest.BusinessLogicTest
 
 
         [Fact]
-        public async Task AddGameTagShouldReturnNegativeWhenGameTagAlreadyExists()
+        public async Task AddGameTag_ShouldReturnTheIDWhenGameTagAlreadyExists()
         {
 
             var gameTag = new GameTagDetailsModel { GameID = 10, TagID = 2 };
@@ -152,39 +152,6 @@ namespace DataAccessLibraryTest.BusinessLogicTest
 
         }
 
-        //[Fact]
-        //public async Task AddDealShouldReturnIDOFAlreadyAddedDeal()
-        //{
-        //    var game = await GameProcessor.GetGameByTitleAsync(_testGameTitle2);
-
-        //    var storeName = "Steam";
-
-
-        //    var store = await  GameProcessor.GetStoreByNameAsync(storeName);
-
-
-
-        //    var deal = new DealModel
-        //    {
-        //        GameID = game.ID,
-        //        StoreID = store.ID,
-        //        DatePosted = DateTime.Now,
-        //        IsFree = false,
-        //        Expired = false,
-        //        ExpiringDate = DateTime.Now,
-        //        URL = "http://www.testURL.com",
-        //        LimitedTimeDeal = false,
-        //        Price = 34.2m,
-        //        PreviousPrice = 42.2m
-        //    };
-
-
-
-        //    var sd = await GameProcessor.AddDealAsync(deal);
-
-        //    Assert.True(sd != 0);
-
-        //}
 
         [Fact]
         public async Task AddSystemRequirement_ShouldReturn0IfGameAndPlatformIDDontExistONDB()
