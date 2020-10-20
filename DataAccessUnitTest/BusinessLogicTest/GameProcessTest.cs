@@ -50,25 +50,6 @@ namespace DataAccessLibraryTest.BusinessLogicTest
 
         }
 
-        [Fact]
-        public async Task CheckObjectProperties_ReturnTrueifAllPropertiesHaveValue()
-        {
-            var storeFound = "Steam";
-            // retrieve store 
-
-            var storeModel = new GameModel 
-            { Publisher = "asdas", About = "About", Developer= "Develoepr",
-                ReleaseDate = DateTime.Now, SteamDetailsID= 2, Thumbnail= "asds",
-            Title = "helo world"};
-
-          
-
-            var t = DataValidatorHelper.HasAllEmptyProperties(storeModel);
-
-            Assert.True(t);
-          
-
-        }
 
 
         [Fact]
@@ -95,8 +76,38 @@ namespace DataAccessLibraryTest.BusinessLogicTest
             // even if a store has been added even if it exist then update the info
             Assert.True(adDB != 0);
 
+
+
         }
 
+
+        [Fact]
+        public async Task AddDeal_ShouldAddDealsShouldReturn0WhenInvalidDataISPassed()
+        {
+
+            var deal = new DealModel
+            {
+                GameID = 32,
+                StoreID = 32,
+                Expired = false,
+                ExpiringDate = DateTime.Now,
+                DatePosted = DateTime.Now,
+                IsFree = true,
+                Price = 32.4m,
+                PreviousPrice = 43.2m,
+                LimitedTimeDeal = true,
+               
+            };
+
+
+            var adDB = await GameProcessor.AddDealAsync(deal);
+
+            // even if a store has been added even if it exist then update the info
+            Assert.True(adDB == 0);
+
+
+
+        }
 
 
 
@@ -188,6 +199,7 @@ namespace DataAccessLibraryTest.BusinessLogicTest
                 Storage = "43gb",
                 Os = "windows",
                 Processor = "I7",
+                Requirement ="hello"
                 
             };
 
@@ -204,6 +216,7 @@ namespace DataAccessLibraryTest.BusinessLogicTest
                 Storage = "43gb",
                 Os = "windows",
                 Processor = "I7",
+                Requirement = "hello2"
 
             };
 

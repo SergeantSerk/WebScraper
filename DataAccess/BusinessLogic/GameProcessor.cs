@@ -107,11 +107,11 @@ namespace DataAccessLibrary.BusinessLogic
 
         public static async Task<int>  AddMediaAsync(MediaModel media)
         {
-            var gameID = media.GameId;
+            
 
-            if (gameID != 0 && !String.IsNullOrEmpty(media.Url))
+            if (DataValidatorHelper.IsValid(media))
             {
-                var game = await SqlDataAccess.GetGameByIdAsync(gameID);
+                var game = await SqlDataAccess.GetGameByIdAsync(media.GameId);
 
                 if (game != null)
                 {
@@ -135,7 +135,7 @@ namespace DataAccessLibrary.BusinessLogic
         {
           
 
-            if(DataValidatorHelper.HasAllEmptyProperties(store))
+            if(DataValidatorHelper.IsValid(store))
             {
                 var checkStore = await SqlDataAccess.GetStoreByNameAsync(store.Name);
 
@@ -158,10 +158,10 @@ namespace DataAccessLibrary.BusinessLogic
 
         public static async Task<int> AddPlatformAsync(Platform platform)
         {
-            var name = platform.Title;
-            if(!String.IsNullOrEmpty(name))
+          
+            if(DataValidatorHelper.IsValid(platform))
             {
-                var plf = await SqlDataAccess.GetPlatformByTitleAsync(name);
+                var plf = await SqlDataAccess.GetPlatformByTitleAsync(platform.Title);
 
                 if(plf != null)
                 {
@@ -176,35 +176,35 @@ namespace DataAccessLibrary.BusinessLogic
         }
 
 
-        public static async Task<int> AddGameTagDetailsAsync(GameTagDetailsModel gameTagDetails)
+        public static async Task<int> AddGameTagDetailsAsync(GameTagDetailsModel gtd)
         {
             
 
-            var gameID = gameTagDetails.GameID;
+         
 
-            if(IsNumberIDValid(gameID) && IsNumberIDValid(gameTagDetails.TagID))
+            if(DataValidatorHelper.IsValid(gtd))
             {
 
-                var gtd = await SqlDataAccess.GetGameTagDetailsByGameIdAndTagIDAsync
-                    (gameID, gameTagDetails.TagID);
+                var gtdDB = await SqlDataAccess.GetGameTagDetailsByGameIdAndTagIDAsync
+                    (gtd.GameID, gtd.TagID);
 
                 if (gtd == null)
                 {
 
-                    var game = await SqlDataAccess.GetGameByIdAsync(gameID);
-                    var tag = await SqlDataAccess.GetTagByIDAsync(gameTagDetails.TagID);
+                    var game = await SqlDataAccess.GetGameByIdAsync(gtd.GameID);
+                    var tag = await SqlDataAccess.GetTagByIDAsync(gtd.TagID);
 
                     if (tag != null && game != null)
                     {
 
-                        var data = await SqlDataAccess.AddGameTagDetailsAsync(gameTagDetails);
+                        var data = await SqlDataAccess.AddGameTagDetailsAsync(gtd);
 
                         return data;
 
                     }
                 }
 
-                return gtd.ID;
+                return gtdDB.ID;
 
             }
 
@@ -215,15 +215,11 @@ namespace DataAccessLibrary.BusinessLogic
 
 
 
-        private static bool IsNumberIDValid(int id)
-        {
-            return id == 0 ? false : true;
-        }
 
 
         public static async Task<int> AddTagAsync(Tag tag)
         {
-            if (!String.IsNullOrEmpty(tag.Title))
+            if (DataValidatorHelper.IsValid(tag))
             {
                 var tagDB = await SqlDataAccess.GetTagByTitleAsync(tag.Title);
 
@@ -260,7 +256,7 @@ namespace DataAccessLibrary.BusinessLogic
         public static async Task<int> AddSystemRequirementAsync(SystemRequirement sr)
         {
             
-            if(IsNumberIDValid(sr.GameID) && IsNumberIDValid(sr.PlatformID))
+            if(DataValidatorHelper.IsValid(sr))
             {
                 var game = await SqlDataAccess.GetGameByIdAsync(sr.GameID);
                 var platform = await SqlDataAccess.GetPlatformByIDAsync(sr.PlatformID);
@@ -287,7 +283,7 @@ namespace DataAccessLibrary.BusinessLogic
 
         public static async Task<int> AddSteamDetailsAsync(SteamDetailsModel steamDetails)
         {
-            if(!String.IsNullOrEmpty(steamDetails.SteamID))
+            if(DataValidatorHelper.IsValid(steamDetails))
             {
                 var sdDB = await SqlDataAccess.GetSteamdetailsBySteamIDAsync(steamDetails.SteamID);
 
@@ -305,8 +301,7 @@ namespace DataAccessLibrary.BusinessLogic
         public static async Task<int> AddDealAsync(DealModel deal)
         {
             
-            if(IsNumberIDValid(deal.GameID) && IsNumberIDValid(deal.StoreID) 
-                && !string.IsNullOrEmpty(deal.URL))
+            if(DataValidatorHelper.IsValid(deal))
             {
 
                 var game = await SqlDataAccess.GetGameByIdAsync(deal.GameID);
