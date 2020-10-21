@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Steam.Models.Interface
 {
-    public interface ISteamApps
+    public interface ISteamApp
     {
         int appid { get; set; }
         string name { get; set; }

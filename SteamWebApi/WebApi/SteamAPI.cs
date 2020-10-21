@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Steam.Models
+namespace Steam.WebApi
 {
-    public class SteamApps
+    class SteamAPI
     {
     }
 }
