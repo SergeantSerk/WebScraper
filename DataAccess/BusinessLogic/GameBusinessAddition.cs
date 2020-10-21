@@ -16,94 +16,9 @@ using System.Threading.Tasks;
 
 namespace DataAccessLibrary.BusinessLogic
 {
-    public static class GameProcessor
+    public static class GameBusinessAddition
     {
        
-
-
-
-
-        public static async Task<List<FullGameModel>> GetAllFullGames()
-        {
-          
-
-            return await SqlDataAccess.GetAllFullGames();
-
-        }
-
-        public static async Task<FullGameModel> GetFullGameById(int id)
-        {
-            var game = await SqlDataAccess.GetFullGameByID(id);
-            return game;
-        }
-
-        public static async Task<FullGameModel> GetFullGameByTitle(string title)
-        {
-            var g = await SqlDataAccess.GetFullGameByTitle(title);
-            return g;
-
-        }
-
-        public static async Task<GameModel> GetGameByIdAsync(int id)
-        {
-            return await SqlDataAccess.GetGameByIdAsync(id);
-        }
-
-        public static async Task<GameModel> GetGameByTitleAsync(string title)
-        {
-            return await SqlDataAccess.GetGameByTitleAsync(title); ;
-        }
-
-
-
-
-        public static async Task<Tag> GetTagByTitleAsync(string title)
-        {
-       
-            return await SqlDataAccess.GetTagByTitleAsync(title);
-
-        }
-
-
-        public static async Task<SteamDetailsModel> GetSteamDetailsByIdAsync(int id)
-        {
-
-            return await SqlDataAccess.GetSteamdetailsByIDAsync(id);
-
-        }
-
-        public static async Task<SteamDetailsModel> GetSteamDetailsBySteamIdAsync(string steamID)
-        {
-
-            return await SqlDataAccess.GetSteamdetailsBySteamIDAsync(steamID); 
-        }
-
-
-        public static async Task<Platform> GetPlatformByTitleAsync(string platformTitle)
-        {
-            
-            return await SqlDataAccess.GetPlatformByTitleAsync(platformTitle);
-
-        }
-
-
-        public static async Task<StoreModel> GetStoreByNameAsync(string storeName)
-        {
-
-            return await SqlDataAccess.GetStoreByNameAsync(storeName);
-        }
-
-
-        public static async Task<List<MediaModel>> GetMediasByGameIdAsync(int gameID)
-        {
-            return await SqlDataAccess.GetMediasByGameIdAsync(gameID);
-        }
-
-        public static async Task<GameTagDetailsModel> GetGameTagDetailsByGameIdAndTagIDAsync(int gameID, int tagID)
-        {
-            return await SqlDataAccess.GetGameTagDetailsByGameIdAndTagIDAsync(gameID, tagID);
-        }
-
 
         public static async Task<int>  AddMediaAsync(MediaModel media)
         {
@@ -188,7 +103,7 @@ namespace DataAccessLibrary.BusinessLogic
                 var gtdDB = await SqlDataAccess.GetGameTagDetailsByGameIdAndTagIDAsync
                     (gtd.GameID, gtd.TagID);
 
-                if (gtd == null)
+                if (gtdDB == null)
                 {
 
                     var game = await SqlDataAccess.GetGameByIdAsync(gtd.GameID);
@@ -202,9 +117,10 @@ namespace DataAccessLibrary.BusinessLogic
                         return data;
 
                     }
+                    return gtdDB.ID;
                 }
 
-                return gtdDB.ID;
+                
 
             }
 
@@ -238,20 +154,7 @@ namespace DataAccessLibrary.BusinessLogic
 
 
 
-        //public static async Task<int> AddDealAsync(IDealModel deal)
-        //{
-        //    string query = $@"INSERT INTO Deal 
-        //        (GameID,StoreID, Price, PreviousPrice, Expired, ExpiringDate, DatePosted, LimitedTimeDeal, Url, IsFree)  
-        //        VALUES (@GameID,@StoreID, @Price, @PreviousPrice, @Expired, @ExpiringDate, 
-        //        @DatePosted, @LimitedTimeDeal, @Url, @IsFree) 
-        //        SELECT SCOPE_IDENTITY();";
-
-        //    var data = await SqlDataAccess.SaveDataAsync(query, deal);
-
-        //    return data;
-
-        //}
-
+  
 
         public static async Task<int> AddSystemRequirementAsync(SystemRequirement sr)
         {
@@ -326,44 +229,31 @@ namespace DataAccessLibrary.BusinessLogic
         }
 
 
-        
-
-        //}
-        //public static async Task<int> AddGameAsync(GameModel game)
-        //{
-
-        //    string query = $@" IF NOT EXISTS ( SELECT Title FROM Game WHERE Title = @Title)
-        //        BEGIN INSERT INTO Game (About, Developer, Publisher, ReleaseDate,  Thumbnail, Title)  
-        //        VALUES (@About, @Developer, @Publisher, @ReleaseDate, @Thumbnail, @Title) 
-        //        SELECT SCOPE_IDENTITY() END ELSE BEGIN SELECT ID FROM Game WHERE Title=@Title END";
-
-        //    var data = await SqlDataAccess.SaveDataAsync(query, game);
-
-        //    return data;
-
-        //}
-
-        //public static async Task<int> AddSteamGameAsync(GameModel game)
-        //{
-
-        //    if(game.SteamDetailsID == 0)
-        //    {
-        //        throw new InvalidDataException("SteamDetails ID cannot be 0");
-        //    }
 
 
-        //    string query = $@" IF NOT EXISTS ( SELECT Title FROM Game WHERE Title = @Title)
-        //        BEGIN INSERT INTO Game (About, Developer, Publisher, ReleaseDate,  Thumbnail, Title, SteamDetailsID)  
-        //        VALUES (@About, @Developer, @Publisher, @ReleaseDate, @Thumbnail, @Title,@SteamDetailsID) 
-        //        SELECT SCOPE_IDENTITY() END ELSE SELECT ID FROM Game Where Title=@Title";
+        public static async Task<int> AddGameAsync(GameModel g)
+        {
 
-        //    var data = await SqlDataAccess.SaveDataAsync(query, game);
 
-        //    return data;
+            if (DataValidatorHelper.IsValid(g))
+            {
+                var game = await SqlDataAccess.GetGameByTitleAsync(g.Title);
 
-        //}
+                if (game == null)
+                {
 
-      
+                    return await SqlDataAccess.AddGameAsync(g);
+                }
+
+                return game.ID;
+            }
+
+            return 0;
+        }
+
+
+
+
 
 
 

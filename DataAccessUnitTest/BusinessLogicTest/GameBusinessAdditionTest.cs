@@ -11,24 +11,62 @@ using Xunit;
 
 namespace DataAccessLibraryTest.BusinessLogicTest
 {
-    public class GameProcessTest
+    public class GameBusinessAdditionTest
     {
 
-        private string _testGameTitle = "TestGame";
+      
         private string _testGameTitle2 = "TestGame2";
+        private const string _testSteamDetails = "A2";
+        private const string _testPlatform = "SteamTest";
+        private const string _teststore = "TestStore";
+        private const string _testTag = "TestTag";
+
+
+        [Fact]
+        public async Task AddSteamDetails_ShouldReturnIDOfExistingItem()
+        {
+
+            var sd = new SteamDetailsModel { SteamID = _testSteamDetails, SteamReview = "Mostly Positive" };
+
+            var addSteamDetailsModel = await GameBusinessAddition.AddSteamDetailsAsync(sd);
+
+            Assert.True(addSteamDetailsModel != 0);
+
+        }
 
 
 
         [Fact]
+        public async Task AddGameToDB_ShouldReturnIDOfExistingItem()
+        {
+            var steamdetals = await GameBusinessAccess.GetSteamDetailsBySteamIdAsync(_testSteamDetails);
+
+            var game = new GameModel
+            {
+                About = "TestAbout",
+                Developer = "TestDeveloper",
+                Publisher = "TestPublisher",
+                ReleaseDate = DateTime.Now,
+                Thumbnail = "TestThumbnailUrl",
+                Title = _testGameTitle2,
+                SteamDetailsID = steamdetals.ID
+            };
+
+            var addGameToDb = await GameBusinessAddition.AddGameAsync(game);
+
+            Assert.True(addGameToDb != 0);
+
+        }
+
+        [Fact]
         public async Task AddStore_ShouldReturnTheIDWhenGameTagAlreadyExists()
         {
-            var storeFound = "Steam";
-            // retrieve store 
+           
        
-            var storeModel = new StoreModel { Name = storeFound, Logo = "TestLogo" };
+            var storeModel = new StoreModel { Name = _teststore, Logo = "TestLogo" };
 
 
-            var store = await GameProcessor.AddStoreAsync(storeModel);
+            var store = await GameBusinessAddition.AddStoreAsync(storeModel);
 
             // even if a store has been added even if it exist then update the info
             Assert.True(store != 0);
@@ -38,11 +76,10 @@ namespace DataAccessLibraryTest.BusinessLogicTest
         [Fact]
         public async Task AddPlatform()
         {
-            var platformFound = "Steam";
-
+           
             
-           var p = new Platform { Title = platformFound };
-            p.ID = await GameProcessor.AddPlatformAsync(p);
+           var p = new Platform { Title = _testPlatform };
+            p.ID = await GameBusinessAddition.AddPlatformAsync(p);
                 
         
             // even if a store has been added even if it exist then update the info
@@ -56,10 +93,14 @@ namespace DataAccessLibraryTest.BusinessLogicTest
         public async Task AddDeal_ShouldAddDealsIfExistingisNotValidORExpired()
         {
 
+            var game =  await GameBusinessAccess.GetGameByTitleAsync(_testGameTitle2);
+
+            var store = await GameBusinessAccess.GetStoreByNameAsync(_teststore);
+
             var deal = new DealModel
             {
-                GameID = 10,
-                StoreID = 4,
+                GameID = game.ID,
+                StoreID = store.ID,
                 Expired = false,
                 ExpiringDate = DateTime.Now,
                 DatePosted = DateTime.Now,
@@ -71,7 +112,7 @@ namespace DataAccessLibraryTest.BusinessLogicTest
             };
 
 
-            var adDB = await GameProcessor.AddDealAsync(deal);
+            var adDB = await GameBusinessAddition.AddDealAsync(deal);
 
             // even if a store has been added even if it exist then update the info
             Assert.True(adDB != 0);
@@ -100,7 +141,7 @@ namespace DataAccessLibraryTest.BusinessLogicTest
             };
 
 
-            var adDB = await GameProcessor.AddDealAsync(deal);
+            var adDB = await GameBusinessAddition.AddDealAsync(deal);
 
             // even if a store has been added even if it exist then update the info
             Assert.True(adDB == 0);
@@ -114,11 +155,11 @@ namespace DataAccessLibraryTest.BusinessLogicTest
         [Fact]
         public async Task AddTag_ShouldReturnTheIDWhenGameTagAlreadyExists()
         {
-            var platformFound = "Steam";
+          
 
 
-            var p = new Tag { Title = platformFound };
-            p.ID = await GameProcessor.AddTagAsync(p);
+            var p = new Tag { Title = _testTag };
+            p.ID = await GameBusinessAddition.AddTagAsync(p);
 
 
             // even if a store has been added even if it exist then update the info
@@ -130,10 +171,12 @@ namespace DataAccessLibraryTest.BusinessLogicTest
         [Fact]
         public async Task AddGameTag_ShouldReturnTheIDWhenGameTagAlreadyExists()
         {
+            var game = await GameBusinessAccess.GetGameByTitleAsync(_testGameTitle2);
+            var tag = await GameBusinessAccess.GetTagByTitleAsync(_testTag);
 
-            var gameTag = new GameTagDetailsModel { GameID = 10, TagID = 2 };
+            var gameTag = new GameTagDetailsModel { GameID = game.ID, TagID = tag.ID };
 
-            var addGameWithSteamModel = await GameProcessor.AddGameTagDetailsAsync(gameTag);
+            var addGameWithSteamModel = await GameBusinessAddition.AddGameTagDetailsAsync(gameTag);
 
             Assert.True(addGameWithSteamModel != 0);
 
@@ -141,26 +184,15 @@ namespace DataAccessLibraryTest.BusinessLogicTest
 
 
         [Fact]
-        public async Task AddSteamDetails_ShouldReturnIDOfExistingItem()
-        {
-
-            var sd = new SteamDetailsModel { SteamID = "A2", SteamReview= "Mostly Positive" };
-
-            var addSteamDetailsModel = await GameProcessor.AddSteamDetailsAsync(sd);
-
-            Assert.True(addSteamDetailsModel != 0);
-
-        }
-
-
-        [Fact]
         public async Task AddSystemRequirement_ShouldReturn0IfGameAndPlatformIDDontExistONDB()
         {
+            var game = await GameBusinessAccess.GetGameByTitleAsync(_testGameTitle2);
+            var platform = await GameBusinessAccess.GetPlatformByTitleAsync(_testPlatform);
 
             var sr = new SystemRequirement
             {
-                GameID = 1,
-                PlatformID = 1,
+                GameID = game.ID,
+                PlatformID = platform.ID,
                 Memory = "5gb",
                 MinimumSystemRequirement = true,
                 Storage = "43gb",
@@ -170,7 +202,7 @@ namespace DataAccessLibraryTest.BusinessLogicTest
                 
             };
 
-            var t = await GameProcessor.AddSystemRequirementAsync(sr);
+            var t = await GameBusinessAddition.AddSystemRequirementAsync(sr);
 
             Assert.True(t != 0);
 
@@ -187,60 +219,14 @@ namespace DataAccessLibraryTest.BusinessLogicTest
 
             };
 
-            var sr2AddDB = await GameProcessor.AddSystemRequirementAsync(sr2);
+            var sr2AddDB = await GameBusinessAddition.AddSystemRequirementAsync(sr2);
 
             Assert.Equal(0, sr2AddDB);
 
         }
 
 
-        [Fact]
-        public async Task GetAllFullGame_ShouldReturnDealsThatAreNotExpired()
-        {
-
-            var expiredDealExist = false;
-
-            var allGames = await GameProcessor.GetAllFullGames();
-
-            foreach(var game in allGames)
-            {
-                foreach(var deal in game.Deals)
-                {
-                    if (deal.Expired)
-                    {
-                        expiredDealExist = true;
-                        break;
-                    }
-                }
-            }
-            
-            Assert.False(expiredDealExist);
-        }
 
 
-
-
-        [Fact]
-        public async Task GetFullGameById_ShouldReturnTestData()
-        {
-
-            var allGames = await GameProcessor.GetFullGameById(1);
-
-
-            Assert.NotNull(allGames);
-
-        }
-
-
-        [Fact]
-        public async Task GetFullGameByTitleShouldReturnNullforInvalidGame()
-        {
-
-            var allGames = await GameProcessor.GetFullGameByTitle("TestTitle1");
-
-
-            Assert.Null(allGames);
-
-        }
     }
 }

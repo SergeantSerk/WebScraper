@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebScraper", "WebScraper\We
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccessLibraryTest", "DataAccessUnitTest\DataAccessLibraryTest.csproj", "{1029CD90-0FE1-44ED-B027-1FE2D20EA62A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SteamWebApi", "SteamWebApi\SteamWebApi.csproj", "{A6B8687D-6222-4906-8178-637EF6627B14}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{1029CD90-0FE1-44ED-B027-1FE2D20EA62A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1029CD90-0FE1-44ED-B027-1FE2D20EA62A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1029CD90-0FE1-44ED-B027-1FE2D20EA62A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6B8687D-6222-4906-8178-637EF6627B14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6B8687D-6222-4906-8178-637EF6627B14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6B8687D-6222-4906-8178-637EF6627B14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6B8687D-6222-4906-8178-637EF6627B14}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

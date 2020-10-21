@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "oFCrmRab85Dohic8eJ8KoQ8VCQnCLP+oembpWh+vP9ugd6fffJVEBE69ryRN0IlWzCPG6VuWLCRVBUX8Amn/Ww==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Abdul\\source\\repos\\Webscraper\\SteamWebApi\\Steam.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Abdul\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\Abdul\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

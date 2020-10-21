@@ -25,7 +25,8 @@ namespace DataAccessLibrary.DataAccess
     public static async Task<GameModel> GetGameByTitleAsync(string title)
     {
         //  join game with steam detail
-        string query = $@"SELECT * FROM Game WHERE Title =@Title;";
+        string query = $@"SELECT * FROM Game g 
+                         LEFT JOIN SteamDetails sd ON  g.SteamDetailsID = sd.ID WHERE g.Title =@Title;";
 
         return await GetGameModelData(query, new { Title = title });
 
@@ -251,6 +252,19 @@ namespace DataAccessLibrary.DataAccess
             return await SaveDataAsync<DealModel>(query, deal);
 
         }
+
+
+
+        public static async Task<int> AddGameAsync(GameModel game)
+        {
+            string query = $@"  INSERT INTO Game (About, Developer, Publisher, ReleaseDate,  Thumbnail, Title)  
+                VALUES (@About, @Developer, @Publisher, @ReleaseDate, @Thumbnail, @Title) 
+                SELECT SCOPE_IDENTITY()";
+
+            return await SaveDataAsync<GameModel>(query,game);
+
+        }
+
 
 
         /// <summary>
