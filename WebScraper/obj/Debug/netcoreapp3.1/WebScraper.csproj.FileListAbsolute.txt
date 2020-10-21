@@ -252,3 +252,6 @@ C:\Users\Abdul\source\repos\Webscraper\WebScraper\obj\Debug\netcoreapp3.1\WebScr
 C:\Users\Abdul\source\repos\Webscraper\WebScraper\obj\Debug\netcoreapp3.1\WebScraper.genruntimeconfig.cache
 C:\Users\Abdul\source\repos\Webscraper\WebScraper\bin\Debug\netcoreapp3.1\DataAccessLibraryTest.dll
 C:\Users\Abdul\source\repos\Webscraper\WebScraper\bin\Debug\netcoreapp3.1\DataAccessLibraryTest.pdb
+C:\Users\Abdul\source\repos\Webscraper\WebScraper\bin\Debug\netcoreapp3.1\Steam.dll
+C:\Users\Abdul\source\repos\Webscraper\WebScraper\bin\Debug\netcoreapp3.1\Steam.pdb
+C:\Users\Abdul\source\repos\Webscraper\WebScraper\bin\Debug\netcoreapp3.1\System.Text.Json.dll

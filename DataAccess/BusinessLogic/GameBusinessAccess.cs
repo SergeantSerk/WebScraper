@@ -67,7 +67,7 @@ namespace DataAccessLibrary.BusinessLogic
         }
 
 
-        public static async Task<Platform> GetPlatformByTitleAsync(string platformTitle)
+        public static async Task<PlatformModel> GetPlatformByTitleAsync(string platformTitle)
         {
 
             return await SqlDataAccess.GetPlatformByTitleAsync(platformTitle);

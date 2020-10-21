@@ -1,0 +1,9 @@
+C:\Users\Abdul\source\repos\Webscraper\SteamWebApi\bin\Debug\netstandard2.0\Steam.deps.json
+C:\Users\Abdul\source\repos\Webscraper\SteamWebApi\bin\Debug\netstandard2.0\Steam.dll
+C:\Users\Abdul\source\repos\Webscraper\SteamWebApi\bin\Debug\netstandard2.0\Steam.pdb
+C:\Users\Abdul\source\repos\Webscraper\SteamWebApi\obj\Debug\netstandard2.0\Steam.csprojAssemblyReference.cache
+C:\Users\Abdul\source\repos\Webscraper\SteamWebApi\obj\Debug\netstandard2.0\Steam.AssemblyInfoInputs.cache
+C:\Users\Abdul\source\repos\Webscraper\SteamWebApi\obj\Debug\netstandard2.0\Steam.AssemblyInfo.cs
+C:\Users\Abdul\source\repos\Webscraper\SteamWebApi\obj\Debug\netstandard2.0\Steam.dll
+C:\Users\Abdul\source\repos\Webscraper\SteamWebApi\obj\Debug\netstandard2.0\Steam.pdb
+C:\Users\Abdul\source\repos\Webscraper\SteamWebApi\obj\Debug\netstandard2.0\Steam.csproj.CoreCompileInputs.cache

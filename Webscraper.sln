@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebScraper", "WebScraper\We
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccessLibraryTest", "DataAccessUnitTest\DataAccessLibraryTest.csproj", "{1029CD90-0FE1-44ED-B027-1FE2D20EA62A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SteamWebApi", "SteamWebApi\SteamWebApi.csproj", "{A6B8687D-6222-4906-8178-637EF6627B14}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steam", "SteamWebApi\Steam.csproj", "{A6B8687D-6222-4906-8178-637EF6627B14}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

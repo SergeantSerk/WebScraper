@@ -7,7 +7,7 @@ using System.Text;
 
 namespace DataAccessLibrary.Utilities.Models
 {
-    public class Platform : IPlatform
+    public class PlatformModel : IPlatform
     {
         public int ID { get ; set; }
         [Required]

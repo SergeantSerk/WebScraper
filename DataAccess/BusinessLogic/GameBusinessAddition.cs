@@ -71,7 +71,7 @@ namespace DataAccessLibrary.BusinessLogic
         }
 
 
-        public static async Task<int> AddPlatformAsync(Platform platform)
+        public static async Task<int> AddPlatformAsync(PlatformModel platform)
         {
           
             if(DataValidatorHelper.IsValid(platform))

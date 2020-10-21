@@ -14,7 +14,7 @@ namespace DataAccessLibrary.Utilities.Models
         [Required]
         public int PlatformID { get ; set ; }
 
-        public Platform Platform { get; set; }
+        public PlatformModel Platform { get; set; }
         [Required]
         public string Os { get ; set; }
         [Required]

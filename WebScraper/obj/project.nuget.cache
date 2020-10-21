@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "bd7gNtdVtmSunk69o/+tEkPWICzVx7JCr5nInbqnPtbfAfNdBpHE47ZVR3yDXXJCrWMmN8g164Gbesdsi/9LrA==",
+  "dgSpecHash": "lW6VEsfwuZAikB/tqsDL9Tw+Jjfc2zo+JDPft/45j9PgOWew53oAC8hJly/yda8VQy6XCKgpPZiss6mC5tR3fw==",
   "success": true,
   "projectFilePath": "C:\\Users\\Abdul\\source\\repos\\Webscraper\\WebScraper\\WebScraper.csproj",
   "expectedPackageFiles": [
@@ -63,6 +63,7 @@
     "C:\\Users\\Abdul\\.nuget\\packages\\system.security.principal.windows\\4.7.0\\system.security.principal.windows.4.7.0.nupkg.sha512",
     "C:\\Users\\Abdul\\.nuget\\packages\\system.text.encoding\\4.0.11\\system.text.encoding.4.0.11.nupkg.sha512",
     "C:\\Users\\Abdul\\.nuget\\packages\\system.text.encoding.extensions\\4.0.11\\system.text.encoding.extensions.4.0.11.nupkg.sha512",
+    "C:\\Users\\Abdul\\.nuget\\packages\\system.text.json\\4.7.2\\system.text.json.4.7.2.nupkg.sha512",
     "C:\\Users\\Abdul\\.nuget\\packages\\system.text.regularexpressions\\4.1.0\\system.text.regularexpressions.4.1.0.nupkg.sha512",
     "C:\\Users\\Abdul\\.nuget\\packages\\system.threading\\4.0.11\\system.threading.4.0.11.nupkg.sha512",
     "C:\\Users\\Abdul\\.nuget\\packages\\system.threading.tasks\\4.0.11\\system.threading.tasks.4.0.11.nupkg.sha512",

@@ -14,6 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DataAccessUnitTest\DataAccessLibraryTest.csproj" />
     <ProjectReference Include="..\DataAccess\DataAccessLibrary.csproj" />
+    <ProjectReference Include="..\SteamWebApi\Steam.csproj" />
   </ItemGroup>
 
 </Project>

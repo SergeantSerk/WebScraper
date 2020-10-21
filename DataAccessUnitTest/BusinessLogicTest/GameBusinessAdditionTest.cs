@@ -78,7 +78,7 @@ namespace DataAccessLibraryTest.BusinessLogicTest
         {
            
             
-           var p = new Platform { Title = _testPlatform };
+           var p = new PlatformModel { Title = _testPlatform };
             p.ID = await GameBusinessAddition.AddPlatformAsync(p);
                 
         

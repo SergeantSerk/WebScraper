@@ -39,7 +39,7 @@ namespace DataAccessLibrary.DataAccess
 
                     var systemRequirements = lists.Read<SystemRequirement>().ToList();
 
-                    var platforms = lists.Read<Platform>().ToLookup(p => p.ID);
+                    var platforms = lists.Read<PlatformModel>().ToLookup(p => p.ID);
 
                     var gameTagDetails = lists.Read<GameTagDetailsModel>().ToList();
 

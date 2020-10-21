@@ -72,19 +72,19 @@ namespace DataAccessLibrary.DataAccess
             return sd.FirstOrDefault();
         }
 
-        public static async Task<Platform> GetPlatformByTitleAsync(string title)
+        public static async Task<PlatformModel> GetPlatformByTitleAsync(string title)
         {
             string query = $@"Select * FROM Platform WHERE title = @Title;";
 
-            var sd = await GetData<Platform>(query, new Platform { Title = title });
+            var sd = await GetData<PlatformModel>(query, new PlatformModel { Title = title });
 
             return sd.FirstOrDefault();
         }
-        public static async Task<Platform> GetPlatformByIDAsync(int id)
+        public static async Task<PlatformModel> GetPlatformByIDAsync(int id)
         {
             string query = $@"Select * FROM Platform WHERE ID = @ID;";
 
-            var sd = await GetData<Platform>(query, new Platform { ID = id });
+            var sd = await GetData<PlatformModel>(query, new PlatformModel { ID = id });
 
             return sd.FirstOrDefault();
         }
@@ -198,11 +198,11 @@ namespace DataAccessLibrary.DataAccess
         }
 
 
-        public static async Task<int> AddPlatformAsync(Platform platform)
+        public static async Task<int> AddPlatformAsync(PlatformModel platform)
         {
             string query = $@"INSERT INTO Platform (Title)  VALUES (@Title) SELECT SCOPE_IDENTITY()";
 
-            return await SaveDataAsync<Platform>(query, platform);
+            return await SaveDataAsync<PlatformModel>(query, platform);
         }
 
          public static async Task<int> AddTagAsync(Tag tag)
