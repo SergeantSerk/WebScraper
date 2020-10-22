@@ -6,7 +6,7 @@ namespace Steam.Models
 {
     public class SteamAppsJsonModel
     {
-        public AppList applist { get; set; }
+        public SteamAppListJsonModel applist { get; set; }
   
     }
 }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Steam.Models
 {
-    public class AppList
+    public class SteamAppListJsonModel
     {
         public List<SteamApp> apps { get; set; }
     }

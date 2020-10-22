@@ -26,11 +26,11 @@ namespace Steam.Models
         [JsonPropertyName("website")]
         public string Website { get; set; }
         [JsonPropertyName("pc_requirements")]
-        public SystemRequirement PcSystemRequirement { get; set; }
+        public Dictionary<string, object> PcRequirement { get; set; }
         [JsonPropertyName("mac_requirements")]
-        public List<SystemRequirement> MacSystemRequirement { get; set; }
+        public Dictionary<string, object> MacRequirement { get; set; }
         [JsonPropertyName("linux_requirements")]
-        public List<SystemRequirement> LinuxSystemRequirement { get; set; }
+        public Dictionary<string, object> LinuxRequirement { get; set; }
         [JsonPropertyName("developers")]
         public List<string> Developers { get; set; }
         [JsonPropertyName("publishers")]
