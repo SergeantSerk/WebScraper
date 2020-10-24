@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Steam.Utilities;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace Steam.Models
@@ -8,6 +9,7 @@ namespace Steam.Models
         [JsonPropertyName("ids")]
         public List<int> IDS { get; set; }
         [JsonPropertyName("notes")]
-        public List<string> Notes { get; set; }
+        [JsonConverter(typeof(StringFromArrayJSONConvertor))]
+        public string Notes { get; set; }
     }
 }

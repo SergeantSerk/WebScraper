@@ -21,12 +21,12 @@ namespace Steam.WebApi
         }
         
        
-        public async Task<SteamAppListJsonModel> GetAppList()
+        public async Task<List<SteamApp>> GetApps()
         {
             var data = await _httpclient.GetStringAsync(SteamEndPointsConst.AllGAMESENDPOINTS);
 
 
-            return JsonSerializer.Deserialize<SteamAppsJsonModel>(data).applist;
+            return JsonSerializer.Deserialize<SteamAppsJsonModel>(data).applist.apps
 
         }
 

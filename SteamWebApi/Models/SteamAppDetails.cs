@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Steam.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -26,11 +27,14 @@ namespace Steam.Models
         [JsonPropertyName("website")]
         public string Website { get; set; }
         [JsonPropertyName("pc_requirements")]
-        public Dictionary<string, object> PcRequirement { get; set; }
+        [JsonConverter(typeof(SystemRequirementConverter))]
+        public SystemRequirement PcRequirement { get; set; }
         [JsonPropertyName("mac_requirements")]
-        public Dictionary<string, object> MacRequirement { get; set; }
+        [JsonConverter(typeof(SystemRequirementConverter))]
+        public SystemRequirement MacRequirement { get; set; }
         [JsonPropertyName("linux_requirements")]
-        public Dictionary<string, object> LinuxRequirement { get; set; }
+        [JsonConverter(typeof(SystemRequirementConverter))]
+        public SystemRequirement LinuxRequirement { get; set; }
         [JsonPropertyName("developers")]
         public List<string> Developers { get; set; }
         [JsonPropertyName("publishers")]

@@ -21,11 +21,11 @@ namespace WebScraper
           var appList =   await api.GetAppList();
           var listOfAllApps = appList.apps;
 
-            var app = listOfAllApps[2323];
+            var app = listOfAllApps[3];
 
             //"858740"
 
-           var data =  await api.GetAppBySteamID(890280);
+           var data =  await api.GetAppBySteamID(app.appid);
      
 
 
