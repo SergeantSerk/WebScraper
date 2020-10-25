@@ -744,23 +744,6 @@
           "bin/placeholder/DataAccessLibrary.dll": {}
         }
       },
-      "DataAccessLibraryTest/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v3.1",
-        "dependencies": {
-          "DataAccessLibrary": "1.0.0",
-          "Microsoft.NET.Test.Sdk": "16.5.0",
-          "coverlet.collector": "1.2.0",
-          "xunit": "2.4.0",
-          "xunit.runner.visualstudio": "2.4.0"
-        },
-        "compile": {
-          "bin/placeholder/DataAccessLibraryTest.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/DataAccessLibraryTest.dll": {}
-        }
-      },
       "Steam/1.0.0": {
         "type": "project",
         "framework": ".NETStandard,Version=v2.0",
@@ -774,6 +757,23 @@
         },
         "runtime": {
           "bin/placeholder/Steam.dll": {}
+        }
+      },
+      "WebscraperTest/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "dependencies": {
+          "DataAccessLibrary": "1.0.0",
+          "Microsoft.NET.Test.Sdk": "16.5.0",
+          "coverlet.collector": "1.2.0",
+          "xunit": "2.4.0",
+          "xunit.runner.visualstudio": "2.4.0"
+        },
+        "compile": {
+          "bin/placeholder/WebscraperTest.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/WebscraperTest.dll": {}
         }
       }
     }
@@ -2084,25 +2084,25 @@
       "path": "../DataAccess/DataAccessLibrary.csproj",
       "msbuildProject": "../DataAccess/DataAccessLibrary.csproj"
     },
-    "DataAccessLibraryTest/1.0.0": {
-      "type": "project",
-      "path": "../DataAccessUnitTest/DataAccessLibraryTest.csproj",
-      "msbuildProject": "../DataAccessUnitTest/DataAccessLibraryTest.csproj"
-    },
     "Steam/1.0.0": {
       "type": "project",
       "path": "../SteamWebApi/Steam.csproj",
       "msbuildProject": "../SteamWebApi/Steam.csproj"
+    },
+    "WebscraperTest/1.0.0": {
+      "type": "project",
+      "path": "../DataAccessUnitTest/WebscraperTest.csproj",
+      "msbuildProject": "../DataAccessUnitTest/WebscraperTest.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
       "DataAccessLibrary >= 1.0.0",
-      "DataAccessLibraryTest >= 1.0.0",
       "Microsoft.Extensions.Configuration >= 3.1.9",
       "Microsoft.Extensions.Configuration.FileExtensions >= 3.1.9",
       "Microsoft.Extensions.Configuration.Json >= 3.1.9",
-      "Steam >= 1.0.0"
+      "Steam >= 1.0.0",
+      "WebscraperTest >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -2135,8 +2135,8 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "C:\\Users\\Abdul\\source\\repos\\Webscraper\\DataAccessUnitTest\\DataAccessLibraryTest.csproj": {
-              "projectPath": "C:\\Users\\Abdul\\source\\repos\\Webscraper\\DataAccessUnitTest\\DataAccessLibraryTest.csproj"
+            "C:\\Users\\Abdul\\source\\repos\\Webscraper\\DataAccessUnitTest\\WebscraperTest.csproj": {
+              "projectPath": "C:\\Users\\Abdul\\source\\repos\\Webscraper\\DataAccessUnitTest\\WebscraperTest.csproj"
             },
             "C:\\Users\\Abdul\\source\\repos\\Webscraper\\DataAccess\\DataAccessLibrary.csproj": {
               "projectPath": "C:\\Users\\Abdul\\source\\repos\\Webscraper\\DataAccess\\DataAccessLibrary.csproj"

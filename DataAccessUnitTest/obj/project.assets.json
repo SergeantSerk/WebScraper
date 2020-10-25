@@ -4567,9 +4567,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Abdul\\source\\repos\\Webscraper\\DataAccessUnitTest\\DataAccessLibraryTest.csproj",
-      "projectName": "DataAccessLibraryTest",
-      "projectPath": "C:\\Users\\Abdul\\source\\repos\\Webscraper\\DataAccessUnitTest\\DataAccessLibraryTest.csproj",
+      "projectUniqueName": "C:\\Users\\Abdul\\source\\repos\\Webscraper\\DataAccessUnitTest\\WebscraperTest.csproj",
+      "projectName": "WebscraperTest",
+      "projectPath": "C:\\Users\\Abdul\\source\\repos\\Webscraper\\DataAccessUnitTest\\WebscraperTest.csproj",
       "packagesPath": "C:\\Users\\Abdul\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\Abdul\\source\\repos\\Webscraper\\DataAccessUnitTest\\obj\\",
       "projectStyle": "PackageReference",

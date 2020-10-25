@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DataAccessUnitTest\DataAccessLibraryTest.csproj" />
+    <ProjectReference Include="..\DataAccessUnitTest\WebscraperTest.csproj" />
     <ProjectReference Include="..\DataAccess\DataAccessLibrary.csproj" />
     <ProjectReference Include="..\SteamWebApi\Steam.csproj" />
   </ItemGroup>

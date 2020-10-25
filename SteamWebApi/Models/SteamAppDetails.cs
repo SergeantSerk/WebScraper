@@ -48,7 +48,7 @@ namespace Steam.Models
         [JsonPropertyName("platforms")]
         public Platform Platforms { get; set; }
         [JsonPropertyName("categories")]
-        public List<Category> Categories { get; set; }
+        public List<CategoryModel> Categories { get; set; }
         [JsonPropertyName("genres")]
         public List<GenreModel> Genres { get; set; }
         [JsonPropertyName("screenshots")]
@@ -66,6 +66,9 @@ namespace Steam.Models
         public string Background { get; set; }
         [JsonPropertyName("content_descriptors")]
         public ContentDescriptor ContentDescriptor { get; set; }
+        [JsonPropertyName("dlc")]
+        public List<int> DLC { get; set; }
+
 
 
 

@@ -2,7 +2,7 @@
 
 namespace Steam.Models
 {
-    public class Sub
+    public class SubModels
     {
         [JsonPropertyName("packageid")]
         public int PackageId { get; set; }

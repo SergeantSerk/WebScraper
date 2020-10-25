@@ -22,6 +22,6 @@ namespace Steam.Models
         [JsonPropertyName("is_recurring_subscription")]
         public string IsRecurringSubscription { get; set; }
         [JsonPropertyName("subs")]
-        public List<Sub> Subs { get; set; }
+        public List<SubModels> Subs { get; set; }
     }
 }

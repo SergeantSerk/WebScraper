@@ -18,14 +18,16 @@ namespace WebScraper
 
             var api = Factory.GetSteamAPI();
 
-          var appList =   await api.GetAppList();
-          var listOfAllApps = appList.apps;
+          var apps =   await api.GetApps();
+       
 
-            var app = listOfAllApps[3];
+        
 
             //"858740"
 
-           var data =  await api.GetAppBySteamID(app.appid);
+
+      var data = await api.GetAppBySteamID(1080110);
+       
      
 
 

@@ -2,7 +2,7 @@
 
 namespace Steam.Models
 {
-    public class Category
+    public class CategoryModel
     {   [JsonPropertyName("id")]
         public int ID { get; set; }
         [JsonPropertyName("description")]
