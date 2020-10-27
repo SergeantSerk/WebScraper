@@ -4,9 +4,9 @@ using System.Text;
 
 namespace DataAccessLibrary.Models.DatabaseModels
 {
-    public class VideoDetailsModels
+    public class VideoModels
     {
-        public int VideoDetailsId { get; set; }
+        public int VideoId { get; set; }
         public string Title { get; set; }
         public int GameId { get; set; }
         public bool Highlight { get; set; }
