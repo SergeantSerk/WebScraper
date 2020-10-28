@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DataAccessLibrary.Models.DatabaseModels
 {
-    public class CategoryDetails
+    public class GameCategoryModel
     {
         public int GameId { get; set; }
         public int CategoryId { get; set; }
