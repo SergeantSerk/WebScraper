@@ -31,5 +31,18 @@ namespace DataAccessLibrary.DataAccess.DBAccessFactory
                 return await connection.QueryAsync<T>(query);
             }
         }
+
+
+        public static async Task<int> SaveDataAsync(string query, object param)
+        {
+
+            using (IDbConnection connection = new SqlConnection(Factory.GetConnectionString()))
+            {
+
+                return await connection.ExecuteScalarAsync<int>(query, param);
+            }
+
+        }
+
     }
 }

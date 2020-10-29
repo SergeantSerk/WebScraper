@@ -1,6 +1,5 @@
 ﻿using DataAccessLibrary.DataAccess;
 using DataAccessLibrary.Models.DatabaseModels;
-using Microsoft.Win32.SafeHandles;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -31,6 +30,27 @@ namespace DataAccessLibrary.BusinessLogic
 
             throw new Exception("Zero or negative number is invalid input");
         }
+
+        //public static async Task<int> AddGameAsync(GameModel g)
+        //{
+
+
+        //    if (DataValidatorHelper.IsValid(g))
+        //    {
+        //        var game = await SqlDataAccess.GetGameByTitleAsync(g.Title);
+
+        //        if (game == null)
+        //        {
+
+        //            return await SqlDataAccess.AddGameAsync(g);
+        //        }
+
+        //        return game.ID;
+        //    }
+
+        //    return 0;
+        //}
+
 
 
         //public static async Task<int>  AddMediaAsync(MediaModel media)
@@ -244,25 +264,6 @@ namespace DataAccessLibrary.BusinessLogic
 
 
 
-        //public static async Task<int> AddGameAsync(GameModel g)
-        //{
-
-
-        //    if (DataValidatorHelper.IsValid(g))
-        //    {
-        //        var game = await SqlDataAccess.GetGameByTitleAsync(g.Title);
-
-        //        if (game == null)
-        //        {
-
-        //            return await SqlDataAccess.AddGameAsync(g);
-        //        }
-
-        //        return game.ID;
-        //    }
-
-        //    return 0;
-        //}
 
 
     }
