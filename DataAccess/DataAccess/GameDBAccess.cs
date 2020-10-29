@@ -1,5 +1,5 @@
 ﻿using Dapper;
-using DataAccessLibrary.Factories;
+using DataAccessLibrary.DataAccess.DBAccessFactory;
 using DataAccessLibrary.Models.DatabaseModels;
 using System.Collections.Generic;
 using System.Data;
@@ -14,11 +14,7 @@ namespace DataAccessLibrary.DataAccess
         {
             var query = $"SELECT * FROM game";
 
-            using (IDbConnection connection = new SqlConnection(Factory.GetConnectionString()))
-            {
-
-                return await connection.QueryAsync<GameModel>(query);
-            }
+            return await DBFactory.GetAllDataAsync<GameModel>(query);
         }
 
 
@@ -27,12 +23,9 @@ namespace DataAccessLibrary.DataAccess
           
             string query = $@"SELECT * FROM game g WHERE g.game_id=@GameId";
 
-            using (IDbConnection connection = new SqlConnection(Factory.GetConnectionString()))
-            {
+            return await DBFactory.GetSingleDataAsync<GameModel>(query, new { GameId = id });
 
-                return await connection.QueryFirstOrDefaultAsync<GameModel>(query, new { GameId=id});
-            }
-
+           
         }
 
 

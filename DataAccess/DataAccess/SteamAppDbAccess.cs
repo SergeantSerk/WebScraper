@@ -1,5 +1,5 @@
 ﻿using Dapper;
-using DataAccessLibrary.Factories;
+using DataAccessLibrary.DataAccess.DBAccessFactory;
 using DataAccessLibrary.Models.DatabaseModels;
 using System.Collections.Generic;
 using System.Data;
@@ -13,23 +13,17 @@ namespace DataAccessLibrary.DataAccess
         {
             var query = $"SELECT * FROM steamapp";
 
-            using (IDbConnection connection = new SqlConnection(Factory.GetConnectionString()))
-            {
-
-                return await connection.QueryAsync<SteamAppModel>(query);
-            }
+            return await DBFactory.GetAllDataAsync<SteamAppModel>(query);
         }
 
-        public static async Task<SteamAppModel> GetGameByIdAsync(int id)
+        public static async Task<SteamAppModel> GetSteamAppByIdAsync(int id)
         {
 
             string query = $@"SELECT * FROM steamapp sa WHERE sa.steamapp_id=@SteamAppId";
 
-            using (IDbConnection connection = new SqlConnection(Factory.GetConnectionString()))
-            {
+            return await DBFactory.GetSingleDataAsync<SteamAppModel>(query, new { SteamAppId = id });
 
-                return await connection.QueryFirstOrDefaultAsync<SteamAppModel>(query, new { SteamAppId = id });
-            }
+        
 
         }
     }

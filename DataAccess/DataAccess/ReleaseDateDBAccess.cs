@@ -1,5 +1,5 @@
 ﻿using Dapper;
-using DataAccessLibrary.Factories;
+using DataAccessLibrary.DataAccess.DBAccessFactory;
 using DataAccessLibrary.Models.DatabaseModels;
 using System.Collections.Generic;
 using System.Data;
@@ -10,16 +10,13 @@ namespace DataAccessLibrary.DataAccess
 {
     public static class ReleaseDateDBAccess
     {
+       
 
         public static async Task<IEnumerable<ReleaseDateModel>> GetAllReleaseDateAsync()
         {
             var query = $"SELECT * FROM release_date";
 
-            using (IDbConnection connection = new SqlConnection(Factory.GetConnectionString()))
-            {
-
-                return await connection.QueryAsync<ReleaseDateModel>(query);
-            }
+            return await DBFactory.GetAllDataAsync<ReleaseDateModel>(query);
         }
 
         public static async Task<ReleaseDateModel> GetReleaseDateByIdAsync(int id)
@@ -27,11 +24,7 @@ namespace DataAccessLibrary.DataAccess
 
             string query = $@"SELECT * FROM release_date rd WHERE rd.release_date_id=@ReleaseDateId";
 
-            using (IDbConnection connection = new SqlConnection(Factory.GetConnectionString()))
-            {
-
-                return await connection.QueryFirstOrDefaultAsync<ReleaseDateModel>(query, new { ReleaseDateId = id });
-            }
+            return await DBFactory.GetSingleDataAsync<ReleaseDateModel>(query, new { ReleaseDateId = id });
 
         }
 
