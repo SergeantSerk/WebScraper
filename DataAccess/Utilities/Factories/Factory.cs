@@ -9,6 +9,14 @@ namespace DataAccessLibrary.Factories
     public static class Factory
     {
 
+        public static string GetConnectionString(string connectionName = "Default")
+        {
+            var configuration = Factory.getConfiguration();
+
+            return configuration.GetConnectionString(connectionName);
+        }
+
+
         public static IConfiguration getConfiguration(string appsetting)
         {
             IConfiguration configuration = new ConfigurationBuilder()

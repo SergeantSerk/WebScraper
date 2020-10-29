@@ -1,26 +1,41 @@
-﻿
-using Dapper;
-using DataAccessLibrary.DataAccess;
-
-using DataAccessLibrary.Models;
-
+﻿using DataAccessLibrary.DataAccess;
+using DataAccessLibrary.Models.DatabaseModels;
+using Microsoft.Win32.SafeHandles;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Data;
-using System.IO;
-using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace DataAccessLibrary.BusinessLogic
 {
-    public static class GameBusinessAddition
+    public static class GameManager
     {
-       
+
+
+        public static async Task<IEnumerable<GameModel>> GetAllGamesAsync()
+        {
+            var games = await GameDBAccess.GetAllGamesAsync();
+
+            return games;
+        }
+
+        public static async Task<GameModel> GetGameByIdAsync(int id)
+        {
+            if (id <= 0)
+            {
+
+                var game = await GameDBAccess.GetGameByIdAsync(id);
+
+                return game;
+            }
+
+            throw new Exception("Zero or negative number is invalid input");
+        }
+
 
         //public static async Task<int>  AddMediaAsync(MediaModel media)
         //{
-            
+
 
         //    if (DataValidatorHelper.IsValid(media))
         //    {
@@ -46,7 +61,7 @@ namespace DataAccessLibrary.BusinessLogic
 
         //public static async Task<int> AddStoreAsync(StoreModel store)
         //{
-          
+
 
         //    if(DataValidatorHelper.IsValid(store))
         //    {
@@ -71,7 +86,7 @@ namespace DataAccessLibrary.BusinessLogic
 
         //public static async Task<int> AddPlatformAsync(PlatformModel platform)
         //{
-          
+
         //    if(DataValidatorHelper.IsValid(platform))
         //    {
         //        var plf = await SqlDataAccess.GetPlatformByTitleAsync(platform.Title);
@@ -91,9 +106,9 @@ namespace DataAccessLibrary.BusinessLogic
 
         //public static async Task<int> AddGameTagDetailsAsync(GameTagDetailsModel gtd)
         //{
-            
 
-         
+
+
 
         //    if(DataValidatorHelper.IsValid(gtd))
         //    {
@@ -118,7 +133,7 @@ namespace DataAccessLibrary.BusinessLogic
         //            return gtdDB.ID;
         //        }
 
-                
+
 
         //    }
 
@@ -139,7 +154,7 @@ namespace DataAccessLibrary.BusinessLogic
 
         //        if (tagDB == null)
         //        {
-                
+
         //            return await SqlDataAccess.AddTagAsync(tag);
         //        }
 
@@ -152,11 +167,11 @@ namespace DataAccessLibrary.BusinessLogic
 
 
 
-  
+
 
         //public static async Task<int> AddSystemRequirementAsync(SystemRequirement sr)
         //{
-            
+
         //    if(DataValidatorHelper.IsValid(sr))
         //    {
         //        var game = await SqlDataAccess.GetGameByIdAsync(sr.GameID);
@@ -201,7 +216,7 @@ namespace DataAccessLibrary.BusinessLogic
         //}
         //public static async Task<int> AddDealAsync(DealModel deal)
         //{
-            
+
         //    if(DataValidatorHelper.IsValid(deal))
         //    {
 
@@ -248,11 +263,6 @@ namespace DataAccessLibrary.BusinessLogic
 
         //    return 0;
         //}
-
-
-
-
-
 
 
     }

@@ -1,6 +1,6 @@
 ﻿using Dapper;
 using DataAccessLibrary.Factories;
-using DataAccessLibrary.Models;
+using DataAccessLibrary.Models.DatabaseModels;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -15,22 +15,11 @@ namespace DataAccessLibrary.DataAccess
     public class DBAccess
     {
 
-        private static string GetConnectionString(string connectionName = "Default")
-        {
-            var configuration = Factory.getConfiguration();
 
-            return configuration.GetConnectionString(connectionName);
-        }
 
-        //public static async Task<GameModel> GetGameByIdAsync(int id)
-        //{
-        //    //  join game with steam detail
-        //    string query = $@"SELECT * FROM Game g 
-        //                     LEFT JOIN SteamDetails sd ON  g.SteamDetailsID = sd.ID WHERE g.ID = @ID;";
+     
+  
 
-        //    return await GetGameModelData(query, new { ID = id });
-
-        //}
 
         //public static async Task<GameModel> GetGameByTitleAsync(string title)
         //{
@@ -399,60 +388,60 @@ namespace DataAccessLibrary.DataAccess
 
 
 
-        protected static async Task<int> SaveDataAsync<T>(string query, T data)
-        {
+        //protected static async Task<int> SaveDataAsync<T>(string query, T data)
+        //{
 
 
-            using (IDbConnection connection = new SqlConnection(GetConnectionString()))
-            {
-                connection.Open();
-                using (var trans = connection.BeginTransaction())
-                {
-                    int index;
+        //    using (IDbConnection connection = new SqlConnection(GetConnectionString()))
+        //    {
+        //        connection.Open();
+        //        using (var trans = connection.BeginTransaction())
+        //        {
+        //            int index;
 
-                    try
-                    {
-                        index = await connection.ExecuteScalarAsync<int>(query, data, trans);
+        //            try
+        //            {
+        //                index = await connection.ExecuteScalarAsync<int>(query, data, trans);
 
                         
-                        trans.Commit();
-                    }
-                    catch(Exception e)
-                    {
-                        Console.WriteLine($"{e}");
-                        trans.Rollback();
-                        index = 0;
-                    }
+        //                trans.Commit();
+        //            }
+        //            catch(Exception e)
+        //            {
+        //                Console.WriteLine($"{e}");
+        //                trans.Rollback();
+        //                index = 0;
+        //            }
 
-                    return index;
-                }
-
-
-            }
-        }
+        //            return index;
+        //        }
 
 
-        protected static int DeleteData<T>(string query, T data)
-        {
-            using (IDbConnection connection = new SqlConnection(GetConnectionString()))
-            {
-
-                return connection.Execute(query, data);
-            }
-        }
+        //    }
+        //}
 
 
+        //protected static int DeleteData<T>(string query, T data)
+        //{
+        //    using (IDbConnection connection = new SqlConnection(GetConnectionString()))
+        //    {
+
+        //        return connection.Execute(query, data);
+        //    }
+        //}
 
 
-        protected static async Task<List<T>> GetData<T>(string query, T param)
-        {
-            using (IDbConnection connection = new SqlConnection(GetConnectionString()))
-            {
-                var game = await connection.QueryAsync<T>(query, param);
 
-                return game.ToList();
-            }
-        }
+
+        //protected static async Task<List<T>> GetData<T>(string query, T param)
+        //{
+        //    using (IDbConnection connection = new SqlConnection(GetConnectionString()))
+        //    {
+        //        var game = await connection.QueryAsync<T>(query, param);
+
+        //        return game.ToList();
+        //    }
+        //}
 
 
         //protected static async Task<FullGameModel> GetGameModelData(string query, object param)
