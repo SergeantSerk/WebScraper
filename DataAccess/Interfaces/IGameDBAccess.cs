@@ -1,7 +1,8 @@
-﻿using DataAccessLibrary.Models.DatabaseModels;
-using DataAccessLibrary.Models.DatabasePostModels;
+﻿
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using SharedModelLibrary.Models.DatabaseModels;
+using SharedModelLibrary.Models.DatabasePostModels;
 
 namespace DataAccessLibrary.Interfaces
 {

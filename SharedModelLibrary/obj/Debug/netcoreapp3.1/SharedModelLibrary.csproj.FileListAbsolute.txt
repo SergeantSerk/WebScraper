@@ -1,0 +1,8 @@
+C:\Users\Abdul\source\repos\Webscraper\SharedModelLibrary\bin\Debug\netcoreapp3.1\SharedModelLibrary.deps.json
+C:\Users\Abdul\source\repos\Webscraper\SharedModelLibrary\bin\Debug\netcoreapp3.1\SharedModelLibrary.dll
+C:\Users\Abdul\source\repos\Webscraper\SharedModelLibrary\bin\Debug\netcoreapp3.1\SharedModelLibrary.pdb
+C:\Users\Abdul\source\repos\Webscraper\SharedModelLibrary\obj\Debug\netcoreapp3.1\SharedModelLibrary.AssemblyInfoInputs.cache
+C:\Users\Abdul\source\repos\Webscraper\SharedModelLibrary\obj\Debug\netcoreapp3.1\SharedModelLibrary.AssemblyInfo.cs
+C:\Users\Abdul\source\repos\Webscraper\SharedModelLibrary\obj\Debug\netcoreapp3.1\SharedModelLibrary.csproj.CoreCompileInputs.cache
+C:\Users\Abdul\source\repos\Webscraper\SharedModelLibrary\obj\Debug\netcoreapp3.1\SharedModelLibrary.dll
+C:\Users\Abdul\source\repos\Webscraper\SharedModelLibrary\obj\Debug\netcoreapp3.1\SharedModelLibrary.pdb

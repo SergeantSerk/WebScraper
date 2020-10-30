@@ -1,0 +1,12 @@
+C:\Users\Abdul\source\repos\Webscraper\DataAccess\obj\Debug\netcoreapp3.1\DataAccessLibrary.AssemblyInfoInputs.cache
+C:\Users\Abdul\source\repos\Webscraper\DataAccess\obj\Debug\netcoreapp3.1\DataAccessLibrary.AssemblyInfo.cs
+C:\Users\Abdul\source\repos\Webscraper\DataAccess\obj\Debug\netcoreapp3.1\DataAccessLibrary.csproj.CoreCompileInputs.cache
+C:\Users\Abdul\source\repos\Webscraper\DataAccess\obj\Debug\netcoreapp3.1\DataAccessLibrary.csprojAssemblyReference.cache
+C:\Users\Abdul\source\repos\Webscraper\DataAccess\bin\Debug\netcoreapp3.1\DataAccessLibrary.deps.json
+C:\Users\Abdul\source\repos\Webscraper\DataAccess\bin\Debug\netcoreapp3.1\DataAccessLibrary.dll
+C:\Users\Abdul\source\repos\Webscraper\DataAccess\bin\Debug\netcoreapp3.1\DataAccessLibrary.pdb
+C:\Users\Abdul\source\repos\Webscraper\DataAccess\bin\Debug\netcoreapp3.1\SharedModelLibrary.dll
+C:\Users\Abdul\source\repos\Webscraper\DataAccess\bin\Debug\netcoreapp3.1\SharedModelLibrary.pdb
+C:\Users\Abdul\source\repos\Webscraper\DataAccess\obj\Debug\netcoreapp3.1\DataAccessLibrary.csproj.CopyComplete
+C:\Users\Abdul\source\repos\Webscraper\DataAccess\obj\Debug\netcoreapp3.1\DataAccessLibrary.dll
+C:\Users\Abdul\source\repos\Webscraper\DataAccess\obj\Debug\netcoreapp3.1\DataAccessLibrary.pdb

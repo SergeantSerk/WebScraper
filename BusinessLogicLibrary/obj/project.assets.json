@@ -356,11 +356,12 @@
       },
       "DataAccessLibrary/1.0.0": {
         "type": "project",
-        "framework": ".NETStandard,Version=v2.0",
+        "framework": ".NETCoreApp,Version=v3.1",
         "dependencies": {
           "Dapper": "2.0.35",
           "Microsoft.Extensions.Configuration.FileExtensions": "3.1.9",
           "Microsoft.Extensions.Configuration.Json": "3.1.9",
+          "SharedModelLibrary": "1.0.0",
           "System.ComponentModel.Annotations": "4.7.0",
           "System.Configuration.ConfigurationManager": "4.7.0",
           "System.Data.SqlClient": "4.8.2"
@@ -370,6 +371,16 @@
         },
         "runtime": {
           "bin/placeholder/DataAccessLibrary.dll": {}
+        }
+      },
+      "SharedModelLibrary/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "compile": {
+          "bin/placeholder/SharedModelLibrary.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/SharedModelLibrary.dll": {}
         }
       }
     }
@@ -1161,6 +1172,11 @@
       "type": "project",
       "path": "../DataAccess/DataAccessLibrary.csproj",
       "msbuildProject": "../DataAccess/DataAccessLibrary.csproj"
+    },
+    "SharedModelLibrary/1.0.0": {
+      "type": "project",
+      "path": "../SharedModelLibrary/SharedModelLibrary.csproj",
+      "msbuildProject": "../SharedModelLibrary/SharedModelLibrary.csproj"
     }
   },
   "projectFileDependencyGroups": {

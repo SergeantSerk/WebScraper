@@ -1,8 +1,8 @@
 ﻿using Dapper;
 using DataAccessLibrary.DataAccess.Abstraction;
 using DataAccessLibrary.Interfaces;
-using DataAccessLibrary.Models.DatabaseModels;
-using DataAccessLibrary.Models.DatabasePostModels;
+using SharedModelLibrary.Models.DatabaseModels;
+using SharedModelLibrary.Models.DatabasePostModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -42,7 +42,7 @@ namespace DataAccessLibrary.DataAccess
         {
 
             string query = $@"INSERT INTO game (Title, Type, About, Website, Thumbnail, Description,
-                   HeaderImage, Background) VALUES(@Title, @Type,@About, @Website,@Thumbnail, @Description,
+                   HeaderImage, Background) OUTPUT Inserted.GameId VALUES(@Title, @Type,@About, @Website,@Thumbnail, @Description,
                    @HeaderImage, @Background)";
 
             return await SaveDataAsync(query, gameAddModel);

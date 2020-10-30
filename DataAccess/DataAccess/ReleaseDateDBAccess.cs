@@ -1,11 +1,9 @@
 ﻿using Dapper;
 using DataAccessLibrary.DataAccess.Abstraction;
-using DataAccessLibrary.DataAccess.DBAccessFactory;
 using DataAccessLibrary.Interfaces;
-using DataAccessLibrary.Models.DatabaseModels;
+using SharedModelLibrary.Models.DatabaseModels;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
+
 using System.Threading.Tasks;
 
 namespace DataAccessLibrary.DataAccess

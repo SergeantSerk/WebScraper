@@ -1,0 +1,14 @@
+C:\Users\Abdul\source\repos\Webscraper\BusinessLogicLibrary\obj\Debug\netcoreapp3.1\BusinessAccessLibrary.csprojAssemblyReference.cache
+C:\Users\Abdul\source\repos\Webscraper\BusinessLogicLibrary\obj\Debug\netcoreapp3.1\BusinessAccessLibrary.AssemblyInfoInputs.cache
+C:\Users\Abdul\source\repos\Webscraper\BusinessLogicLibrary\obj\Debug\netcoreapp3.1\BusinessAccessLibrary.AssemblyInfo.cs
+C:\Users\Abdul\source\repos\Webscraper\BusinessLogicLibrary\obj\Debug\netcoreapp3.1\BusinessAccessLibrary.csproj.CoreCompileInputs.cache
+C:\Users\Abdul\source\repos\Webscraper\BusinessLogicLibrary\bin\Debug\netcoreapp3.1\BusinessAccessLibrary.deps.json
+C:\Users\Abdul\source\repos\Webscraper\BusinessLogicLibrary\bin\Debug\netcoreapp3.1\BusinessAccessLibrary.dll
+C:\Users\Abdul\source\repos\Webscraper\BusinessLogicLibrary\bin\Debug\netcoreapp3.1\BusinessAccessLibrary.pdb
+C:\Users\Abdul\source\repos\Webscraper\BusinessLogicLibrary\bin\Debug\netcoreapp3.1\DataAccessLibrary.dll
+C:\Users\Abdul\source\repos\Webscraper\BusinessLogicLibrary\bin\Debug\netcoreapp3.1\SharedModelLibrary.dll
+C:\Users\Abdul\source\repos\Webscraper\BusinessLogicLibrary\bin\Debug\netcoreapp3.1\DataAccessLibrary.pdb
+C:\Users\Abdul\source\repos\Webscraper\BusinessLogicLibrary\bin\Debug\netcoreapp3.1\SharedModelLibrary.pdb
+C:\Users\Abdul\source\repos\Webscraper\BusinessLogicLibrary\obj\Debug\netcoreapp3.1\BusinessAccessLibrary.csproj.CopyComplete
+C:\Users\Abdul\source\repos\Webscraper\BusinessLogicLibrary\obj\Debug\netcoreapp3.1\BusinessAccessLibrary.dll
+C:\Users\Abdul\source\repos\Webscraper\BusinessLogicLibrary\obj\Debug\netcoreapp3.1\BusinessAccessLibrary.pdb

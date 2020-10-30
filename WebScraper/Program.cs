@@ -1,9 +1,9 @@
 ﻿
-using DataAccessLibrary.Models;
+using BusinessAccessLibrary.Factories;
+using BusinessAccessLibrary.Interfaces;
+using SharedModelLibrary.Models.DatabasePostModels;
 using Steam.Utilities;
-using Steam.WebApi;
-using System;
-using System.Diagnostics;
+
 using System.Threading.Tasks;
 
 namespace WebScraper
@@ -25,7 +25,10 @@ namespace WebScraper
 
 
       var data = await api.GetAppBySteamID(1080110);
-       
+
+        IGameManager gameManager = BALFactory.GetGameManager();
+        var gamemodel = new GameAddModel();
+            gameManager.AddGameAsync(gamemodel);
      
 
 

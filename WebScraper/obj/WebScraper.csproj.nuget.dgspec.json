@@ -4,14 +4,14 @@
     "C:\\Users\\Abdul\\source\\repos\\Webscraper\\WebScraper\\WebScraper.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Abdul\\source\\repos\\Webscraper\\DataAccessUnitTest\\WebscraperTest.csproj": {
+    "C:\\Users\\Abdul\\source\\repos\\Webscraper\\BusinessLogicLibrary\\BusinessAccessLibrary.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Abdul\\source\\repos\\Webscraper\\DataAccessUnitTest\\WebscraperTest.csproj",
-        "projectName": "WebscraperTest",
-        "projectPath": "C:\\Users\\Abdul\\source\\repos\\Webscraper\\DataAccessUnitTest\\WebscraperTest.csproj",
+        "projectUniqueName": "C:\\Users\\Abdul\\source\\repos\\Webscraper\\BusinessLogicLibrary\\BusinessAccessLibrary.csproj",
+        "projectName": "BusinessAccessLibrary",
+        "projectPath": "C:\\Users\\Abdul\\source\\repos\\Webscraper\\BusinessLogicLibrary\\BusinessAccessLibrary.csproj",
         "packagesPath": "C:\\Users\\Abdul\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Abdul\\source\\repos\\Webscraper\\DataAccessUnitTest\\obj\\",
+        "outputPath": "C:\\Users\\Abdul\\source\\repos\\Webscraper\\BusinessLogicLibrary\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -44,24 +44,6 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "dependencies": {
-            "Microsoft.NET.Test.Sdk": {
-              "target": "Package",
-              "version": "[16.5.0, )"
-            },
-            "coverlet.collector": {
-              "target": "Package",
-              "version": "[1.2.0, )"
-            },
-            "xunit": {
-              "target": "Package",
-              "version": "[2.4.0, )"
-            },
-            "xunit.runner.visualstudio": {
-              "target": "Package",
-              "version": "[2.4.0, )"
-            }
-          },
           "imports": [
             "net461",
             "net462",
@@ -98,15 +80,19 @@
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "netstandard2.0"
+          "netcoreapp3.1"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "netstandard2.0": {
-            "projectReferences": {}
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\Users\\Abdul\\source\\repos\\Webscraper\\SharedModelLibrary\\SharedModelLibrary.csproj": {
+                "projectPath": "C:\\Users\\Abdul\\source\\repos\\Webscraper\\SharedModelLibrary\\SharedModelLibrary.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
@@ -116,7 +102,7 @@
         }
       },
       "frameworks": {
-        "netstandard2.0": {
+        "netcoreapp3.1": {
           "dependencies": {
             "Dapper": {
               "target": "Package",
@@ -129,12 +115,6 @@
             "Microsoft.Extensions.Configuration.Json": {
               "target": "Package",
               "version": "[3.1.9, )"
-            },
-            "NETStandard.Library": {
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[2.0.3, )",
-              "autoReferenced": true
             },
             "System.ComponentModel.Annotations": {
               "target": "Package",
@@ -159,6 +139,66 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.403\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Abdul\\source\\repos\\Webscraper\\SharedModelLibrary\\SharedModelLibrary.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Abdul\\source\\repos\\Webscraper\\SharedModelLibrary\\SharedModelLibrary.csproj",
+        "projectName": "SharedModelLibrary",
+        "projectPath": "C:\\Users\\Abdul\\source\\repos\\Webscraper\\SharedModelLibrary\\SharedModelLibrary.csproj",
+        "packagesPath": "C:\\Users\\Abdul\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Abdul\\source\\repos\\Webscraper\\SharedModelLibrary\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Abdul\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.403\\RuntimeIdentifierGraph.json"
         }
       }
@@ -259,11 +299,8 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
-              "C:\\Users\\Abdul\\source\\repos\\Webscraper\\DataAccessUnitTest\\WebscraperTest.csproj": {
-                "projectPath": "C:\\Users\\Abdul\\source\\repos\\Webscraper\\DataAccessUnitTest\\WebscraperTest.csproj"
-              },
-              "C:\\Users\\Abdul\\source\\repos\\Webscraper\\DataAccess\\DataAccessLibrary.csproj": {
-                "projectPath": "C:\\Users\\Abdul\\source\\repos\\Webscraper\\DataAccess\\DataAccessLibrary.csproj"
+              "C:\\Users\\Abdul\\source\\repos\\Webscraper\\BusinessLogicLibrary\\BusinessAccessLibrary.csproj": {
+                "projectPath": "C:\\Users\\Abdul\\source\\repos\\Webscraper\\BusinessLogicLibrary\\BusinessAccessLibrary.csproj"
               },
               "C:\\Users\\Abdul\\source\\repos\\Webscraper\\SteamWebApi\\Steam.csproj": {
                 "projectPath": "C:\\Users\\Abdul\\source\\repos\\Webscraper\\SteamWebApi\\Steam.csproj"

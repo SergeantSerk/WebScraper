@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Steam", "SteamWebApi\Steam.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessAccessLibrary", "BusinessLogicLibrary\BusinessAccessLibrary.csproj", "{566F0058-C008-4477-B3D7-21A1FA61DC8C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedModelLibrary", "SharedModelLibrary\SharedModelLibrary.csproj", "{1E442DC8-F6A0-4E35-A492-70703B2A1CA7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{566F0058-C008-4477-B3D7-21A1FA61DC8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{566F0058-C008-4477-B3D7-21A1FA61DC8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{566F0058-C008-4477-B3D7-21A1FA61DC8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E442DC8-F6A0-4E35-A492-70703B2A1CA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E442DC8-F6A0-4E35-A492-70703B2A1CA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E442DC8-F6A0-4E35-A492-70703B2A1CA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E442DC8-F6A0-4E35-A492-70703B2A1CA7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,12 +1,10 @@
 ﻿using BusinessAccessLibrary.Interfaces;
 using BusinessAccessLibrary.Utilities;
-using DataAccessLibrary.DataAccess;
 using DataAccessLibrary.Interfaces;
-using DataAccessLibrary.Models.DatabaseModels;
-using DataAccessLibrary.Models.DatabasePostModels;
+using SharedModelLibrary.Models.DatabaseModels;
+using SharedModelLibrary.Models.DatabasePostModels;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BusinessAccessLibrary.BusinessLogic
@@ -47,7 +45,15 @@ namespace BusinessAccessLibrary.BusinessLogic
 
             if(validator.IsValid)
             {
+                var gameDB = await GetGameByTitleAsync(game.Title);
 
+                if (gameDB == null)
+
+                {
+                    return await _gamedbAccess.AddGameAsync(game);
+                }
+
+                return gameDB.GameID;
             }
 
             validator.Errors.ForEach(e => Console.WriteLine(e));
