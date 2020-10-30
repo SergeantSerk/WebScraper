@@ -1,35 +1,59 @@
-﻿using DataAccessLibrary.DataAccess;
+﻿using BusinessAccessLibrary.Interfaces;
+using BusinessAccessLibrary.Utilities;
+using DataAccessLibrary.DataAccess;
+using DataAccessLibrary.Interfaces;
 using DataAccessLibrary.Models.DatabaseModels;
+using DataAccessLibrary.Models.DatabasePostModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccessLibrary.BusinessLogic
+namespace BusinessAccessLibrary.BusinessLogic
 {
-    public static class GameManager
+    public class GameManager : IGameManager
     {
+        private readonly IGameDBAccess _gamedbAccess;
 
-
-        public static async Task<IEnumerable<GameModel>> GetAllGamesAsync()
+        public GameManager(IGameDBAccess gamedbAccess)
         {
-            var games = await GameDBAccess.GetAllGamesAsync();
+            _gamedbAccess = gamedbAccess;
+        }
+
+        public async Task<IEnumerable<GameModel>> GetAllGamesAsync()
+        {
+            var games = await _gamedbAccess.GetAllGamesAsync();
 
             return games;
         }
 
-        public static async Task<GameModel> GetGameByIdAsync(int id)
+        public async Task<GameModel> GetGameByIdAsync(int id)
         {
             if (id <= 0)
             {
 
-                var game = await GameDBAccess.GetGameByIdAsync(id);
+                var game = await _gamedbAccess.GetGameByIdAsync(id);
 
                 return game;
             }
 
             throw new Exception("Zero or negative number is invalid input");
         }
+
+        public async Task<GameModel> AddGameAsync(GameAddModel gameAddModel)
+        {
+            var validator = DataValidatorHelper.Validate(gameAddModel);
+
+
+            if(validator.IsValid)
+            {
+
+            }
+
+            validator.Errors.ForEach(e => Console.WriteLine(e));
+            throw new Exception("Some data are invalid");
+        }
+
 
         //public static async Task<int> AddGameAsync(GameModel g)
         //{

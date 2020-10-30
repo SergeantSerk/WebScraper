@@ -1175,9 +1175,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Abdul\\source\\repos\\Webscraper\\BusinessLogicLibrary\\BusinessLogicLibrary.csproj",
-      "projectName": "BusinessLogicLibrary",
-      "projectPath": "C:\\Users\\Abdul\\source\\repos\\Webscraper\\BusinessLogicLibrary\\BusinessLogicLibrary.csproj",
+      "projectUniqueName": "C:\\Users\\Abdul\\source\\repos\\Webscraper\\BusinessLogicLibrary\\BusinessAccessLibrary.csproj",
+      "projectName": "BusinessAccessLibrary",
+      "projectPath": "C:\\Users\\Abdul\\source\\repos\\Webscraper\\BusinessLogicLibrary\\BusinessAccessLibrary.csproj",
       "packagesPath": "C:\\Users\\Abdul\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\Abdul\\source\\repos\\Webscraper\\BusinessLogicLibrary\\obj\\",
       "projectStyle": "PackageReference",

@@ -1,5 +1,4 @@
 ﻿using Dapper;
-using DataAccessLibrary.Factories;
 using DataAccessLibrary.Models.DatabaseModels;
 using Microsoft.Extensions.Configuration;
 using System;

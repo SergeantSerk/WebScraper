@@ -1,19 +1,26 @@
-﻿
+﻿using Dapper;
+using DataAccessLibrary.Interfaces;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+using System.Data;
+using System.Data.SqlClient;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace DataAccessLibrary.Factories
+namespace DataAccessLibrary.DataAccess.DBAccessFactory
 {
-    public static class Factory
+    public static class DALFactory
     {
 
-        public static string GetConnectionString(string connectionName = "Default")
-        {
-            var configuration = Factory.getConfiguration();
 
-            return configuration.GetConnectionString(connectionName);
+        private const string _appSettingPath =
+           @"C:\Users\Abdul\source\repos\Webscraper\DataAccess\appsettings.json";
+
+
+        public static IGameDBAccess GetGameDBAccess()
+        {
+            return new GameDBAccess();
         }
 
 
@@ -28,16 +35,17 @@ namespace DataAccessLibrary.Factories
 
         public static IConfiguration getConfiguration()
         {
-            var appsetting = @"C:\Users\Abdul\source\repos\Webscraper\DataAccess\appsettings.json";
+
 
             IConfiguration configuration = new ConfigurationBuilder()
-                  .AddJsonFile(appsetting, true, true)
+                  .AddJsonFile(_appSettingPath, true, true)
                   .Build();
 
             return configuration;
         }
 
-     
+      
+
 
     }
 }
