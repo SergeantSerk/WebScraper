@@ -1,4 +1,5 @@
 ﻿using DataAccessLibrary.Models.DatabaseModels;
+using DataAccessLibrary.Models.DatabasePostModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,5 +9,9 @@ namespace BusinessAccessLibrary.Interfaces
     {
         Task<IEnumerable<GameModel>> GetAllGamesAsync();
         Task<GameModel> GetGameByIdAsync(int id);
+
+        Task<GameModel> GetGameByTitleAsync(string title);
+
+        Task<int> AddGameAsync(GameAddModel game);
     }
 }

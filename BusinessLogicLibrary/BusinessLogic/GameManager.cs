@@ -40,9 +40,9 @@ namespace BusinessAccessLibrary.BusinessLogic
             throw new Exception("Zero or negative number is invalid input");
         }
 
-        public async Task<GameModel> AddGameAsync(GameAddModel gameAddModel)
+        public async Task<int> AddGameAsync(GameAddModel game)
         {
-            var validator = DataValidatorHelper.Validate(gameAddModel);
+            var validator = DataValidatorHelper.Validate(game);
 
 
             if(validator.IsValid)
@@ -52,6 +52,18 @@ namespace BusinessAccessLibrary.BusinessLogic
 
             validator.Errors.ForEach(e => Console.WriteLine(e));
             throw new Exception("Some data are invalid");
+        }
+
+        public async Task<GameModel> GetGameByTitleAsync(string title)
+        {
+            if (!string.IsNullOrEmpty(title))
+            {
+                var game = await _gamedbAccess.GetGameByTitleAsync(title);
+                return game;
+            }
+
+
+            throw new ArgumentNullException("Title cannot be null");
         }
 
 
