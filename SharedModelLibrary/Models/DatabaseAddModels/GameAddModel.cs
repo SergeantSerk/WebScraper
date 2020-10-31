@@ -13,7 +13,6 @@ namespace SharedModelLibrary.Models.DatabasePostModels
         public string Type { get; set; }
         public string About { get; set; }
         public string Website { get; set; }
-        [Required]
         public string Thumbnail { get; set; }
         public string Description { get; set; }
         [Required]

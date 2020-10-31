@@ -48,15 +48,19 @@ namespace BusinessAccessLibrary.BusinessLogic
                 var gameDB = await GetGameByTitleAsync(game.Title);
 
                 if (gameDB == null)
-
                 {
+                    Console.WriteLine($"{game.Title} has been added to database");
+                    
                     return await _gamedbAccess.AddGameAsync(game);
                 }
 
                 return gameDB.GameID;
             }
 
+
+            Console.WriteLine($"Invalid Data from {nameof(GameAddModel)}");
             validator.Errors.ForEach(e => Console.WriteLine(e));
+
             throw new Exception("Some data are invalid");
         }
 
