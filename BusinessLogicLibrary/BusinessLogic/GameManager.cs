@@ -4,6 +4,7 @@ using DataAccessLibrary.Interfaces;
 using SharedModelLibrary.Models.DatabaseAddModels;
 using SharedModelLibrary.Models.DatabaseModels;
 using SharedModelLibrary.Models.DatabasePostModels;
+using SharedModelLibrary.Models.DatabaseUpdateModels;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -146,12 +147,20 @@ namespace BusinessAccessLibrary.BusinessLogic
 
                 if(gameDB.ReleaseDateID == null || gameDB.ReleaseDateID == 0)
                 {
-                    UpdateGameReleaseDateAsync(gameDB.GameID, game.ReleaseDate);
+
+                    var releaseDateID = await AddReleaseDate(game.ReleaseDate);
+
+                    AddReleaseDateToGameAsync(new ReleaseDateToGameModel 
+                    { GameId = gameDB.GameID, ReleaseDateId = releaseDateID});
                 }
 
                 if(gameDB.SteamAppId == null || gameDB.SteamAppId == 0)
                 {
-                    UpdateGameSteamAppAsync(gameDB.GameID, game.steamApp);
+
+                    var steamAppId = await AddSteamApp(game.steamApp);
+
+                    AddSteamAppToGameAsync(new SteamAppToGameModel 
+                    { GameId=gameDB.GameID, SteamAppId = steamAppId});
                 }
 
                 return gameDB.GameID;
@@ -164,14 +173,41 @@ namespace BusinessAccessLibrary.BusinessLogic
             throw new Exception("Some data are invalid");
         }
 
-        private async Task UpdateGameSteamAppAsync(int gameID, SteamAppAddModel steamApp)
+
+
+        public async void AddSteamAppToGameAsync(SteamAppToGameModel steamAppToGameModel)
         {
-            throw new NotImplementedException();
+            var validator = DataValidatorHelper.Validate(steamAppToGameModel);
+
+            if (validator.IsValid)
+            {
+                _gamedbAccess.AddSteamAppToGameAsync(steamAppToGameModel);
+            }
+            else
+            {
+                Console.WriteLine($"Invalid Data from {nameof(SteamAppToGameModel)}");
+                validator.Errors.ForEach(e => Console.WriteLine(e));
+
+                throw new Exception("Some data are invalid");
+            }
         }
 
-        private async Task UpdateGameReleaseDateAsync(int gameId, ReleaseDateAddModel releaseDate)
+        public async void AddReleaseDateToGameAsync(ReleaseDateToGameModel releaseDateToGameModel)
         {
-            throw new NotImplementedException();
+            var validator = DataValidatorHelper.Validate(releaseDateToGameModel);
+
+            if (validator.IsValid)
+            {
+                _gamedbAccess.AddReleaseDateToGameAsync(releaseDateToGameModel);
+            }
+            else
+            {
+
+                Console.WriteLine($"Invalid Data from {nameof(ReleaseDateToGameModel)}");
+                validator.Errors.ForEach(e => Console.WriteLine(e));
+
+                throw new Exception("Some data are invalid");
+            }
         }
 
 
