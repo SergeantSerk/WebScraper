@@ -194,8 +194,10 @@ namespace BusinessAccessLibrary.BusinessLogic
 
                     if (releaseDateDB != null)
                     {
-                        // c heck if current release data on db is true and oen passed is false then update it
-                        if (releaseDateDB.ComingSoon && !releaseDate.ComingSoon)
+                        // check if current release data on db is true and oen passed is false then update it
+                        if (releaseDateDB.ComingSoon && !releaseDate.ComingSoon ||
+                            !releaseDateDB.ReleasedDate.Equals(releaseDate.ReleasedDate)
+                            )
                         {
 
 
@@ -203,10 +205,12 @@ namespace BusinessAccessLibrary.BusinessLogic
                             {
                                 ReleaseDateId = releaseDateDB.ReleaseDateId,
                                 ComingSoon = releaseDate.ComingSoon,
-                                ReleaseDate = releaseDate.ReleasedDate
+                                ReleasedDate = releaseDate.ReleasedDate
 
                             });
                         }
+                        
+                      
                     }
                     else
                     {

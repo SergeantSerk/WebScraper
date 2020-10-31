@@ -12,6 +12,6 @@ namespace SharedModelLibrary.Models.DatabaseModels
         [Required]
         public bool ComingSoon { get; set; }
         [Required]
-        public string ReleaseDate { get; set; }
+        public string ReleasedDate { get; set; }
     }
 }
