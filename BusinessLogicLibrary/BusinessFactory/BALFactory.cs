@@ -14,7 +14,11 @@ namespace BusinessAccessLibrary.Factories
 
        public static IGameManager GetGameManager()
         {
-            return new GameManager(DALFactory.GetGameDBAccess());
+            return new GameManager(
+                DALFactory.GetGameDBAccess(),
+                DALFactory.GetReleaseDateDBAccess(),
+                DALFactory.GetSteamAppDbAccess()
+                );
         }
      
 

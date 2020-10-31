@@ -1,6 +1,7 @@
 ﻿using BusinessAccessLibrary.Interfaces;
 using BusinessAccessLibrary.Utilities;
 using DataAccessLibrary.Interfaces;
+using SharedModelLibrary.Models.DatabaseAddModels;
 using SharedModelLibrary.Models.DatabaseModels;
 using SharedModelLibrary.Models.DatabasePostModels;
 using System;
@@ -12,10 +13,16 @@ namespace BusinessAccessLibrary.BusinessLogic
     public class GameManager : IGameManager
     {
         private readonly IGameDBAccess _gamedbAccess;
+        private readonly IReleaseDateDBAccess _releaseDateDBAccess;
+        private readonly ISteamAppDbAccess _steamAppDbAccess;
 
-        public GameManager(IGameDBAccess gamedbAccess)
+        public GameManager(IGameDBAccess gamedbAccess, 
+            IReleaseDateDBAccess releaseDateDBAccess, 
+            ISteamAppDbAccess steamAppDbAccess)
         {
             _gamedbAccess = gamedbAccess;
+            _releaseDateDBAccess = releaseDateDBAccess;
+            _steamAppDbAccess = steamAppDbAccess;
         }
 
         public async Task<IEnumerable<GameModel>> GetAllGamesAsync()
@@ -75,6 +82,99 @@ namespace BusinessAccessLibrary.BusinessLogic
 
             throw new ArgumentNullException("Title cannot be null");
         }
+
+
+        public async Task<int> AddSteamApp(SteamAppAddModel steamApp)
+
+        {
+            var validator = DataValidatorHelper.Validate(steamApp);
+
+            if(validator.IsValid)
+            {
+                var steamAppDB = await _steamAppDbAccess.GetSteamAppByIdAsync(steamApp.SteamAppId);
+
+                if(steamAppDB == null)
+                {
+
+                    return await _steamAppDbAccess.AddSteamAppAsync(steamApp);
+                }
+
+                return steamAppDB.SteamAppId;
+
+            }
+            Console.WriteLine($"Invalid Data from {nameof(SteamAppAddModel)}");
+            validator.Errors.ForEach(e => Console.WriteLine(e));
+
+            throw new Exception("Some data are invalid");
+        }
+
+        public async Task<int> AddReleaseDate(ReleaseDateAddModel releaseDate)
+        {
+            var validator = DataValidatorHelper.Validate(releaseDate);
+
+            if(validator.IsValid)
+            {
+                return await _releaseDateDBAccess.AddReleaseDateAsync(releaseDate);
+            }
+
+            Console.WriteLine($"Invalid Data from {nameof(ReleaseDateAddModel)}");
+            validator.Errors.ForEach(e => Console.WriteLine(e));
+
+            throw new Exception("Some data are invalid");
+        }
+
+        public async Task<int> AddFullGameAsync(FullGameAddModel game)
+        {
+            var validator = DataValidatorHelper.Validate(game);
+
+            if (validator.IsValid)
+            {
+                var gameDB = await _gamedbAccess.GetGameByTitleAsync(game.Title);
+
+                if(gameDB == null)
+                {
+
+                    var releaseDateID = await AddReleaseDate(game.ReleaseDate);
+                    var steamAppID = await AddSteamApp(game.steamApp);
+
+                    game.SteamAppId = steamAppID;
+                    game.ReleaseDateId = releaseDateID;
+
+                    return await _gamedbAccess.AddFullGameAsync(game);
+
+                }
+
+                if(gameDB.ReleaseDateID == null || gameDB.ReleaseDateID == 0)
+                {
+                    UpdateGameReleaseDateAsync(gameDB.GameID, game.ReleaseDate);
+                }
+
+                if(gameDB.SteamAppId == null || gameDB.SteamAppId == 0)
+                {
+                    UpdateGameSteamAppAsync(gameDB.GameID, game.steamApp);
+                }
+
+                return gameDB.GameID;
+
+            }
+
+            Console.WriteLine($"Invalid Data from {nameof(FullGameAddModel)}");
+            validator.Errors.ForEach(e => Console.WriteLine(e));
+
+            throw new Exception("Some data are invalid");
+        }
+
+        private async Task UpdateGameSteamAppAsync(int gameID, SteamAppAddModel steamApp)
+        {
+            throw new NotImplementedException();
+        }
+
+        private async Task UpdateGameReleaseDateAsync(int gameId, ReleaseDateAddModel releaseDate)
+        {
+            throw new NotImplementedException();
+        }
+
+
 
 
         //public static async Task<int> AddGameAsync(GameModel g)
