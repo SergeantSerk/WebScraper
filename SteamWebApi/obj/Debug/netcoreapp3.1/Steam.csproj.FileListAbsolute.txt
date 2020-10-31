@@ -1,0 +1,16 @@
+C:\Users\Abdul\source\repos\Webscraper\SteamWebApi\bin\Debug\netcoreapp3.1\Steam.deps.json
+C:\Users\Abdul\source\repos\Webscraper\SteamWebApi\bin\Debug\netcoreapp3.1\Steam.dll
+C:\Users\Abdul\source\repos\Webscraper\SteamWebApi\bin\Debug\netcoreapp3.1\Steam.pdb
+C:\Users\Abdul\source\repos\Webscraper\SteamWebApi\bin\Debug\netcoreapp3.1\BusinessAccessLibrary.dll
+C:\Users\Abdul\source\repos\Webscraper\SteamWebApi\bin\Debug\netcoreapp3.1\DataAccessLibrary.dll
+C:\Users\Abdul\source\repos\Webscraper\SteamWebApi\bin\Debug\netcoreapp3.1\SharedModelLibrary.dll
+C:\Users\Abdul\source\repos\Webscraper\SteamWebApi\bin\Debug\netcoreapp3.1\BusinessAccessLibrary.pdb
+C:\Users\Abdul\source\repos\Webscraper\SteamWebApi\bin\Debug\netcoreapp3.1\SharedModelLibrary.pdb
+C:\Users\Abdul\source\repos\Webscraper\SteamWebApi\bin\Debug\netcoreapp3.1\DataAccessLibrary.pdb
+C:\Users\Abdul\source\repos\Webscraper\SteamWebApi\obj\Debug\netcoreapp3.1\Steam.csprojAssemblyReference.cache
+C:\Users\Abdul\source\repos\Webscraper\SteamWebApi\obj\Debug\netcoreapp3.1\Steam.AssemblyInfoInputs.cache
+C:\Users\Abdul\source\repos\Webscraper\SteamWebApi\obj\Debug\netcoreapp3.1\Steam.AssemblyInfo.cs
+C:\Users\Abdul\source\repos\Webscraper\SteamWebApi\obj\Debug\netcoreapp3.1\Steam.csproj.CoreCompileInputs.cache
+C:\Users\Abdul\source\repos\Webscraper\SteamWebApi\obj\Debug\netcoreapp3.1\Steam.csproj.CopyComplete
+C:\Users\Abdul\source\repos\Webscraper\SteamWebApi\obj\Debug\netcoreapp3.1\Steam.dll
+C:\Users\Abdul\source\repos\Webscraper\SteamWebApi\obj\Debug\netcoreapp3.1\Steam.pdb

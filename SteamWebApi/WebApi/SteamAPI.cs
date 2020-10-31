@@ -7,10 +7,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.Json;
 using System.Linq;
+using Steam.Interfaces;
 
 namespace Steam.WebApi
 {
-    public class SteamAPI
+    public class SteamAPI : ISteamAPI
     {
 
         private HttpClient _httpclient;
@@ -19,8 +20,8 @@ namespace Steam.WebApi
         {
             _httpclient = httpclient;
         }
-        
-       
+
+
         public async Task<List<SteamApp>> GetApps()
         {
             var data = await _httpclient.GetStringAsync(SteamEndPointsConst.AllGAMESENDPOINTS);

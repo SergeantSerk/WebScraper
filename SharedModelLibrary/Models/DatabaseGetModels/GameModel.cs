@@ -15,10 +15,10 @@ namespace SharedModelLibrary.Models.DatabaseModels
         public string Website { get; set; }
         public string Thumbnail { get; set; }
         public string Description { get; set; }
-        public int ReleaseDateID { get; set; }
+        public int? ReleaseDateID { get; set; }
         public string HeaderImage { get; set; }
         public string Background { get; set; }
-        public int SteamAppId { get; set; }
+        public int? SteamAppId { get; set; }
 
 
 

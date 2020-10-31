@@ -153,6 +153,11 @@ namespace BusinessAccessLibrary.BusinessLogic
                     AddReleaseDateToGameAsync(new ReleaseDateToGameModel 
                     { GameId = gameDB.GameID, ReleaseDateId = releaseDateID});
                 }
+                else
+                {
+                    // check if release date is correct
+                    await ValidateReleaseDate(gameDB.ReleaseDateID, game.ReleaseDate);
+                }
 
                 if(gameDB.SteamAppId == null || gameDB.SteamAppId == 0)
                 {
@@ -173,7 +178,69 @@ namespace BusinessAccessLibrary.BusinessLogic
             throw new Exception("Some data are invalid");
         }
 
+        public async Task ValidateReleaseDate(int? releaseDateID, ReleaseDateAddModel releaseDate)
+        {
+            var validator = DataValidatorHelper.Validate(releaseDate);
 
+            if (validator.IsValid)
+            {
+
+
+                if (releaseDateID != null || releaseDateID != 0)
+                {
+                    var id = releaseDateID.Value;
+
+                    var releaseDateDB = await _releaseDateDBAccess.GetReleaseDateByIdAsync(id);
+
+                    if (releaseDateDB != null)
+                    {
+                        // c heck if current release data on db is true and oen passed is false then update it
+                        if (releaseDateDB.ComingSoon && !releaseDate.ComingSoon)
+                        {
+
+
+                            UpdateReleaseDate(new ReleaseDateUpdateModel
+                            {
+                                ReleaseDateId = releaseDateDB.ReleaseDateId,
+                                ComingSoon = releaseDate.ComingSoon,
+                                ReleaseDate = releaseDate.ReleasedDate
+
+                            });
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception($"{nameof(releaseDateDB)}does not exist on DB");
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine($"Invalid Data from {nameof(ReleaseDateAddModel)}");
+                validator.Errors.ForEach(e => Console.WriteLine(e));
+
+                throw new Exception("Some data are invalid");
+            }
+        }
+
+
+        // would need to do validation if the game/release date exist in db
+        public async void UpdateReleaseDate(ReleaseDateUpdateModel releaseDateUpdate)
+        {
+            var validator = DataValidatorHelper.Validate(releaseDateUpdate);
+
+            if (validator.IsValid)
+            {
+                _releaseDateDBAccess.UpdateReleaseDateAsync(releaseDateUpdate);
+            }
+            else
+            {
+                Console.WriteLine($"Invalid Data from {nameof(SteamAppToGameModel)}");
+                validator.Errors.ForEach(e => Console.WriteLine(e));
+
+                throw new Exception("Some data are invalid");
+            }
+        }
 
         public async void AddSteamAppToGameAsync(SteamAppToGameModel steamAppToGameModel)
         {

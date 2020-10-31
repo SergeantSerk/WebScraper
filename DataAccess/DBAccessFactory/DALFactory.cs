@@ -23,6 +23,16 @@ namespace DataAccessLibrary.DataAccess.DBAccessFactory
             return new GameDBAccess();
         }
 
+        public static IReleaseDateDBAccess GetReleaseDateDBAccess()
+        {
+
+            return new ReleaseDateDBAccess();
+        }
+
+        public static ISteamAppDbAccess GetSteamAppDbAccess()
+        {
+            return new SteamAppDbAccess();
+        }
 
         public static IConfiguration getConfiguration(string appsetting)
         {

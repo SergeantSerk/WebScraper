@@ -1,8 +1,10 @@
 ﻿using Dapper;
 using DataAccessLibrary.DataAccess.Abstraction;
 using DataAccessLibrary.Interfaces;
+using SharedModelLibrary.Models.DatabaseAddModels;
 using SharedModelLibrary.Models.DatabaseModels;
 using SharedModelLibrary.Models.DatabasePostModels;
+using SharedModelLibrary.Models.DatabaseUpdateModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -21,7 +23,7 @@ namespace DataAccessLibrary.DataAccess
         public async Task<GameModel> GetGameByIdAsync(int id)
         {
 
-            string query = $@"SELECT * FROM game g WHERE g.game_id=@GameId";
+            string query = $@"SELECT * FROM game g WHERE g.GameId=@GameId";
 
             return await GetSingleDataAsync<GameModel>(query, new { GameId = id });
 
@@ -42,7 +44,7 @@ namespace DataAccessLibrary.DataAccess
         {
 
             string query = $@"INSERT INTO game (Title, Type, About, Website, Thumbnail, Description,
-                   HeaderImage, Background) OUTPUT Inserted.GameId VALUES(@Title, @Type,@About, @Website,@Thumbnail, @Description,
+                   HeaderImage, Background,SteamAppId, ReleaseDateId) OUTPUT Inserted.GameId VALUES(@Title, @Type,@About, @Website,@Thumbnail, @Description,
                    @HeaderImage, @Background)";
 
             return await SaveDataAsync(query, gameAddModel);
@@ -50,6 +52,32 @@ namespace DataAccessLibrary.DataAccess
 
         }
 
+        public async Task<int> AddFullGameAsync(FullGameAddModel gameAddModel)
+        {
 
+            string query = $@"INSERT INTO game (Title, Type, About, Website, Thumbnail, Description,
+                   HeaderImage, Background,SteamAppId, ReleaseDateId) OUTPUT Inserted.GameId VALUES(@Title, @Type,@About, @Website,@Thumbnail, @Description,
+                   @HeaderImage, @Background,@SteamAppId, @ReleaseDateId)";
+
+            return await SaveDataAsync(query, gameAddModel);
+
+
+        }
+
+        public async void AddReleaseDateToGameAsync(ReleaseDateToGameModel rdtg)
+        {
+
+            string query = $@"UPDATE game SET ReleaseDateId=@ReleaseDateId WHERE game.GameId =@GameId";
+
+            SaveDataAsync(query, rdtg);
+        }
+
+
+        public async void AddSteamAppToGameAsync(SteamAppToGameModel steamAppToGameModel)
+        {
+            string query = $@"UPDATE game SET SteamAppId=@SteamAppId WHERE game.GameId =@GameId";
+
+            SaveDataAsync(query, steamAppToGameModel);
+        }
     }
 }

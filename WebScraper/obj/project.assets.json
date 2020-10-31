@@ -416,10 +416,12 @@
       },
       "Steam/1.0.0": {
         "type": "project",
-        "framework": ".NETStandard,Version=v2.0",
+        "framework": ".NETCoreApp,Version=v3.1",
         "dependencies": {
+          "BusinessAccessLibrary": "1.0.0",
           "Microsoft.Extensions.Configuration.Json": "3.1.9",
           "Newtonsoft.Json": "12.0.3",
+          "SharedModelLibrary": "1.0.0",
           "System.Text.Json": "4.7.2"
         },
         "compile": {

@@ -2,6 +2,7 @@
 using BusinessAccessLibrary.Factories;
 using BusinessAccessLibrary.Interfaces;
 using SharedModelLibrary.Models.DatabasePostModels;
+using Steam.Processors;
 using Steam.Utilities;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,11 +16,14 @@ namespace WebScraper
         {
            
 
-            var api = Factory.GetSteamAPI();
+            var api = SteamFactory.GetSteamAPI();
+            var gameManager = BALFactory.GetGameManager();
 
-          var apps =   await api.GetApps();
+            var steamProcessor = new SteamProcessors(api, gameManager);
 
-            IGameManager gameManager = BALFactory.GetGameManager();
+            await steamProcessor.Start();
+
+
 
 
 
@@ -27,34 +31,36 @@ namespace WebScraper
             //"858740"
             //1080110
 
-            foreach (var app in apps)
-            {
+            //foreach (var app in apps)
+            //{
 
-                var fullApp = await api.GetAppBySteamID(app.appid);
+            //    var fullApp = await api.GetAppBySteamID(app.appid);
 
-                if (fullApp != null)
-                {
+            //    if (fullApp != null)
+            //    {
 
-                    var gamemodel = new GameAddModel()
-                    {
-                        Title = fullApp.Name,
-                        Type = fullApp.Type,
-                        Website = fullApp.Website,
-                        Description = fullApp.Description,
-                        HeaderImage = fullApp.HeaderImage,
-                        Background = fullApp.Background
+            //        var gamemodel = new GameAddModel()
+            //        {
+            //            Title = fullApp.Name,
+            //            Type = fullApp.Type,
+            //            Website = fullApp.Website,
+            //            Description = fullApp.Description,
+            //            HeaderImage = fullApp.HeaderImage,
+            //            Background = fullApp.Background
 
 
 
-                    };
-                    gameManager.AddGameAsync(gamemodel);
+            //        };
+            //        gameManager.AddGameAsync(gamemodel);
 
-                   await Task.Delay(1500);
-                }
+            //       await Task.Delay(1500);
+            //    }
 
-            }
+            //}
 
-            
+            //var fullApp = await api.GetAppBySteamID(1080110);
+
+
 
 
         }
