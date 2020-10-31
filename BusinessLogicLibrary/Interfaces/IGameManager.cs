@@ -20,8 +20,11 @@ namespace BusinessAccessLibrary.Interfaces
 
         Task<int> AddReleaseDate(ReleaseDateAddModel releaseDate);
         Task<int> AddFullGameAsync(FullGameAddModel game);
+        Task ValidateReleaseDate(int? releaseDateID, ReleaseDateAddModel releaseDate);
+        Task<int> AddCategory(string description);
 
-
-
+        Task<int> AddGenre(string description);
+        Task AddGenreToGameByDescription(int gameId, string genreDescription);
+        Task AddCategoryToGameByDescription(int gameId, string categoryDescription);
     }
 }

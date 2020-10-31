@@ -1,5 +1,6 @@
 ﻿using BusinessAccessLibrary.Interfaces;
 using BusinessAccessLibrary.Utilities;
+using DataAccessLibrary.DataAccess;
 using DataAccessLibrary.Interfaces;
 using SharedModelLibrary.Models.DatabaseAddModels;
 using SharedModelLibrary.Models.DatabaseModels;
@@ -16,14 +17,17 @@ namespace BusinessAccessLibrary.BusinessLogic
         private readonly IGameDBAccess _gamedbAccess;
         private readonly IReleaseDateDBAccess _releaseDateDBAccess;
         private readonly ISteamAppDbAccess _steamAppDbAccess;
+        private readonly ITagsDBAccess _tagDbAccess;
 
         public GameManager(IGameDBAccess gamedbAccess, 
             IReleaseDateDBAccess releaseDateDBAccess, 
-            ISteamAppDbAccess steamAppDbAccess)
+            ISteamAppDbAccess steamAppDbAccess,
+            ITagsDBAccess tagsDBAccess)
         {
             _gamedbAccess = gamedbAccess;
             _releaseDateDBAccess = releaseDateDBAccess;
             _steamAppDbAccess = steamAppDbAccess;
+            _tagDbAccess = tagsDBAccess;
         }
 
         public async Task<IEnumerable<GameModel>> GetAllGamesAsync()
@@ -134,6 +138,7 @@ namespace BusinessAccessLibrary.BusinessLogic
 
                 if(gameDB == null)
                 {
+                    Console.WriteLine($"{game.Title} has been added");
 
                     var releaseDateID = await AddReleaseDate(game.ReleaseDate);
                     var steamAppID = await AddSteamApp(game.steamApp);
@@ -178,6 +183,94 @@ namespace BusinessAccessLibrary.BusinessLogic
             throw new Exception("Some data are invalid");
         }
 
+
+        public async Task AddGenreToGameByDescription(int gameId , string genreDescription)
+        {
+
+            if (gameId != 0 && !string.IsNullOrEmpty(genreDescription))
+            {
+                var genreId =  await AddGenre(genreDescription);
+
+                var gameGenre = new GameGenreModel { GameId = gameId, GenreId = genreId };
+
+                var genreGameDB = await _tagDbAccess.GetGameGenre(gameGenre);
+
+                if (genreGameDB == null)
+                {
+
+                    _tagDbAccess.AddGenreToGame(gameGenre);
+                }
+            }
+            else
+            {
+
+                throw new Exception("String cannot be null or empty");
+            }
+        }
+
+        public async Task AddCategoryToGameByDescription(int gameId, string categoryDescription)
+        {
+
+            if (gameId != 0 && !string.IsNullOrEmpty(categoryDescription))
+            {
+                var categoryId =await AddCategory(categoryDescription);
+
+                var categoryGame = new GameCategoryModel { GameId = gameId, CategoryId = categoryId };
+
+                var categoryGameDB = await _tagDbAccess.GetGameCategory(categoryGame);
+
+                if (categoryGameDB == null)
+                {
+
+                  _tagDbAccess.AddCategoryToGame(categoryGame);
+                }
+            }
+            else
+            {
+
+                throw new Exception("String cannot be null or empty");
+            }
+        }
+
+
+        public async Task<int> AddGenre(string genreDescription)
+        {
+            
+            if(!string.IsNullOrEmpty(genreDescription))
+            {
+                var genre = await _tagDbAccess.GetGenreByDescriptionAsync(genreDescription);
+
+                if(genre == null)
+                {
+                    return await _tagDbAccess.AddGenreAsync(genreDescription);
+                }
+
+                return genre.GenreId;
+            }
+
+            throw new Exception("String cannot be null or empty");
+        }
+
+        public async Task<int> AddCategory(string categoryDescription)
+        {
+
+            if (!string.IsNullOrEmpty(categoryDescription))
+            {
+                var categoryDB = await _tagDbAccess.GetCategoryByDescriptionAsync(categoryDescription);
+
+                if (categoryDB == null)
+                {
+                    return await _tagDbAccess.AddCategoryAsync(categoryDescription);
+                }
+
+                return categoryDB.CategoryId;
+            }
+        
+
+            throw new Exception("String cannot be null or empty");
+        }
+
+
         public async Task ValidateReleaseDate(int? releaseDateID, ReleaseDateAddModel releaseDate)
         {
             var validator = DataValidatorHelper.Validate(releaseDate);
@@ -199,7 +292,6 @@ namespace BusinessAccessLibrary.BusinessLogic
                             !releaseDateDB.ReleasedDate.Equals(releaseDate.ReleasedDate)
                             )
                         {
-
 
                             UpdateReleaseDate(new ReleaseDateUpdateModel
                             {

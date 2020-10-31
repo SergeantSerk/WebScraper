@@ -23,6 +23,11 @@ namespace DataAccessLibrary.DataAccess.DBAccessFactory
             return new GameDBAccess();
         }
 
+        public static ITagsDBAccess GetTagsDBAccess ()
+        {
+            return new TagsDBAccess();
+        }
+
         public static IReleaseDateDBAccess GetReleaseDateDBAccess()
         {
 

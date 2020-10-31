@@ -18,6 +18,7 @@ namespace Steam.Processors
         private List<SteamApp> _apps;
         private readonly int _requestDelayTime;
         private readonly IGameManager _gameManager;
+        private List<Task> tasks = new List<Task>();
 
 
 
@@ -41,9 +42,9 @@ namespace Steam.Processors
 
         public async Task Start()
         {
-            _currentIndex = 5;
+            _currentIndex = 125;
             _apps = await _steamAPI.GetApps();
-            _totalApps = 6;
+            _totalApps = 300;
             await Process();
         }
 
@@ -61,12 +62,42 @@ namespace Steam.Processors
                 {
                    var gameId =  await AddGame(fullApp);
 
+                    //fullApp.Genres.ForEach(g =>
+                    //_gameManager.AddGenreToGameByDescription(gameId, g.Description));
+
+
+                    //_gameManager.AddCategoryToGameByDescription(gameId, fullApp.Categories[0].Description);
+
+
+                    await AddCategories(fullApp.Categories, gameId);
+                    await AddGenre(fullApp.Genres, gameId);
+
+                    await Task.Delay(_requestDelayTime);
+
                 }
-
-
             }
+        }
 
+        private async Task AddCategories(List<CategoryModel> categories, int gameId)
+        {
+            if (categories != null)
+            {
+                foreach (var category in categories)
+                {
+                    await _gameManager.AddCategoryToGameByDescription(gameId, category.Description);
+                };
+            }
+        }
 
+        private async Task AddGenre(List<GenreModel> genres, int gameId)
+        {
+            if (genres != null)
+            {
+                foreach (var genre in genres)
+                {
+                    await _gameManager.AddGenreToGameByDescription(gameId, genre.Description);
+                };
+            }
         }
 
         private async Task<int> AddGame (SteamAppDetails fullApp)

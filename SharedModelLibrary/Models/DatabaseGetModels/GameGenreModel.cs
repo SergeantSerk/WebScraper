@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SharedModelLibrary.Models.DatabaseModels
 {
-    public class GenreDetailsModel
+    public class GameGenreModel
     {
         public int GameId { get; set; }
         public int GenreId { get; set; }

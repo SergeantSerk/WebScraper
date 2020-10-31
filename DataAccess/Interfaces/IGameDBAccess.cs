@@ -17,5 +17,6 @@ namespace DataAccessLibrary.Interfaces
         Task<int> AddFullGameAsync(FullGameAddModel gameAddModel);
         void AddReleaseDateToGameAsync(ReleaseDateToGameModel rdtg);
         void AddSteamAppToGameAsync(SteamAppToGameModel steamAppToGameModel);
+     
     }
 }

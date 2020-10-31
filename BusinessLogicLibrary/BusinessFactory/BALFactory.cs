@@ -17,7 +17,8 @@ namespace BusinessAccessLibrary.Factories
             return new GameManager(
                 DALFactory.GetGameDBAccess(),
                 DALFactory.GetReleaseDateDBAccess(),
-                DALFactory.GetSteamAppDbAccess()
+                DALFactory.GetSteamAppDbAccess(),
+                DALFactory.GetTagsDBAccess()
                 );
         }
      
