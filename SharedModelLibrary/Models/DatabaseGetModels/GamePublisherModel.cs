@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SharedModelLibrary.Models.DatabaseModels
+namespace SharedModelLibrary.Models.DatabaseGetModels
 {
-    public class PublisherModel
+    public class GamePublisherModel
     {
         public int PublisherId { get; set; }
-        public string Name { get; set; }
+        public int GameId { get; set; }
     }
 }

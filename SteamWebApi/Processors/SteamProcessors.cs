@@ -44,7 +44,7 @@ namespace Steam.Processors
         {
             _currentIndex = 5;
             _apps = await _steamAPI.GetApps();
-            _totalApps = 6;
+            _totalApps = 8;
             await Process();
         }
 
@@ -62,40 +62,66 @@ namespace Steam.Processors
                 {
                    var gameId =  await AddGame(fullApp);
 
-                    //fullApp.Genres.ForEach(g =>
-                    //_gameManager.AddGenreToGameByDescription(gameId, g.Description));
+             
 
-
-                    //_gameManager.AddCategoryToGameByDescription(gameId, fullApp.Categories[0].Description);
-
-
-                    await AddCategories(fullApp.Categories, gameId);
-                    await AddGenre(fullApp.Genres, gameId);
-
+                    AddCategories(fullApp.Categories, gameId);
+                    AddGenre(fullApp.Genres, gameId);
+                    addSystemRequirements(fullApp, gameId);
                     await Task.Delay(_requestDelayTime);
 
                 }
             }
         }
 
-        private async Task AddCategories(List<CategoryModel> categories, int gameId)
+        private void addSystemRequirements(SteamAppDetails systemRequirement, int gameId)
+        {
+            if (systemRequirement.PcRequirement != null)
+            {
+             var t=   _gameManager.AddSystemRequirement(new SystemRequirementAddModel
+                {
+                    GameId = gameId,
+                    Minimum = systemRequirement.PcRequirement.Minimum,
+                    Recommended = systemRequirement.PcRequirement.Recommended,
+                    Platform = new PlatformAddModel { Name = "pc" }
+                });
+            }
+            if(systemRequirement.LinuxRequirement != null)
+                _gameManager.AddSystemRequirement(new SystemRequirementAddModel
+                {
+                    GameId = gameId,
+                    Minimum = systemRequirement.LinuxRequirement.Minimum,
+                    Recommended = systemRequirement.LinuxRequirement.Recommended,
+                    Platform = new PlatformAddModel { Name = "linux" }
+                });
+            if (systemRequirement.MacRequirement != null)
+                _gameManager.AddSystemRequirement(new SystemRequirementAddModel
+                {
+                    GameId = gameId,
+                    Minimum = systemRequirement.MacRequirement.Minimum,
+                    Recommended = systemRequirement.MacRequirement.Recommended,
+                    Platform = new PlatformAddModel { Name = "mac" }
+                });
+
+        }
+
+        private void AddCategories(List<CategoryModel> categories, int gameId)
         {
             if (categories != null)
             {
                 foreach (var category in categories)
                 {
-                    await _gameManager.AddCategoryToGameByDescription(gameId, category.Description);
+                     _gameManager.AddCategoryToGameByDescription(gameId, category.Description);
                 };
             }
         }
 
-        private async Task AddGenre(List<GenreModel> genres, int gameId)
+        private void AddGenre(List<GenreModel> genres, int gameId)
         {
             if (genres != null)
             {
                 foreach (var genre in genres)
                 {
-                    await _gameManager.AddGenreToGameByDescription(gameId, genre.Description);
+                    _gameManager.AddGenreToGameByDescription(gameId, genre.Description);
                 };
             }
         }

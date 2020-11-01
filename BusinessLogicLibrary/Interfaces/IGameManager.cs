@@ -26,5 +26,7 @@ namespace BusinessAccessLibrary.Interfaces
         Task<int> AddGenre(string description);
         Task AddGenreToGameByDescription(int gameId, string genreDescription);
         Task AddCategoryToGameByDescription(int gameId, string categoryDescription);
+        Task<int> AddSystemRequirement(SystemRequirementAddModel systemRequirement);
+        Task<int> AddPlatform(PlatformAddModel platform);
     }
 }

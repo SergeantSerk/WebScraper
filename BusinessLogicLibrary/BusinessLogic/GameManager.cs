@@ -136,6 +136,59 @@ namespace BusinessAccessLibrary.BusinessLogic
             throw new Exception("Some data are invalid");
         }
 
+        public async Task<int> AddSystemRequirement(SystemRequirementAddModel systemRequirement)
+        {
+
+            var validator = DataValidatorHelper.Validate(systemRequirement);
+
+            if (validator.IsValid)
+            {
+
+                systemRequirement.PlatformId = await AddPlatform(systemRequirement.Platform);
+
+                var srDb = await _gamedbAccess.
+                    GetSystemRequirementByGameIdAndPlatformIdAsync(systemRequirement.GameId, systemRequirement.PlatformId);
+
+                if(srDb == null)
+                {
+                    var T = await _gamedbAccess.AddSystemRequirementAsync(systemRequirement);
+
+                    return T ;
+                }
+                return srDb.SystemRequirementId;
+            }
+
+            Console.WriteLine($"Invalid Data from {nameof(SystemRequirementAddModel)}");
+            validator.Errors.ForEach(e => Console.WriteLine(e));
+
+            throw new Exception("Some data are invalid");
+        }
+
+        public async Task<int> AddPlatform(PlatformAddModel platform)
+        {
+            var validator = DataValidatorHelper.Validate(platform);
+
+            if (validator.IsValid)
+            {
+                var platformDb = await _gamedbAccess.GetPlatformByNameAsync(platform.Name);
+
+                if(platformDb == null)
+                {
+                    return await _gamedbAccess.AddPlatformAsync(platform);
+
+                }
+
+                return platformDb.PlatformId;
+
+            }
+
+            Console.WriteLine($"Invalid Data from {nameof(ReleaseDateAddModel)}");
+            validator.Errors.ForEach(e => Console.WriteLine(e));
+
+            throw new Exception("Some data are invalid");
+        }
+
+
         public async Task<int> AddFullGameAsync(FullGameAddModel game)
         {
             var validator = DataValidatorHelper.Validate(game);

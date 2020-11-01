@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SharedModelLibrary.Models.DatabaseModels
+namespace SharedModelLibrary.Models.DatabaseGetModels
 {
-   public class DeveloperModel
+   public class GameDeveloperModel
     {
         public int DeveloperId { get; set; }
-        public string Name { get; set; }
+        public int GameId { get; set; }
 
     }
 }
