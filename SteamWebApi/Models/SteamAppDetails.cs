@@ -14,7 +14,9 @@ namespace Steam.Models
         public string Name { get; set; }
         [JsonPropertyName("steam_appid")]
         public int SteamAppID { get; set; }
+
         [JsonPropertyName("required_age")]
+        [JsonConverter(typeof(RequiredAgeJsonJSONConverter))]
         public int RequiredAge { get; set; }
         [JsonPropertyName("is_free")]
         public bool IsFree { get; set; }

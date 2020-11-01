@@ -42,9 +42,9 @@ namespace Steam.Processors
 
         public async Task Start()
         {
-            _currentIndex = 125;
+            _currentIndex = 5;
             _apps = await _steamAPI.GetApps();
-            _totalApps = 300;
+            _totalApps = 6;
             await Process();
         }
 

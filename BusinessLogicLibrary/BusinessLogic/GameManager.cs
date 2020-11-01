@@ -122,6 +122,14 @@ namespace BusinessAccessLibrary.BusinessLogic
                 return await _releaseDateDBAccess.AddReleaseDateAsync(releaseDate);
             }
 
+            if(String.IsNullOrEmpty(releaseDate.ReleasedDate) && releaseDate.ComingSoon)
+            {
+                releaseDate.ReleasedDate = "Not Confirmed";
+
+                return await _releaseDateDBAccess.AddReleaseDateAsync(releaseDate);
+
+            }
+
             Console.WriteLine($"Invalid Data from {nameof(ReleaseDateAddModel)}");
             validator.Errors.ForEach(e => Console.WriteLine(e));
 
