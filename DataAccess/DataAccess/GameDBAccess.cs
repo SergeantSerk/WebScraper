@@ -106,7 +106,26 @@ namespace DataAccessLibrary.DataAccess
         }
 
 
-        public async Task<PublisherModel> GetPublisherByNameAsync(string name)
+        public async Task<int> AddPublisherAsync(string name)
+        {
+
+            string query = $@"INSERT INTO Publisher (Name) OUTPUT INSERTED.PublisherId
+                    VALUES(@Name)";
+            return await SaveDataAsync(query, new { Name = name });
+
+        }
+
+        public async Task<int> AddDeveloperAsync(string name)
+        {
+
+            string query = $@"INSERT INTO Developer (Name) OUTPUT INSERTED.DeveloperId
+                    VALUES(@Name)";
+            return await SaveDataAsync(query, new { Name = name });
+
+        }
+
+
+            public async Task<PublisherModel> GetPublisherByNameAsync(string name)
         {
 
             string query = $@"SELECT * FROM Publisher
@@ -167,12 +186,95 @@ namespace DataAccessLibrary.DataAccess
                     WHERE Name=@Name";
 
             return await GetSingleDataAsync<DeveloperModel>(query, new { Name = name });
+        }
 
 
+        public async Task<CurrencyModel> GetCurrencyByCodeAsync(string code)
+        {
+
+            string query = $@"SELECT * FROM Currency
+                    WHERE Code=@Code";
+
+            return await GetSingleDataAsync<CurrencyModel>(query, new { Code = code });
         }
 
 
 
+        public async Task<int> AddCurrencyAsync(CurrencyAddModel currency)
+        {
+
+            string query = $@"INSERT INTO Currency (Code,Symbole) OUTPUT INSERTED.CurrencyId
+                            VALUES(@Code,@Symbole)";
+
+            return await GetSingleDataAsync<int>(query, currency);
+        }
+
+
+        public async Task<PriceOverviewModel> GetPriceOverviewByIdAsync(int priceOverviewId)
+        {
+
+            string query = $@"SELECT * FROM PriceOverview WHERE PriceOverviewId=@PriceOverviewId";
+
+            return await GetSingleDataAsync<PriceOverviewModel>(query, new { PriceOverviewId = priceOverviewId });
+        }
+
+
+
+        public async Task<int> AddPriceOverviewAsync(PriceOverviewAddModel priceOverview)
+        {
+
+            string query = $@"INSERT INTO PriceOverview 
+                        (Price, PriceFormat, FinalPrice, FinalPriceFormat, CurrencyId, DiscountPercentage)
+                    OUTPUT INSERTED.PriceOverviewId
+                        VALUES(@Price, @PriceFormat, @FinalPrice, @FinalPriceFormat, @CurrencyId, @DiscountPercentage)
+                    ";
+
+            return await SaveDataAsync(query, priceOverview);
+        }
+
+
+        public async Task<GameDealModel> GetGameDealNotExpiredByStoreIdAsync(int gameId, int storeId)
+        {
+
+            string query = $@"SELECT * FROM GameDeal gd LEFT JOIN DealDate dd ON  dd.DealDateId =gd.DealDateId
+                                WHERE dd.Expired != 'true' AND GameId=@GameId AND StoreId=@StoreId";
+
+            return await GetSingleDataAsync<GameDealModel>(query, new { GameId=gameId, StoreId=storeId });
+        }
+
+        public async Task<int> AddGameDealAsync(GameDealAddModel gameDeal)
+        {
+
+            string query = $@"INSERT INTO  GameDeal (Url, StoreId, GameId, PriceOverviewId,DealDateId,IsFree)
+                        VALUES(@Url, @StoreId, @GameId, @PriceOverviewId,@DealDateId,@IsFree)";
+
+            return await SaveDataAsync(query, gameDeal); 
+        }
+
+
+        public async Task<int> AddDealDateAsync(DealDateAddModel dealDate)
+        {
+
+            string query = $@"INSERT INTO  DealDate (DatePosted, ExpiringDate, LimitedTimeDeal, Expired)
+                           OUTPUT INSERTED.DealDateId
+                        VALUES(@DatePosted, @ExpiringDate, @LimitedTimeDeal, @Expired)";
+
+            return await SaveDataAsync(query, dealDate);
+        }
+
+        public async Task<StoreModel> GetStoreAsync(string name)
+        {
+            string query = $@"SELECT * FROM Store WHERE Name=@name";
+
+            return await GetSingleDataAsync<StoreModel>(query, new { Name = name});
+        }
+
+        public async Task<int> AddStoreAsync(StoreAddModel store)
+        {
+            string query = $@"INSERT INTO Store (Name, Logo) OUTPUT INSERTED.StoreId VALUES (@Name, @Logo)";
+
+            return await SaveDataAsync(query, store);
+        }
 
 
         public async void AddReleaseDateToGameAsync(ReleaseDateToGameModel rdtg)

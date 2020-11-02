@@ -28,5 +28,16 @@ namespace BusinessAccessLibrary.Interfaces
         Task AddCategoryToGameByDescription(int gameId, string categoryDescription);
         Task<int> AddSystemRequirement(SystemRequirementAddModel systemRequirement);
         Task<int> AddPlatform(PlatformAddModel platform);
+        Task<int> AddGameDeveloperAsync(int gameId, string developer);
+        Task<int> AddGamePublisherAsync(int gameId, string publisher);
+        Task<int> AddPublisher(string name);
+        Task<int> AddDeveloper(string name);
+
+        Task<int> AddStore(StoreAddModel store);
+
+        Task<int> AddDealDate(DealDateAddModel deal);
+        Task<int> AddGameDeal(GameDealAddModel gameDeal);
+
+        Task<int> AddPriceOverview(PriceOverviewAddModel priceOverview);
     }
 }

@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace SharedModelLibrary.Models.DatabaseModels
+namespace SharedModelLibrary.Models.DatabaseAddModels
 {
-    public class CurrencyModel
+    public class CurrencyAddModel
     {
-        public int CurrencyId { get; set; }
+        [Required]
         public string Code { get; set; }
+        [Required]
         public string Symbole { get; set; }
     }
 }

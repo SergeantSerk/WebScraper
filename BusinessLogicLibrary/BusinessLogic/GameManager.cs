@@ -89,6 +89,148 @@ namespace BusinessAccessLibrary.BusinessLogic
         }
 
 
+        public async Task<int> AddGameDeal(GameDealAddModel gameDeal)
+        {
+            var validator = DataValidatorHelper.Validate(gameDeal);
+
+
+            if (validator.IsValid)
+            {
+
+                var storeId = await AddStore(gameDeal.Store);
+
+
+                var gameDealDb = await _gamedbAccess.GetGameDealNotExpiredByStoreIdAsync
+                    (gameDeal.GameId, storeId);
+
+                if (gameDealDb == null)
+                {
+                    gameDeal.DealDateId = await AddDealDate(gameDeal.DealDate);
+                    gameDeal.StoreId = storeId;
+
+                    if (gameDeal.PriceOverview != null)
+                    {
+                        gameDeal.PriceOverviewId = await AddPriceOverview(gameDeal.PriceOverview);
+                    }
+
+
+                    return await _gamedbAccess.AddGameDealAsync(gameDeal);
+                }
+
+                return gameDealDb.GameId;
+            }
+
+
+            Console.WriteLine($"Invalid Data from {nameof(GameDealAddModel)}");
+            validator.Errors.ForEach(e => Console.WriteLine(e));
+
+            throw new Exception("Some data are invalid");
+
+        }
+
+        public async Task<int> AddStore(StoreAddModel store)
+        {
+            var validator = DataValidatorHelper.Validate(store);
+
+
+            if (validator.IsValid)
+            {
+                var storeDb = await _gamedbAccess.GetStoreAsync(store.Name);
+
+                if (storeDb == null)
+                {
+
+                    return await _gamedbAccess.AddStoreAsync(store);
+                }
+
+                return storeDb.StoreId;
+            }
+
+
+            Console.WriteLine($"Invalid Data from {nameof(StoreAddModel)}");
+            validator.Errors.ForEach(e => Console.WriteLine(e));
+
+            throw new Exception("Some data are invalid");
+
+        }
+
+        public async Task<int> AddPriceOverview(PriceOverviewAddModel priceOverview)
+        {
+            var validator = DataValidatorHelper.Validate(priceOverview);
+
+
+            if (validator.IsValid)
+            {
+
+
+                priceOverview.CurrencyId = await AddCurrency(priceOverview.Currency);
+
+
+                return await _gamedbAccess.AddPriceOverviewAsync(priceOverview);
+            }
+
+
+            Console.WriteLine($"Invalid Data from {nameof(PriceOverviewAddModel)}");
+            validator.Errors.ForEach(e => Console.WriteLine(e));
+
+            throw new Exception("Some data are invalid");
+
+        }
+
+        public async Task<int> AddCurrency(CurrencyAddModel currency)
+        {
+            var validator = DataValidatorHelper.Validate(currency);
+
+
+            if (validator.IsValid)
+            {
+                var currencyDb = await _gamedbAccess.GetCurrencyByCodeAsync(currency.Code);
+
+                if (currencyDb == null)
+                {
+
+                    return await _gamedbAccess.AddCurrencyAsync(currency);
+                }
+
+                return currencyDb.CurrencyId;
+            }
+
+
+            Console.WriteLine($"Invalid Data from {nameof(CurrencyAddModel)}");
+            validator.Errors.ForEach(e => Console.WriteLine(e));
+
+            throw new Exception("Some data are invalid");
+
+        }
+
+
+      
+
+
+
+
+        public async Task<int> AddDealDate(DealDateAddModel deal)
+        {
+            var validator = DataValidatorHelper.Validate(deal);
+
+
+            if (validator.IsValid)
+            {
+
+                return await _gamedbAccess.AddDealDateAsync(deal);
+            }
+
+
+            Console.WriteLine($"Invalid Data from {nameof(StoreAddModel)}");
+            validator.Errors.ForEach(e => Console.WriteLine(e));
+
+            throw new Exception("Some data are invalid");
+
+        }
+
+
+
+
         public async Task<int> AddSteamApp(SteamAppAddModel steamApp)
 
         {
@@ -151,9 +293,8 @@ namespace BusinessAccessLibrary.BusinessLogic
 
                 if(srDb == null)
                 {
-                    var T = await _gamedbAccess.AddSystemRequirementAsync(systemRequirement);
 
-                    return T ;
+                    return await _gamedbAccess.AddSystemRequirementAsync(systemRequirement);
                 }
                 return srDb.SystemRequirementId;
             }
@@ -162,6 +303,97 @@ namespace BusinessAccessLibrary.BusinessLogic
             validator.Errors.ForEach(e => Console.WriteLine(e));
 
             throw new Exception("Some data are invalid");
+        }
+
+        public async Task<int> AddGamePublisherAsync(int gameId, string publisher)
+        {
+            if(gameId != 0 && !string.IsNullOrEmpty(publisher))
+            {
+                var publisherDB = await AddPublisher(publisher);
+
+                var gamePublisherDb = await _gamedbAccess.GetGamePublisherAsync(gameId, publisherDB);
+
+                if(gamePublisherDb  == null)
+                {
+                    return await _gamedbAccess.AddGamePublisherAsync(new GameAddPublisherModel
+                    {
+                        GameId = gameId,
+                        PublisherId = publisherDB
+                    });
+                }
+
+
+                return gamePublisherDb.PublisherId;
+
+            }
+            throw new Exception("String cannot be null or empty");
+        }
+
+        public async Task<int> AddGameDeveloperAsync(int gameId, string developer)
+        {
+            if (gameId != 0 && !string.IsNullOrEmpty(developer))
+            {
+                var developerDB = await AddDeveloper(developer);
+
+                var gameDeveloperDb = await _gamedbAccess.GetGameDeveloperAsync(gameId, developerDB);
+
+                if (gameDeveloperDb == null)
+                {
+                    return await _gamedbAccess.AddGameDeveloperAsync(new GameAddDeveloperModel
+                    {
+                        GameId = gameId,
+                        DeveloperId = developerDB
+                    });
+                }
+
+
+                return gameDeveloperDb.DeveloperId;
+
+            }
+            throw new Exception("String cannot be null or empty");
+        }
+
+
+
+        public async Task<int> AddPublisher(string name)
+
+        {
+            if(!string.IsNullOrEmpty(name))
+            {
+                var publisherDB = await _gamedbAccess.GetPublisherByNameAsync(name);
+
+                if(publisherDB == null)
+                {
+
+                    return await _gamedbAccess.AddPublisherAsync(name);
+                }
+
+                return publisherDB.PublisherId;
+            }
+
+
+            throw new Exception("String cannot be null or empty");
+        }
+
+
+        public async Task<int> AddDeveloper(string name)
+
+        {
+            if (!string.IsNullOrEmpty(name))
+            {
+                var developerDB = await _gamedbAccess.GetDeveloperByNameAsync(name);
+
+                if (developerDB == null)
+                {
+
+                    return await _gamedbAccess.AddDeveloperAsync(name);
+                }
+
+                return developerDB.DeveloperId;
+            }
+
+
+            throw new Exception("String cannot be null or empty");
         }
 
         public async Task<int> AddPlatform(PlatformAddModel platform)

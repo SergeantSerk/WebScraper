@@ -28,6 +28,17 @@ namespace DataAccessLibrary.Interfaces
         Task<int> AddGameDeveloperAsync(GameAddDeveloperModel gameAddDeveloper);
         Task<GameDeveloperModel> GetGameDeveloperAsync(int gameId, int developerId);
         Task<DeveloperModel> GetDeveloperByNameAsync(string name);
+        Task<int> AddDeveloperAsync(string name);
+        Task<int> AddPublisherAsync(string name);
+        Task<int> AddCurrencyAsync(CurrencyAddModel currency);
+        Task<CurrencyModel> GetCurrencyByCodeAsync(string code);
+        Task<PriceOverviewModel> GetPriceOverviewByIdAsync(int priceOverviewId);
+        Task<int> AddPriceOverviewAsync(PriceOverviewAddModel priceOverview);
+        Task<GameDealModel> GetGameDealNotExpiredByStoreIdAsync(int gameId, int storeId);
+         Task<StoreModel> GetStoreAsync(string name);
+        Task<int> AddStoreAsync(StoreAddModel store);
+        Task<int> AddGameDealAsync(GameDealAddModel gameDeal);
+        Task<int> AddDealDateAsync(DealDateAddModel dealDate);
 
 
     }

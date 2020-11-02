@@ -5,6 +5,7 @@ using Steam.Interfaces;
 using Steam.Models;
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,6 +20,8 @@ namespace Steam.Processors
         private readonly int _requestDelayTime;
         private readonly IGameManager _gameManager;
         private List<Task> tasks = new List<Task>();
+        private const string _storeName = "steam";
+        private const string _basedStoreURl = "https://store.steampowered.com/app/";
 
 
 
@@ -42,9 +45,9 @@ namespace Steam.Processors
 
         public async Task Start()
         {
-            _currentIndex = 5;
+            _currentIndex = 0;
             _apps = await _steamAPI.GetApps();
-            _totalApps = 8;
+            _totalApps =1000;
             await Process();
         }
 
@@ -62,7 +65,15 @@ namespace Steam.Processors
                 {
                    var gameId =  await AddGame(fullApp);
 
-             
+
+
+
+                    addDeveloper(fullApp.Developers, gameId);
+
+                    fullApp.Publishers.ForEach(p => _gameManager.AddGamePublisherAsync(gameId,
+                        p));
+
+                    addGameDeal(fullApp, gameId);
 
                     AddCategories(fullApp.Categories, gameId);
                     AddGenre(fullApp.Genres, gameId);
@@ -71,6 +82,45 @@ namespace Steam.Processors
 
                 }
             }
+        }
+
+        private void addDeveloper(List<string> developers, int gameId)
+        {
+            if(developers != null)
+               developers.ForEach(d =>
+                   _gameManager.AddGameDeveloperAsync(gameId, d));
+
+        }
+        private void addGameDeal(SteamAppDetails app, int gameId)
+        {
+            DateTime currentDateTime = DateTime.Now;
+            string sqlFormattedDate = currentDateTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
+
+
+            var gamedeal = new GameDealAddModel
+            {
+                GameId = gameId,
+                DealDate = new DealDateAddModel { DatePosted = sqlFormattedDate },
+                Url = _basedStoreURl + app.SteamAppID,
+                IsFree = app.IsFree,
+                Store = new StoreAddModel { Name = _storeName },
+               
+            };
+
+            var priceOverview = app.PriceOverview;
+
+            if (priceOverview != null)
+                gamedeal.PriceOverview = new PriceOverviewAddModel
+                {
+                    Price = priceOverview.Initial,
+                    PriceFormat = priceOverview.InitialFormat,
+                    FinalPrice = priceOverview.Final,
+                    FinalPriceFormat = priceOverview.FinalFormat,
+                    Currency = new CurrencyAddModel { Code = priceOverview.Currency , Symbole = "£"}
+                };
+
+
+          var t =   _gameManager.AddGameDeal(gamedeal).Result;
         }
 
         private void addSystemRequirements(SteamAppDetails systemRequirement, int gameId)
