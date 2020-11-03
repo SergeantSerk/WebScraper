@@ -45,7 +45,7 @@ namespace Steam.Processors
 
         public async Task Start()
         {
-            _currentIndex = 0;
+            _currentIndex = 6;
             _apps = await _steamAPI.GetApps();
             _totalApps =1000;
             await Process();
@@ -65,13 +65,14 @@ namespace Steam.Processors
                 {
                    var gameId =  await AddGame(fullApp);
 
+                    /// all synchronous methods best to get results or await 
+                    /// to figure out the Exception thrown: 'System.Data.SqlClient.SqlException' in System.Private.CoreLib.dll
+                    /// as expections are thrown but not picked up
 
 
 
                     addDeveloper(fullApp.Developers, gameId);
-
-                    fullApp.Publishers.ForEach(p => _gameManager.AddGamePublisherAsync(gameId,
-                        p));
+                    addPublisher(fullApp.Publishers, gameId);
 
                     addGameDeal(fullApp, gameId);
 
@@ -84,11 +85,35 @@ namespace Steam.Processors
             }
         }
 
+        private void addPublisher(List<string> publishers, int gameId)
+        {
+            if (publishers != null)
+            {
+                foreach(var publisher in publishers)
+                {
+                    if (!string.IsNullOrEmpty(publisher))
+                    {
+                        var t = _gameManager.AddGamePublisherAsync(gameId,
+                          publisher).Result;
+                    }
+                }
+
+            }
+               
+        }
         private void addDeveloper(List<string> developers, int gameId)
         {
             if(developers != null)
-               developers.ForEach(d =>
-                   _gameManager.AddGameDeveloperAsync(gameId, d));
+            {
+                foreach (var developer in developers)
+                {
+                    if (!string.IsNullOrEmpty(developer))
+                    {
+                        var t = _gameManager.AddGameDeveloperAsync(gameId, developer).Result;
+                    }
+                }
+            }
+                  
 
         }
         private void addGameDeal(SteamAppDetails app, int gameId)
@@ -110,16 +135,22 @@ namespace Steam.Processors
             var priceOverview = app.PriceOverview;
 
             if (priceOverview != null)
+            {
                 gamedeal.PriceOverview = new PriceOverviewAddModel
                 {
                     Price = priceOverview.Initial,
                     PriceFormat = priceOverview.InitialFormat,
                     FinalPrice = priceOverview.Final,
                     FinalPriceFormat = priceOverview.FinalFormat,
-                    Currency = new CurrencyAddModel { Code = priceOverview.Currency , Symbole = "£"}
+                    DiscountPercentage = priceOverview.DiscountPercentage,
+                    Currency = new CurrencyAddModel { Code = priceOverview.Currency, Symbole = "£" }
                 };
 
-
+               if(priceOverview.Initial != priceOverview.Final)
+                {
+                    gamedeal.DealDate.LimitedTimeDeal = true;
+                }
+            }
           var t =   _gameManager.AddGameDeal(gamedeal).Result;
         }
 
@@ -127,7 +158,7 @@ namespace Steam.Processors
         {
             if (systemRequirement.PcRequirement != null)
             {
-             var t=   _gameManager.AddSystemRequirement(new SystemRequirementAddModel
+             _gameManager.AddSystemRequirement(new SystemRequirementAddModel
                 {
                     GameId = gameId,
                     Minimum = systemRequirement.PcRequirement.Minimum,
@@ -135,7 +166,8 @@ namespace Steam.Processors
                     Platform = new PlatformAddModel { Name = "pc" }
                 });
             }
-            if(systemRequirement.LinuxRequirement != null)
+            if (systemRequirement.LinuxRequirement != null)
+            {
                 _gameManager.AddSystemRequirement(new SystemRequirementAddModel
                 {
                     GameId = gameId,
@@ -143,7 +175,9 @@ namespace Steam.Processors
                     Recommended = systemRequirement.LinuxRequirement.Recommended,
                     Platform = new PlatformAddModel { Name = "linux" }
                 });
+            }
             if (systemRequirement.MacRequirement != null)
+            {
                 _gameManager.AddSystemRequirement(new SystemRequirementAddModel
                 {
                     GameId = gameId,
@@ -151,6 +185,7 @@ namespace Steam.Processors
                     Recommended = systemRequirement.MacRequirement.Recommended,
                     Platform = new PlatformAddModel { Name = "mac" }
                 });
+            }
 
         }
 

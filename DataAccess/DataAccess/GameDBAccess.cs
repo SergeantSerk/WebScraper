@@ -237,7 +237,7 @@ namespace DataAccessLibrary.DataAccess
         {
 
             string query = $@"SELECT * FROM GameDeal gd LEFT JOIN DealDate dd ON  dd.DealDateId =gd.DealDateId
-                                WHERE dd.Expired != 'true' AND GameId=@GameId AND StoreId=@StoreId";
+                                WHERE dd.Expired != 'True' AND GameId=@GameId AND StoreId=@StoreId";
 
             return await GetSingleDataAsync<GameDealModel>(query, new { GameId=gameId, StoreId=storeId });
         }
@@ -261,6 +261,16 @@ namespace DataAccessLibrary.DataAccess
 
             return await SaveDataAsync(query, dealDate);
         }
+
+
+        public async Task<int> ExpireGameDealAsync(int  dealdateId)
+        {
+
+            string query = $@"UPDATE DealDate SET Expired ='True' WHERE DealDateId=@DealDateId";
+
+            return await SaveDataAsync(query, new {DealDateId=dealdateId });
+        }
+
 
         public async Task<StoreModel> GetStoreAsync(string name)
         {

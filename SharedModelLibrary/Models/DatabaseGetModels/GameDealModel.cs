@@ -9,7 +9,7 @@ namespace SharedModelLibrary.Models.DatabaseModels
         public string Url { get; set; }
         public int StoreId { get; set; }
         public int GameId { get; set; }
-        public int PriceOverviewId { get; set; }
+        public int? PriceOverviewId { get; set; }
         public int DealDateId { get; set; }
         public bool IsFree { get; set; }
 

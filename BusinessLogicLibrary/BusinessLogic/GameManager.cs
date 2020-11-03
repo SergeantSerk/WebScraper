@@ -117,6 +117,11 @@ namespace BusinessAccessLibrary.BusinessLogic
                     return await _gamedbAccess.AddGameDealAsync(gameDeal);
                 }
 
+                if(gameDealDb.PriceOverviewId != null)
+                {
+                    UpdatePriceOverview(gameDealDb, gameDeal);
+                }
+
                 return gameDealDb.GameId;
             }
 
@@ -127,6 +132,59 @@ namespace BusinessAccessLibrary.BusinessLogic
             throw new Exception("Some data are invalid");
 
         }
+
+        public async void UpdatePriceOverview(GameDealModel gameDB, GameDealAddModel gamedeal)
+        {
+            
+       
+         if (gameDB.PriceOverviewId != 0 || gameDB.PriceOverviewId != null)
+            {
+               
+                 var priceOverviewDB = await _gamedbAccess.GetPriceOverviewByIdAsync(gameDB.PriceOverviewId.Value);
+
+                if (priceOverviewDB != null)
+                {
+                    var priceIsSame = ComparePriceIsSame(priceOverviewDB, gamedeal.PriceOverview);
+
+                    if (!priceIsSame)
+                    {
+                        // exprie the current deal and add a new one
+                        await _gamedbAccess.ExpireGameDealAsync(gameDB.DealDateId);
+                        await AddGameDeal(gamedeal);
+                    }
+
+                }
+                else
+                {
+
+                    throw new Exception("price overview does not exist in db");
+                }
+            }
+
+        }
+
+
+        public bool ComparePriceIsSame(PriceOverviewModel priceOverviewDB, PriceOverviewAddModel currentPriceOverview)
+        {
+            // check if the base price is the same
+            if(priceOverviewDB.Price == currentPriceOverview.Price)
+            {
+                // check if the base price is the same otherwise it means price has gone on to discount
+                if(priceOverviewDB.FinalPrice == currentPriceOverview.FinalPrice)
+                {
+
+                    return true;
+
+                }
+
+                Console.WriteLine($"The base price has changed from {priceOverviewDB.Price} to {currentPriceOverview.Price}");
+                return false;
+
+            }
+
+            return false;
+        }
+
 
         public async Task<int> AddStore(StoreAddModel store)
         {

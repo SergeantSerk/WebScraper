@@ -11,11 +11,12 @@ namespace SharedModelLibrary.Models.DatabaseAddModels
         [Required]
         public decimal Price { get; set; }
         public string PriceFormat { get; set; }
+        [Required]
         public decimal FinalPrice { get; set; }
         public string FinalPriceFormat { get; set; }
         public int CurrencyId { get; set; }
         [Required]
         public CurrencyAddModel Currency { get; set; }
-        public double DiscountPercentage { get; set; }
+        public decimal DiscountPercentage { get; set; }
     }
 }

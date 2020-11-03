@@ -39,7 +39,7 @@ namespace DataAccessLibrary.Interfaces
         Task<int> AddStoreAsync(StoreAddModel store);
         Task<int> AddGameDealAsync(GameDealAddModel gameDeal);
         Task<int> AddDealDateAsync(DealDateAddModel dealDate);
-
+        Task<int> ExpireGameDealAsync(int dealdateId);
 
     }
 }
