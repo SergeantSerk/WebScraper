@@ -3,6 +3,7 @@ using SharedModelLibrary.Models.DatabaseAddModels;
 using SharedModelLibrary.Models.DatabasePostModels;
 using Steam.Interfaces;
 using Steam.Models;
+using Steam.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
@@ -22,6 +23,7 @@ namespace Steam.Processors
         private List<Task> tasks = new List<Task>();
         private const string _storeName = "steam";
         private const string _basedStoreURl = "https://store.steampowered.com/app/";
+        private SteamProfileSettings _steamProfileSettings; 
 
 
 
@@ -33,26 +35,19 @@ namespace Steam.Processors
             _requestDelayTime = delayTime;
         }
 
-        private async Task<int> GetCurrentIndex()
-        {
-            return 5;
-        }
-
-        private async  Task<string> ReadSettingJson()
-        {
-            throw new NotImplementedException();
-        }
-
+   
         public async Task Start()
         {
-            _currentIndex = 6;
+            _steamProfileSettings = await SteamProfileSettingsUtilitie.GetSteamProfileSettingsAsync();
+            _currentIndex = _steamProfileSettings.CurrentIndex;
             _apps = await _steamAPI.GetApps();
-            _totalApps =1000;
+            _totalApps =5000;
             await Process();
         }
 
         private async Task Process()
         {
+            
            
             for(var i = _currentIndex; i < _totalApps; i++ )
             {
@@ -80,9 +75,19 @@ namespace Steam.Processors
                     AddGenre(fullApp.Genres, gameId);
                     addSystemRequirements(fullApp, gameId);
                     await Task.Delay(_requestDelayTime);
+                    updateSteamProfileIndexByOneSettingAsync();
 
                 }
             }
+        }
+
+        private async void updateSteamProfileIndexByOneSettingAsync()
+        {
+            _steamProfileSettings.CurrentIndex++;
+            _steamProfileSettings.PreviousIndex = _steamProfileSettings.CurrentIndex - 1;
+
+            SteamProfileSettingsUtilitie.UpdateSteamProfileSettingAsync(_steamProfileSettings);
+
         }
 
         private void addPublisher(List<string> publishers, int gameId)
@@ -213,6 +218,8 @@ namespace Steam.Processors
 
         private async Task<int> AddGame (SteamAppDetails fullApp)
         {
+            var releasedDate = fullApp.ReleaseDate.ReleaseDate;
+
             var fullGameModel = new FullGameAddModel
             {
                 Title = fullApp.Name,
@@ -224,7 +231,7 @@ namespace Steam.Processors
                 ReleaseDate = new ReleaseDateAddModel()
                 {
                     ComingSoon = fullApp.ReleaseDate.ComingSoon,
-                    ReleasedDate = fullApp.ReleaseDate.ReleaseDate
+                    ReleasedDate = String.IsNullOrEmpty(releasedDate) ? "Not confirmed" : releasedDate 
 
                 },
                 steamApp = new SteamAppAddModel()
