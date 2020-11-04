@@ -41,7 +41,7 @@ namespace Steam.Processors
         {
             setupSteamProfileIndex();
             _apps = await _steamAPI.GetApps();
-            _totalApps =1000;
+            _totalApps =20000;
             await Process();
         }
 
