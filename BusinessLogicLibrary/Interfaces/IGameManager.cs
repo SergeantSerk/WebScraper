@@ -39,5 +39,9 @@ namespace BusinessAccessLibrary.Interfaces
         Task<int> AddGameDeal(GameDealAddModel gameDeal);
 
         Task<int> AddPriceOverview(PriceOverviewAddModel priceOverview);
-    }
+        Task AddVideoAsync(VideoAddModel video);
+        Task AddGameDLC(GameDLCAddModel gameDLC);
+        Task<int> AddDLC(DLCAddModel dLC);
+
+            }
 }

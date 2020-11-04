@@ -4,10 +4,11 @@ using System.Text;
 
 namespace SharedModelLibrary.Models.DatabaseModels
 {
-    public class MP4Model
+    public class VideoContentModel
     {
-        public int MP4Id { get; set; }
+        public int VideoContentId { get; set; }
         public string   Quality { get; set; }
         public string Max { get; set; }
+        public string MediaType { get; set; }
     }
 }

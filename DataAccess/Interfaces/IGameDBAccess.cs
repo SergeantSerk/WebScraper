@@ -40,6 +40,17 @@ namespace DataAccessLibrary.Interfaces
         Task<int> AddGameDealAsync(GameDealAddModel gameDeal);
         Task<int> AddDealDateAsync(DealDateAddModel dealDate);
         Task<int> ExpireGameDealAsync(int dealdateId);
+        Task<int> AddScreenshotsAsync(ScreenshotAddModel screenshot);
+        Task<VideoModel> GetVideoByTitleAsync(string title, int gameId);
 
+        Task<VideoContentModel> GetVideoContentByIdAsync(string videoContentId);
+        Task<int> AddVideoAsync(VideoAddModel video);
+        Task<int> AddVideoContentAsync(VideoContentAddModel video);
+        Task<int> AddDLCAsync(DLCAddModel dLC);
+        Task<int> AddGameDLCAsync(GameDLCAddModel gameDLC);
+        Task<DLCModel> GetDLCBySteamAppIdAsync(int steamAppId);
+        Task<GameDLCModel> GetGameDLCByGameIdAndDlcIdAsync(int gameid, int dlcId);
+        Task<string> GetGameTitleBySteamAppId(int steamAppId);
+        Task<string> GetDLCTitleBySteamAppId(int steamAppId);
     }
 }

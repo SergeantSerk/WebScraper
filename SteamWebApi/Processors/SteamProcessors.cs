@@ -41,7 +41,7 @@ namespace Steam.Processors
         {
             setupSteamProfileIndex();
             _apps = await _steamAPI.GetApps();
-            _totalApps =20000;
+            _totalApps =1000;
             await Process();
         }
 
@@ -65,9 +65,10 @@ namespace Steam.Processors
                     /// as expections are thrown but not picked up
 
 
-
+                    AddDlcAsync(fullApp.DLC, gameId);
                     addDeveloper(fullApp.Developers, gameId);
                     addPublisher(fullApp.Publishers, gameId);
+                    AddVideos(fullApp.Movies, gameId);
 
                     addGameDeal(fullApp, gameId);
 
@@ -81,6 +82,55 @@ namespace Steam.Processors
             }
         }
 
+        private async void AddDlcAsync(List<int> Dlcs, int gameId)
+        {
+            if(Dlcs != null)
+            {
+                foreach(var dlcId in Dlcs)
+                {
+                    await _gameManager.AddGameDLC(new GameDLCAddModel
+                    {
+                        GameId = gameId,
+                        DLC = new DLCAddModel { SteamAppId = dlcId}
+                    });
+                }
+            }
+
+        }
+        private async void AddVideos(List<Movie> movies, int gameId)
+        {
+            if(movies != null)
+            {
+                foreach (var video in movies)
+                {
+                    var videoToAdd = new VideoAddModel()
+                    {
+                        GameId = gameId,
+                        Title = video.Name,
+                        Thumbnail = video.Thumbnail
+                    };
+
+                    if (video.MP4 != null)
+                        videoToAdd.MP4 = new VideoContentAddModel
+                        {
+                            Max = video.MP4.Max,
+                            Quality = video.MP4.Quality,
+                            MediaType = "mp4"
+                        };
+
+                    if(video.Webm != null)
+                        videoToAdd.Webm = new VideoContentAddModel
+                        {
+                            Max = video.Webm.Max,
+                            Quality = video.Webm.Quality,
+                            MediaType = "webm"
+                        };
+
+
+                   await _gameManager.AddVideoAsync(videoToAdd);
+                }
+            }
+        }
         private async void setupSteamProfileIndex()
         {
             var games = await _gameManager.GetAllGamesAsync();
@@ -245,6 +295,8 @@ namespace Steam.Processors
                 Description = fullApp.Description,
                 HeaderImage = fullApp.HeaderImage,
                 Background = fullApp.Background,
+                About = fullApp.About,
+                ShortDescription = fullApp.ShortDescription,
                 ReleaseDate = new ReleaseDateAddModel()
                 {
                     ComingSoon = fullApp.ReleaseDate.ComingSoon,

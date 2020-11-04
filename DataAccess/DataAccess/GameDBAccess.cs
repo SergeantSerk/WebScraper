@@ -30,6 +30,21 @@ namespace DataAccessLibrary.DataAccess
 
         }
 
+        public async Task<string> GetGameTitleBySteamAppId(int steamAppId)
+        {
+            string query = $@"SELECT Title FROM game  WHERE SteamAppId=@SteamAppId";
+
+            return await GetSingleDataAsync<string>(query, new { SteamAppId = steamAppId });
+        }
+
+        public async Task<string> GetDLCTitleBySteamAppId(int steamAppId)
+        {
+            string query = $@"SELECT Title FROM game  WHERE SteamAppId=@SteamAppId AND Type ='dlc'";
+
+            return await GetSingleDataAsync<string>(query, new { SteamAppId = steamAppId });
+        }
+
+
         public async Task<GameModel> GetGameByTitleAsync(string title)
         {
 
@@ -265,12 +280,58 @@ namespace DataAccessLibrary.DataAccess
         }
 
 
+        public async Task<int> AddScreenshotsAsync(ScreenshotAddModel screenshot)
+        {
+
+            string query = $@"INSERT INTO  Screenshot (GameId, PathFull,PathThumbnail)
+                           OUTPUT INSERTED.ScreenshotId
+                        VALUES(@GameId, @PathFull,@PathThumbnail)";
+
+            return await SaveDataAsync(query, screenshot);
+        }
+
         public async Task<int> ExpireGameDealAsync(int  dealdateId)
         {
 
             string query = $@"UPDATE DealDate SET Expired ='True' WHERE DealDateId=@DealDateId";
 
             return await SaveDataAsync(query, new {DealDateId=dealdateId });
+        }
+
+
+        public async Task<VideoModel> GetVideoByTitleAsync(string title, int gameId)
+        {
+
+            string query = $@"SELECT * FROM Video WHERE GameId=@GameId AND Title=@Title";
+
+
+            return await GetSingleDataAsync<VideoModel>(query, new { GameId = gameId, Title = title });
+
+        }
+
+        public async Task<int> AddVideoAsync(VideoAddModel video)
+        {
+            string query = $@"INSERT INTO Video (Title,Thumbnail, Highlight, WebmId, Mp4Id, GameId)
+                            OUTPUT INSERTED.VideoId VALUES (@Title,@Thumbnail, @Highlight, @WebmId, @Mp4Id, @GameId)";
+
+            return await SaveDataAsync(query, video);
+        }
+
+        public async Task<int> AddVideoContentAsync(VideoContentAddModel video)
+        {
+            string query = $@"INSERT INTO VideoContent (Quality,Max, MediaType )
+                            OUTPUT INSERTED.VideoContentId 
+                            VALUES (@Quality,@Max, @MediaType)";
+
+            return await SaveDataAsync(query, video);
+        }
+
+        public async Task<VideoContentModel> GetVideoContentByIdAsync(string videoContentId)
+        {
+
+            string query = $@"SELECT * FROM VideoContent WHERE VideoContentId=@VideoContentId";
+
+            return await GetSingleDataAsync<VideoContentModel>(query, new { VideoContentId=videoContentId });
         }
 
 
@@ -295,6 +356,38 @@ namespace DataAccessLibrary.DataAccess
             string query = $@"UPDATE game SET ReleaseDateId=@ReleaseDateId WHERE game.GameId =@GameId";
 
             SaveDataAsync(query, rdtg);
+        }
+
+        public async Task<int> AddDLCAsync(DLCAddModel dLC)
+        {
+
+            string query = $@"INSERT INTO DLC (SteamAppId, Title) OUTPUT INSERTED.DLCId VALUES (@SteamAppId, @Title)";
+
+            return await SaveDataAsync(query, dLC);
+        }
+
+        public async Task<int> AddGameDLCAsync(GameDLCAddModel gameDLC)
+        {
+
+            string query = $@"INSERT INTO GameDLC (GameId, DLCId) VALUES (@GameId, @DLCId)";
+
+            return await SaveDataAsync(query, gameDLC);
+        }
+
+        public async Task<DLCModel> GetDLCBySteamAppIdAsync(int steamAppId)
+        {
+
+            string query = $@"SELECT * FROM  DLC WHERE SteamAppId=@SteamAppId";
+
+            return await GetSingleDataAsync<DLCModel>(query, new { SteamAppId = steamAppId });
+        }
+
+        public async Task<GameDLCModel> GetGameDLCByGameIdAndDlcIdAsync(int gameid, int dlcId)
+        {
+
+            string query = $@"SELECT * FROM  GameDLC WHERE GameId=@GameId AND DLCId=@DLCId";
+
+            return await GetSingleDataAsync<GameDLCModel>(query, new { GameId=gameid, DLCId=dlcId });
         }
 
 

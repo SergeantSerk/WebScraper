@@ -560,6 +560,91 @@ namespace BusinessAccessLibrary.BusinessLogic
             }
         }
 
+        public async Task AddGameDLC(GameDLCAddModel gameDLC)
+        {
+            var validator = DataValidatorHelper.Validate(gameDLC);
+
+            if (validator.IsValid)
+            {
+
+                var dlcID = await AddDLC(gameDLC.DLC);
+
+                var gameDLCDB = await _gamedbAccess.GetGameDLCByGameIdAndDlcIdAsync(gameDLC.GameId, dlcID);
+
+                if(gameDLCDB == null)
+                {
+                    gameDLC.DLCId = dlcID;
+
+                    await _gamedbAccess.AddGameDLCAsync(gameDLC);
+                }
+            }
+
+        }
+
+        public async Task<int> AddDLC(DLCAddModel dLC)
+        {
+            var validator = DataValidatorHelper.Validate(dLC);
+
+            if (validator.IsValid)
+            {
+
+                var dlcDb = await _gamedbAccess.GetDLCBySteamAppIdAsync(dLC.SteamAppId);
+
+                if(dlcDb == null)
+                {
+
+                    var dlcTitle = await _gamedbAccess.GetDLCTitleBySteamAppId(dLC.SteamAppId);
+
+                    if (dlcTitle != null)
+                        dLC.Title = dlcTitle;
+
+                    return await _gamedbAccess.AddDLCAsync(dLC);
+                }
+
+                return dlcDb.DLCId;
+            }
+
+            Console.WriteLine($"Invalid Data from {nameof(DLCAddModel)}");
+            validator.Errors.ForEach(e => Console.WriteLine(e));
+
+            throw new Exception("Some data are invalid");
+        }
+
+        public async Task AddVideoAsync(VideoAddModel video)
+        {
+            var validator = DataValidatorHelper.Validate(video);
+
+            if (validator.IsValid)
+            {
+                var videoDB = await _gamedbAccess.GetVideoByTitleAsync(video.Title, video.GameId);
+
+                if(videoDB == null)
+                {
+                    if(video.MP4 != null)
+                    {
+                        video.MP4Id = await _gamedbAccess.AddVideoContentAsync(video.MP4);
+                    }
+
+                    if(video.Webm != null)
+                    {
+                        video.WebmId = await _gamedbAccess.AddVideoContentAsync(video.Webm);
+                    }
+
+                    await _gamedbAccess.AddVideoAsync(video);
+
+                }
+
+             
+            }
+            else
+            {
+                Console.WriteLine($"Invalid Data from {nameof(SteamAppToGameModel)}");
+                validator.Errors.ForEach(e => Console.WriteLine(e));
+
+                throw new Exception("Some data are invalid");
+            }
+        }
+
         public async Task AddCategoryToGameByDescription(int gameId, string categoryDescription)
         {
 

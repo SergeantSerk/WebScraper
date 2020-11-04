@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SharedModelLibrary.Models.DatabaseModels
 {
-    public class VideoModels
+    public class VideoModel
     {
         public int VideoId { get; set; }
         public string Title { get; set; }

@@ -6,8 +6,9 @@ namespace SharedModelLibrary.Models.DatabaseModels
 {
     public class DLCModel
     {
+        public int DLCId { get; set; }
         public int SteamAPPIdId { get; set; }
         public string Title { get; set; }
-        public int GameId { get; set; }
+     
     }
 }
