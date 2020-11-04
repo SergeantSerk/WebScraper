@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Steam.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -17,7 +18,9 @@ namespace Steam.Models
         public string SelectionText { get; set; }
         [JsonPropertyName("save_text")]
         public string SaveText { get; set; }
+
         [JsonPropertyName("display_type")]
+        [JsonConverter(typeof(StringToIntJSONConverter))]
         public int DisplayType { get; set; }
         [JsonPropertyName("is_recurring_subscription")]
         public string IsRecurringSubscription { get; set; }

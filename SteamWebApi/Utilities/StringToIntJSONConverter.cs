@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 
 namespace Steam.Utilities
 {
-    public class RequiredAgeJsonJSONConverter : JsonConverter<int>
+    public class StringToIntJSONConverter : JsonConverter<int>
     {
         public override int Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {

@@ -41,7 +41,7 @@ namespace DataAccessLibrary.DataAccess
         public async void UpdateReleaseDateAsync(ReleaseDateUpdateModel releaseDate)
         {
 
-            string query = @"UPDATE ReleaseDate SET ComingSoon = @ComingSoon, ReleasedDate= @ReleasedDate) 
+            string query = @"UPDATE ReleaseDate SET ComingSoon = @ComingSoon, ReleasedDate= @ReleasedDate 
                            WHERE  ReleaseDateId=@ReleaseDateId";
 
 

@@ -14,6 +14,8 @@ namespace SharedModelLibrary.Models.DatabasePostModels
         public string About { get; set; }
         public string Website { get; set; }
         public string Thumbnail { get; set; }
+        public string ShortDescription { get; set; }
+
         public string Description { get; set; }
         [Required]
         public string HeaderImage { get; set; }

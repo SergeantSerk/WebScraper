@@ -6,6 +6,7 @@ using Steam.Models;
 using Steam.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,10 +39,9 @@ namespace Steam.Processors
    
         public async Task Start()
         {
-            _steamProfileSettings = await SteamProfileSettingsUtilitie.GetSteamProfileSettingsAsync();
-            _currentIndex = _steamProfileSettings.CurrentIndex;
+            setupSteamProfileIndex();
             _apps = await _steamAPI.GetApps();
-            _totalApps =5000;
+            _totalApps =20000;
             await Process();
         }
 
@@ -79,6 +79,23 @@ namespace Steam.Processors
 
                 }
             }
+        }
+
+        private async void setupSteamProfileIndex()
+        {
+            var games = await _gameManager.GetAllGamesAsync();
+            var g = games.ToList();
+            if (g.Count == 0)
+                resetSteamProfile();
+            _steamProfileSettings = await SteamProfileSettingsUtilitie.GetSteamProfileSettingsAsync();
+            _currentIndex = _steamProfileSettings.CurrentIndex;
+
+
+        }
+
+        private async void resetSteamProfile()
+        {
+            SteamProfileSettingsUtilitie.UpdateSteamProfileSettingAsync(new SteamProfileSettings { });
         }
 
         private async void updateSteamProfileIndexByOneSettingAsync()

@@ -16,7 +16,7 @@ namespace Steam.Models
         public int SteamAppID { get; set; }
 
         [JsonPropertyName("required_age")]
-        [JsonConverter(typeof(RequiredAgeJsonJSONConverter))]
+        [JsonConverter(typeof(StringToIntJSONConverter))]
         public int RequiredAge { get; set; }
         [JsonPropertyName("is_free")]
         public bool IsFree { get; set; }
@@ -26,6 +26,10 @@ namespace Steam.Models
         public string Reviews { get; set; }
         [JsonPropertyName("header_image")]
         public string HeaderImage { get; set; }
+        [JsonPropertyName("about_the_game")]
+        public string About { get; set; }
+        [JsonPropertyName("short_description")]
+        public string ShortDescription { get; set; }
         [JsonPropertyName("website")]
         public string Website { get; set; }
         [JsonPropertyName("pc_requirements")]

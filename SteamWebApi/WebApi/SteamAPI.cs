@@ -33,14 +33,25 @@ namespace Steam.WebApi
 
         public async Task<SteamAppDetails> GetAppBySteamID(int steamID)
         {
+            
+            Console.WriteLine(steamID);
+       
+
             using (var data = await _httpclient.GetStreamAsync(SteamEndPointsConst.APPDETAILSENDPOINT + steamID))
             {
-
-                var deserializedData = await JsonSerializer.DeserializeAsync<Dictionary<string, SteamAppsDetailsJsonModel>>(data);
-
+                try
+                {
+                    var deserializedData = await JsonSerializer.DeserializeAsync<Dictionary<string, SteamAppsDetailsJsonModel>>(data);
                 var parsedData = deserializedData[steamID.ToString()];
 
                 return parsedData.Success ? parsedData.Data : null;
+                }
+                    catch(JsonException e)
+                {
+                    Console.WriteLine($" {e} No Json is avaliable");
+
+                    return null;
+                }
             }
         }
     }

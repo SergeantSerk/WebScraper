@@ -43,9 +43,10 @@ namespace DataAccessLibrary.DataAccess
 
         public async Task<int> AddGameAsync(GameAddModel gameAddModel)
         {
-
+            // need to fix
             string query = $@"INSERT INTO game (Title, Type, About, Website, Thumbnail, Description,
-                   HeaderImage, Background,SteamAppId, ReleaseDateId) OUTPUT Inserted.GameId VALUES(@Title, @Type,@About, @Website,@Thumbnail, @Description,
+                   HeaderImage, Background,SteamAppId, ReleaseDateId) OUTPUT Inserted.GameId 
+    VALUES(@Title, @Type,@About, @Website,@Thumbnail, @Description,
                    @HeaderImage, @Background)";
 
             return await SaveDataAsync(query, gameAddModel);
@@ -57,8 +58,9 @@ namespace DataAccessLibrary.DataAccess
         {
 
             string query = $@"INSERT INTO game (Title, Type, About, Website, Thumbnail, Description,
-                   HeaderImage, Background,SteamAppId, ReleaseDateId) OUTPUT Inserted.GameId VALUES(@Title, @Type,@About, @Website,@Thumbnail, @Description,
-                   @HeaderImage, @Background,@SteamAppId, @ReleaseDateId)";
+                   HeaderImage, Background,SteamAppId, ReleaseDateId, ShortDescription) OUTPUT Inserted.GameId 
+            VALUES(@Title, @Type,@About, @Website,@Thumbnail, @Description,
+                   @HeaderImage, @Background,@SteamAppId, @ReleaseDateId, @ShortDescription)";
 
             return await SaveDataAsync(query, gameAddModel);
 

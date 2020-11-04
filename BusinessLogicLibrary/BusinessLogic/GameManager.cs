@@ -52,28 +52,29 @@ namespace BusinessAccessLibrary.BusinessLogic
 
         public async Task<int> AddGameAsync(GameAddModel game)
         {
-            var validator = DataValidatorHelper.Validate(game);
+            throw new NotImplementedException();
+            //var validator = DataValidatorHelper.Validate(game);
 
 
-            if(validator.IsValid)
-            {
-                var gameDB = await GetGameByTitleAsync(game.Title);
+            //if(validator.IsValid)
+            //{
+            //    var gameDB = await GetGameByTitleAsync(game.Title);
 
-                if (gameDB == null)
-                {
-                    Console.WriteLine($"{game.Title} has been added to database");
+            //    if (gameDB == null)
+            //    {
+            //        Console.WriteLine($"{game.Title} has been added to database");
                     
-                    return await _gamedbAccess.AddGameAsync(game);
-                }
+            //        return await _gamedbAccess.AddGameAsync(game);
+            //    }
 
-                return gameDB.GameID;
-            }
+            //    return gameDB.GameID;
+            //}
 
 
-            Console.WriteLine($"Invalid Data from {nameof(GameAddModel)}");
-            validator.Errors.ForEach(e => Console.WriteLine(e));
+            //Console.WriteLine($"Invalid Data from {nameof(GameAddModel)}");
+            //validator.Errors.ForEach(e => Console.WriteLine(e));
 
-            throw new Exception("Some data are invalid");
+            //throw new Exception("Some data are invalid");
         }
 
         public async Task<GameModel> GetGameByTitleAsync(string title)
