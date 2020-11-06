@@ -143,15 +143,24 @@ namespace BusinessAccessLibrary.BusinessLogic
                
                  var priceOverviewDB = await _gamedbAccess.GetPriceOverviewByIdAsync(gameDB.PriceOverviewId.Value);
 
-                if (priceOverviewDB != null)
+                if (priceOverviewDB != null )
                 {
-                    var priceIsSame = ComparePriceIsSame(priceOverviewDB, gamedeal.PriceOverview);
 
-                    if (!priceIsSame)
+                    if (gamedeal.PriceOverview != null)
                     {
-                        // exprie the current deal and add a new one
-                        await _gamedbAccess.ExpireGameDealAsync(gameDB.DealDateId);
-                        await AddGameDeal(gamedeal);
+
+                        var priceIsSame = ComparePriceIsSame(priceOverviewDB, gamedeal.PriceOverview);
+
+                        if (!priceIsSame)
+                        {
+                            // exprie the current deal and add a new one
+                            await _gamedbAccess.ExpireGameDealAsync(gameDB.DealDateId);
+                            await AddGameDeal(gamedeal);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("PriceOverview Mission");
                     }
 
                 }
@@ -638,7 +647,7 @@ namespace BusinessAccessLibrary.BusinessLogic
             }
             else
             {
-                Console.WriteLine($"Invalid Data from {nameof(SteamAppToGameModel)}");
+                Console.WriteLine($"Invalid Data from {nameof(VideoAddModel)}");
                 validator.Errors.ForEach(e => Console.WriteLine(e));
 
                 throw new Exception("Some data are invalid");

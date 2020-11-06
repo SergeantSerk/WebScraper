@@ -37,8 +37,8 @@ namespace Steam.Utilities
 
         private static List<WebProxy> GetWebProxies ()
         {
-            var _ukProxy = new Uri("uk2173.nordvpn.com");
-            var _ukProxy2 = new Uri("uk1914.nordvpn.com");
+            var _ukProxy = new Uri("http://uk2173.nordvpn.com");
+            var _ukProxy2 = new Uri("http://uk1914.nordvpn.com");
 
             var proxies = new List<WebProxy>()
             { GetWebProxy(_ukProxy),
@@ -54,13 +54,13 @@ namespace Steam.Utilities
 
             foreach(var proxy in GetWebProxies())
             {
-                handlers.Add(new HttpClientHandler() { Proxy = proxy });
+                handlers.Add(new HttpClientHandler() { Proxy = proxy, UseProxy= true});
             }
 
             return handlers;
         }
    
-        private static List<HttpClient> GetHttpClients()
+        public static List<HttpClient> GetHttpClients()
         {
            
 

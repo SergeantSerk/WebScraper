@@ -41,7 +41,7 @@ namespace Steam.Processors
         {
             setupSteamProfileIndex();
             _apps = await _steamAPI.GetApps();
-            _totalApps =20000;
+            _totalApps =_apps.Count;
             await Process();
         }
 
@@ -53,33 +53,43 @@ namespace Steam.Processors
             {
                 var app = _apps[i];
 
+                //var fullApp = await _steamAPI.GetAppBySteamID(app.appid);
                 var fullApp = await _steamAPI.GetAppBySteamID(app.appid);
+                await Task.Delay(_requestDelayTime);
 
 
                 if (fullApp != null)
                 {
-                   var gameId =  await AddGame(fullApp);
+                    if (!String.IsNullOrEmpty(fullApp.Name))
+                    {
 
-                    /// all synchronous methods best to get results or await 
-                    /// to figure out the Exception thrown: 'System.Data.SqlClient.SqlException' in System.Private.CoreLib.dll
-                    /// as expections are thrown but not picked up
-
-
-                    AddDlcAsync(fullApp.DLC, gameId);
-                    addDeveloper(fullApp.Developers, gameId);
-                    addPublisher(fullApp.Publishers, gameId);
-                    AddVideos(fullApp.Movies, gameId);
-
-                    addGameDeal(fullApp, gameId);
-
-                    AddCategories(fullApp.Categories, gameId);
-                    AddGenre(fullApp.Genres, gameId);
-                    addSystemRequirements(fullApp, gameId);
-                    await Task.Delay(_requestDelayTime);
-                    updateSteamProfileIndexByOneSettingAsync();
-
+                       
+                        AddFullGame(fullApp);
+                        updateSteamProfileIndexByOneSettingAsync();
+                    }
                 }
             }
+        }
+
+        private async void AddFullGame(SteamAppDetails fullApp)
+        {
+            var gameId = await AddGame(fullApp);
+
+            /// all synchronous methods best to get results or await 
+            /// to figure out the Exception thrown: 'System.Data.SqlClient.SqlException' in System.Private.CoreLib.dll
+            /// as expections are thrown but not picked up
+
+
+            AddDlcAsync(fullApp.DLC, gameId);
+            addDeveloper(fullApp.Developers, gameId);
+            addPublisher(fullApp.Publishers, gameId);
+            AddVideos(fullApp.Movies, gameId, fullApp.Name);
+
+            addGameDeal(fullApp, gameId);
+
+            AddCategories(fullApp.Categories, gameId);
+            AddGenre(fullApp.Genres, gameId);
+            addSystemRequirements(fullApp, gameId);
         }
 
         private async void AddDlcAsync(List<int> Dlcs, int gameId)
@@ -97,7 +107,7 @@ namespace Steam.Processors
             }
 
         }
-        private async void AddVideos(List<Movie> movies, int gameId)
+        private async void AddVideos(List<Movie> movies, int gameId, string title)
         {
             if(movies != null)
             {
@@ -106,7 +116,7 @@ namespace Steam.Processors
                     var videoToAdd = new VideoAddModel()
                     {
                         GameId = gameId,
-                        Title = video.Name,
+                        Title = string.IsNullOrEmpty(video.Name)? title : video.Name ,
                         Thumbnail = video.Thumbnail
                     };
 
@@ -125,7 +135,7 @@ namespace Steam.Processors
                             Quality = video.Webm.Quality,
                             MediaType = "webm"
                         };
-
+            
 
                    await _gameManager.AddVideoAsync(videoToAdd);
                 }
@@ -223,7 +233,7 @@ namespace Steam.Processors
                     gamedeal.DealDate.LimitedTimeDeal = true;
                 }
             }
-          var t =   _gameManager.AddGameDeal(gamedeal).Result;
+           _gameManager.AddGameDeal(gamedeal);
         }
 
         private void addSystemRequirements(SteamAppDetails systemRequirement, int gameId)

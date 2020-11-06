@@ -8,5 +8,6 @@ namespace Steam.Interfaces
     {
         Task<SteamAppDetails> GetAppBySteamID(int steamID);
         Task<List<SteamApp>> GetApps();
+        Task<SteamAppDetails> GetAppBySteamIDProxies(int steamID);
     }
 }
