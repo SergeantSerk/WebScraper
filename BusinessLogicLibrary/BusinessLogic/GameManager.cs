@@ -8,6 +8,7 @@ using SharedModelLibrary.Models.DatabasePostModels;
 using SharedModelLibrary.Models.DatabaseUpdateModels;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BusinessAccessLibrary.BusinessLogic
@@ -49,6 +50,15 @@ namespace BusinessAccessLibrary.BusinessLogic
 
             throw new Exception("Zero or negative number is invalid input");
         }
+
+        public async Task<List<int>> GetAllSteamIdAsync()
+        {
+
+            var steamAppId = await _gamedbAccess.GetAllSteamIdAsync();
+
+            return steamAppId.ToList();
+        }
+
 
         public async Task<int> AddGameAsync(GameAddModel game)
         {
@@ -187,10 +197,10 @@ namespace BusinessAccessLibrary.BusinessLogic
 
                 }
 
-                Console.WriteLine($"The base price has changed from {priceOverviewDB.Price} to {currentPriceOverview.Price}");
                 return false;
 
             }
+            Console.WriteLine($"The base price has changed from {priceOverviewDB.Price} to {currentPriceOverview.Price}");
 
             return false;
         }

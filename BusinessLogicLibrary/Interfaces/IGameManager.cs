@@ -43,5 +43,7 @@ namespace BusinessAccessLibrary.Interfaces
         Task AddGameDLC(GameDLCAddModel gameDLC);
         Task<int> AddDLC(DLCAddModel dLC);
 
+        Task<List<int>> GetAllSteamIdAsync();
+
             }
 }

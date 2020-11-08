@@ -39,7 +39,7 @@ namespace Steam.Processors
    
         public async Task Start()
         {
-            setupSteamProfileIndex();
+            //await setupSteamProfileIndex();
             _apps = await _steamAPI.GetApps();
             _totalApps =_apps.Count;
             await Process();
@@ -47,29 +47,73 @@ namespace Steam.Processors
 
         private async Task Process()
         {
-            
-           
-            for(var i = _currentIndex; i < _totalApps; i++ )
-            {
-                var app = _apps[i];
+            _steamProfileSettings = await SteamProfileSettingsUtilitie.GetSteamProfileSettingsAsync();
 
-                //var fullApp = await _steamAPI.GetAppBySteamID(app.appid);
+
+            var steamAppIdsFromDB = await _gameManager.GetAllSteamIdAsync();
+
+            var set = new HashSet<int>(steamAppIdsFromDB);
+
+            _apps.RemoveAll(i => set.Contains(i.appid));
+
+            for (var i = _currentIndex; i < _apps.Count; i++)
+            {
+
+                var app = _apps[i];
                 var fullApp = await _steamAPI.GetAppBySteamID(app.appid);
+
+                if(fullApp != null)
+                {
+                    AddFullGame(fullApp);
+                    updateSteamProfileIndexByOneSettingAsync();
+                }
+                else
+                {
+                    Console.WriteLine($"No Data for {app.appid}");
+                    _gameManager.AddSteamApp(new SteamAppAddModel { 
+                        SteamAppId = app.appid,
+                        Valid = false
+
+                    });
+                }
+
                 await Task.Delay(_requestDelayTime);
 
-
-                if (fullApp != null)
-                {
-                    if (!String.IsNullOrEmpty(fullApp.Name))
-                    {
-
-                       
-                        AddFullGame(fullApp);
-                        updateSteamProfileIndexByOneSettingAsync();
-                    }
-                }
             }
+
+
+
+
+            Console.WriteLine("Database has finished");
         }
+
+
+        //private async void GatherFullData()
+        //{
+
+        //    for (var i = _currentIndex; i < _totalApps; i++)
+        //    {
+        //        var app = _apps[i];
+
+        //        //var fullApp = await _steamAPI.GetAppBySteamID(app.appid);
+        //        var fullApp = await _steamAPI.GetAppBySteamID(app.appid);
+        //        await Task.Delay(_requestDelayTime);
+
+
+        //        if (fullApp != null)
+        //        {
+        //            if (!String.IsNullOrEmpty(fullApp.Name))
+        //            {
+
+
+        //                AddFullGame(fullApp);
+        //                updateSteamProfileIndexByOneSettingAsync();
+        //            }
+        //        }
+        //    }
+        //    Console.WriteLine("Database has finished");
+        //}
+
 
         private async void AddFullGame(SteamAppDetails fullApp)
         {
@@ -141,17 +185,17 @@ namespace Steam.Processors
                 }
             }
         }
-        private async void setupSteamProfileIndex()
-        {
-            var games = await _gameManager.GetAllGamesAsync();
-            var g = games.ToList();
-            if (g.Count == 0)
-                resetSteamProfile();
-            _steamProfileSettings = await SteamProfileSettingsUtilitie.GetSteamProfileSettingsAsync();
-            _currentIndex = _steamProfileSettings.CurrentIndex;
+        //private async Task setupSteamProfileIndex()
+        //{
+        //    var steamApp = await _gameManager.GetAllSteamIdAsync();
+        //    var g = steamApp.ToList();
+        //    if (g.Count == 0)
+        //        resetSteamProfile();
+        //    _steamProfileSettings = await SteamProfileSettingsUtilitie.GetSteamProfileSettingsAsync();
+        //    _currentIndex = _steamProfileSettings.CurrentIndex;
 
 
-        }
+        //}
 
         private async void resetSteamProfile()
         {
@@ -317,6 +361,7 @@ namespace Steam.Processors
                 {
                     SteamAppId = fullApp.SteamAppID,
                     SteamReview = fullApp.Reviews,
+                    Valid = true
                 }
         };
 

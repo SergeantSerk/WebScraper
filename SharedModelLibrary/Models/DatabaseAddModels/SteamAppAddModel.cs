@@ -11,5 +11,8 @@ namespace SharedModelLibrary.Models.DatabaseAddModels
         public int SteamAppId { get; set; }
         public string SteamReview { get; set; }
         public int SteamReviewCount { get; set; }
+
+        [Required]
+        public bool Valid { get; set; }
     }
 }

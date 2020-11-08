@@ -12,9 +12,9 @@ namespace DataAccessLibrary.DataAccess
     {
         public async Task<int> AddSteamAppAsync(SteamAppAddModel steamApp)
         {
-            string query = @"INSERT INTO steamapp (SteamAppId, SteamReview, SteamReviewCount) 
+            string query = @"INSERT INTO steamapp (SteamAppId, SteamReview, SteamReviewCount, Valid) 
                             OUTPUT INSERTED.SteamAppId
-                                   VALUES(@SteamAppId, @SteamReview, @SteamReviewCount)";
+                                   VALUES(@SteamAppId, @SteamReview, @SteamReviewCount, @Valid)";
 
             return await SaveDataAsync(query, steamApp);
         }

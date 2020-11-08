@@ -18,7 +18,7 @@ namespace Steam.WebApi
 
         private int _retryCount = 0;
         private int _currentClientIndex;
-        private List<HttpClient> _clients = SteamFactory.GetHttpClients();
+        //private List<HttpClient> _clients = SteamFactory.GetHttpClients();
 
         private bool _internetConnection = true;
         private TimeSpan _coolDownTime = TimeSpan.FromMinutes(5);
@@ -98,49 +98,49 @@ namespace Steam.WebApi
 
         // need to work on this
 
-        public async Task<SteamAppDetails> GetAppBySteamIDProxies(int steamID)
-        {
+        //public async Task<SteamAppDetails> GetAppBySteamIDProxies(int steamID)
+        //{
 
-            var clientIndex = GetCurrentClientIndex();
+        //    var clientIndex = GetCurrentClientIndex();
 
-            var client = _clients[clientIndex];
-
-
-            using (var data = await client.GetStreamAsync(SteamEndPointsConst.APPDETAILSENDPOINT + steamID))
-            {
-                try
-                {
-                    var deserializedData = await JsonSerializer.DeserializeAsync<Dictionary<string, SteamAppsDetailsJsonModel>>(data);
-                    var parsedData = deserializedData[steamID.ToString()];
-
-                    return parsedData.Success ? parsedData.Data : null;
-                }
-                catch (JsonException e)
-                {
-                    Console.WriteLine($" {e} No Json is avaliable");
-
-                    return null;
-                }
-            }
-        }
+        //    var client = _clients[clientIndex];
 
 
+        //    using (var data = await client.GetStreamAsync(SteamEndPointsConst.APPDETAILSENDPOINT + steamID))
+        //    {
+        //        try
+        //        {
+        //            var deserializedData = await JsonSerializer.DeserializeAsync<Dictionary<string, SteamAppsDetailsJsonModel>>(data);
+        //            var parsedData = deserializedData[steamID.ToString()];
 
-        private int GetCurrentClientIndex()
-        {
+        //            return parsedData.Success ? parsedData.Data : null;
+        //        }
+        //        catch (JsonException e)
+        //        {
+        //            Console.WriteLine($" {e} No Json is avaliable");
 
-            if (_currentClientIndex == _clients.Count)
-            {
-                _currentClientIndex = 0;
-                return _currentClientIndex;
+        //            return null;
+        //        }
+        //    }
+        //}
 
-            }
-            else
-            {
-               return  _currentClientIndex++;
-            }
 
-        }
+
+        //private int GetCurrentClientIndex()
+        //{
+
+        //    if (_currentClientIndex == _clients.Count)
+        //    {
+        //        _currentClientIndex = 0;
+        //        return _currentClientIndex;
+
+        //    }
+        //    else
+        //    {
+        //       return  _currentClientIndex++;
+        //    }
+
+        //}
 
 
     }

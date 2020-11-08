@@ -20,6 +20,13 @@ namespace DataAccessLibrary.DataAccess
             return await GetAllDataAsync<GameModel>(query);
         }
 
+        public async Task<IEnumerable<int>> GetAllSteamIdAsync()
+        {
+            var query = "SELECT SteamAppId FROM SteamApp";
+
+
+            return await GetAllDataAsync<int>(query);
+        }
 
         public async Task<GameModel> GetGameByIdAsync(int id)
         {

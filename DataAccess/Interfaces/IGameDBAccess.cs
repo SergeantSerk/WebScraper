@@ -52,5 +52,6 @@ namespace DataAccessLibrary.Interfaces
         Task<GameDLCModel> GetGameDLCByGameIdAndDlcIdAsync(int gameid, int dlcId);
         Task<string> GetGameTitleBySteamAppId(int steamAppId);
         Task<string> GetDLCTitleBySteamAppId(int steamAppId);
+        Task<IEnumerable<int>> GetAllSteamIdAsync();
     }
 }
