@@ -6,6 +6,7 @@ using Steam.Models;
 using Steam.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -47,8 +48,7 @@ namespace Steam.Processors
 
         private async Task Process()
         {
-            _steamProfileSettings = await SteamProfileSettingsUtilitie.GetSteamProfileSettingsAsync();
-
+           
 
             var steamAppIdsFromDB = await _gameManager.GetAllSteamIdAsync();
 
@@ -56,16 +56,21 @@ namespace Steam.Processors
 
             _apps.RemoveAll(i => set.Contains(i.appid));
 
-            for (var i = _currentIndex; i < _apps.Count; i++)
+            for (var i = 0; i < _apps.Count; i++)
             {
 
                 var app = _apps[i];
                 var fullApp = await _steamAPI.GetAppBySteamID(app.appid);
 
-                if(fullApp != null)
+                if (fullApp != null)
                 {
-                    AddFullGame(fullApp);
-                    updateSteamProfileIndexByOneSettingAsync();
+                    if (String.IsNullOrEmpty(fullApp.Name))
+                        {
+                        Console.WriteLine($"{app.appid} does not have a title assigned");
+                        fullApp.Name = fullApp.SteamAppID.ToString();
+                        }
+                        AddFullGame(fullApp);
+
                 }
                 else
                 {
@@ -142,11 +147,20 @@ namespace Steam.Processors
             {
                 foreach(var dlcId in Dlcs)
                 {
-                    await _gameManager.AddGameDLC(new GameDLCAddModel
+                    try
                     {
-                        GameId = gameId,
-                        DLC = new DLCAddModel { SteamAppId = dlcId}
-                    });
+                        await _gameManager.AddGameDLC(new GameDLCAddModel
+                        {
+                            GameId = gameId,
+                            DLC = new DLCAddModel { SteamAppId = dlcId }
+                        });
+
+                    }
+
+                    catch(SqlException)
+                    {
+
+                    }
                 }
             }
 
@@ -220,7 +234,7 @@ namespace Steam.Processors
                     if (!string.IsNullOrEmpty(publisher))
                     {
                         var t = _gameManager.AddGamePublisherAsync(gameId,
-                          publisher).Result;
+                          publisher);
                     }
                 }
 

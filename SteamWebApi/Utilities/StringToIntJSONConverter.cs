@@ -13,7 +13,18 @@ namespace Steam.Utilities
 
             if(reader.TokenType == JsonTokenType.String)
             {
-                return int.Parse(reader.GetString());
+                int number;
+
+                bool success = int.TryParse(reader.GetString(), out number);
+
+                if(success)
+                {
+                    return number;
+
+                }
+
+                return 0;
+
             }
 
 
